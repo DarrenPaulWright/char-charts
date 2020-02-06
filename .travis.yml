@@ -1,0 +1,11 @@
+dist: xenial
+services:
+  - xvfb
+language: node_js
+node_js:
+  - "10.12.0"
+script: npm run test
+before_script:
+  - npm install
+addons:
+  chrome: "stable"
