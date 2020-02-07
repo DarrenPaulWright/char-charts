@@ -49,7 +49,7 @@ class BoxRow extends Row {
 		return rowData.placedLabels.findIndex((item) => {
 			return item.low < high - 1 &&
 				item.high > low - 1 &&
-				(!isDots || item.relation !== SAME_ROW) &&
+				item.relation !== SAME_ROW &&
 				(ignoreTypes === undefined || !ignoreTypes.includes(item.relation));
 		}) !== -1;
 	}
@@ -182,11 +182,11 @@ class BoxRow extends Row {
 				}
 
 				for (let i = 2; i < 5 && !rowData.isInlineLabelPlaced; i++) {
-					this.canPlaceLabel(rowData, rowData, this.ARROW_LEFT + medianLabel, rowData.offsets.max + i, SAME_ROW, false, [PREV_ROW]);
+					this.canPlaceLabel(rowData, rowData, this.ARROW_LEFT + medianLabel, rowData.offsets.max + i, SAME_ROW, false, this._showDots ? [PREV_ROW] : []);
 				}
 
 				for (let i = 2; i < 5 && !rowData.isInlineLabelPlaced; i++) {
-					this.canPlaceLabel(rowData, rowData, medianLabel + this.ARROW_RIGHT, -rowData.offsets.min + i, SAME_ROW, false, [PREV_ROW]);
+					this.canPlaceLabel(rowData, rowData, medianLabel + this.ARROW_RIGHT, -rowData.offsets.min + i, SAME_ROW, false, this._showDots ? [PREV_ROW] : []);
 				}
 
 				if (!rowData.isInlineLabelPlaced) {
@@ -215,7 +215,7 @@ class BoxRow extends Row {
 				}
 			}
 
-			if (!showDots && next && !next.isInlineLabelPlaced) {
+			if (!showDots && next !== undefined && !next.isInlineLabelPlaced) {
 				const nextLabel = this.buildLabel(next.median);
 				const nextMedianOffset = next.offsets.median + 1;
 
@@ -321,7 +321,7 @@ class BoxRow extends Row {
  * @param {Object} [settings]
  * @param {int} [settings.width=40] - Total width in characters, including y axis labels
  * @param {int} [settings.fractionDigits=0] - Number of fraction digits to display on inline labels
- * @param {int} [settings.showInlineLabels=false] - Show a median label for each box
+ * @param {int} [settings.showInlineLabels=false] - Show a median label for each box. While labels try to fit in unused spaces, extra rows my be added if necessary.
  * @param {boolean} [settings.ascii=false] - Use only ascii characters
  * @param {boolean} [settings.showDots=false] - Add a row with dots that represent data points
  * @param {Object} [settings._xAxis] - All x axis settings are optional. The scale auto adjust to fit the data except where a value is provided here.

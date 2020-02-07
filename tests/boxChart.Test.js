@@ -593,6 +593,49 @@ describe('boxChart', () => {
 					'          0        25        50        75       100'
 				]);
 			});
+
+			it(`should place labels to the left if previous row label is in the way`, () => {
+				const data = boxChart({
+					...defaultSettings,
+					data: [{
+						data: [40, 65, 76, 80, 80, 80, 80, 86, 86, 86, 92],
+						label: 'blah blah'
+					}, {
+						data: [30, 40, 50, 60, 70],
+						label: 'two'
+					}]
+				});
+
+				assert.deepEqual(data, [
+					'          ╭─────────┬─────────┬─────────┬─────────╮',
+					'blah blah │         ╵     ·   ╵     ·   ╵▒▒▓▓▓━┫  │',
+					'      two │  M: 50 ── ┣━━━▒▒▒▒▒▓▓▓▓━━━┫ ╵  ╰─ M: 80',
+					'          ╰─────────┴─────────┴─────────┴─────────╯',
+					'          0        25        50        75       100'
+				]);
+			});
+
+			it(`should place labels on extra row if previous row label is in the way`, () => {
+				const data = boxChart({
+					...defaultSettings,
+					data: [{
+						data: [40, 60, 76, 80, 80, 80, 80, 86, 86, 86, 92],
+						label: 'blah blah'
+					}, {
+						data: [20, 30, 40, 50, 60, 70],
+						label: 'two'
+					}]
+				});
+
+				assert.deepEqual(data, [
+					'          ╭─────────┬─────────┬─────────┬─────────╮',
+					'blah blah │         ╵     ·   ╵   ·     ╵▒▒▓▓▓━┫  │',
+					'      two │       ┣━━━▒▒▒▒▒▒▓▓▓▓▓▓▓━━━┫ ╵  ╰─ M: 80',
+					'          │         ╵       ╰─ M: 45    ╵         │',
+					'          ╰─────────┴─────────┴─────────┴─────────╯',
+					'          0        25        50        75       100'
+				]);
+			});
 		});
 
 		describe('showDots', () => {
