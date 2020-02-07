@@ -24,7 +24,7 @@
 | [settings] | <code>Object</code> |  |  |
 | [settings.width] | <code>int</code> | <code>40</code> | Total width in characters, including y axis labels |
 | [settings.fractionDigits] | <code>int</code> | <code>0</code> | Number of fraction digits to display on inline labels |
-| [settings.showInlineLabels] | <code>int</code> | <code>false</code> | Show a median label for each box |
+| [settings.showInlineLabels] | <code>int</code> | <code>false</code> | Show a median label for each box. While labels try to fit in unused spaces, extra rows my be added if necessary. |
 | [settings.ascii] | <code>boolean</code> | <code>false</code> | Use only ascii characters |
 | [settings.showDots] | <code>boolean</code> | <code>false</code> | Add a row with dots that represent data points |
 | [settings._xAxis] | <code>Object</code> |  | All x axis settings are optional. The scale auto adjust to fit the data except where a value is provided here. |
