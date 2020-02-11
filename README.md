@@ -1,5 +1,7 @@
 # Char Charts
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/DarrenPaulWright/char-charts.svg)](https://greenkeeper.io/)
+
 > ES6 character based charting library
 >
 > [![npm][npm]][npm-url]
