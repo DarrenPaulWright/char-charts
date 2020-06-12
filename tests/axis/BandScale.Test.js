@@ -1,4 +1,4 @@
-import { assert } from 'chai';
+import { assert } from 'type-enforcer';
 import BandScale from '../../src/axis/BandScale.js';
 
 describe('BandScale', () => {
@@ -6,9 +6,9 @@ describe('BandScale', () => {
 		it(`should accept an empty array`, () => {
 			const scale = new BandScale([]);
 
-			assert.strictEqual(scale.domain().length, 0);
-			assert.strictEqual(scale.maxLabelWidth(), 0);
-			assert.strictEqual(scale.isGrouped(), false);
+			assert.is(scale.domain().length, 0);
+			assert.is(scale.maxLabelWidth(), 0);
+			assert.is(scale.isGrouped(), false);
 		});
 
 		it(`should set the domain and maxLabelWidth`, () => {
@@ -29,20 +29,20 @@ describe('BandScale', () => {
 
 			const domain = scale.domain();
 
-			assert.strictEqual(domain.length, 3);
+			assert.is(domain.length, 3);
 
 			domain.forEach((item, index) => {
-				assert.strictEqual(domain[index].siblings[0], index === 0 ? undefined : domain[index - 1]);
-				assert.strictEqual(domain[index].siblings[1], index === domain.length - 1 ? undefined : domain[index + 1]);
+				assert.is(domain[index].siblings[0], index === 0 ? undefined : domain[index - 1]);
+				assert.is(domain[index].siblings[1], index === domain.length - 1 ? undefined : domain[index + 1]);
 			});
 
-			assert.strictEqual(domain[0], data[0]);
-			assert.strictEqual(domain[1], data[1]);
-			assert.strictEqual(domain[2], data[2]);
+			assert.is(domain[0], data[0]);
+			assert.is(domain[1], data[1]);
+			assert.is(domain[2], data[2]);
 
-			assert.strictEqual(scale.maxLabelWidth(), 7);
+			assert.is(scale.maxLabelWidth(), 7);
 
-			assert.strictEqual(scale.isGrouped(), false);
+			assert.is(scale.isGrouped(), false);
 		});
 
 		it(`should add rows for groups`, () => {
@@ -63,30 +63,30 @@ describe('BandScale', () => {
 
 			const domain = scale.domain();
 
-			assert.strictEqual(domain.length, 5);
+			assert.is(domain.length, 5);
 
 			domain.forEach((item, index) => {
-				assert.strictEqual(domain[index].siblings[0], index === 0 ? undefined : domain[index - 1]);
-				assert.strictEqual(domain[index].siblings[1], index === domain.length - 1 ? undefined : domain[index + 1]);
+				assert.is(domain[index].siblings[0], index === 0 ? undefined : domain[index - 1]);
+				assert.is(domain[index].siblings[1], index === domain.length - 1 ? undefined : domain[index + 1]);
 			});
 
-			assert.deepEqual(domain[0], {
+			assert.equal(domain[0], {
 				label: 'one',
 				groupIndent: 0,
 				siblings: [undefined, domain[1]]
 			});
-			assert.strictEqual(domain[1], data[0]);
-			assert.strictEqual(domain[2], data[1]);
-			assert.deepEqual(domain[3], {
+			assert.is(domain[1], data[0]);
+			assert.is(domain[2], data[1]);
+			assert.equal(domain[3], {
 				label: 'two long',
 				groupIndent: 0,
 				siblings: [domain[2], domain[4]]
 			});
-			assert.strictEqual(domain[4], data[2]);
+			assert.is(domain[4], data[2]);
 
-			assert.strictEqual(scale.maxLabelWidth(), 11);
+			assert.is(scale.maxLabelWidth(), 11);
 
-			assert.strictEqual(scale.isGrouped(), true);
+			assert.is(scale.isGrouped(), true);
 		});
 
 		it(`should add rows for nested groups`, () => {
@@ -107,45 +107,45 @@ describe('BandScale', () => {
 
 			const domain = scale.domain();
 
-			assert.strictEqual(domain.length, 8);
+			assert.is(domain.length, 8);
 
 			domain.forEach((item, index) => {
-				assert.strictEqual(domain[index].siblings[0], index === 0 ? undefined : domain[index - 1]);
-				assert.strictEqual(domain[index].siblings[1], index === domain.length - 1 ? undefined : domain[index + 1]);
+				assert.is(domain[index].siblings[0], index === 0 ? undefined : domain[index - 1]);
+				assert.is(domain[index].siblings[1], index === domain.length - 1 ? undefined : domain[index + 1]);
 			});
 
-			assert.deepEqual(domain[0], {
+			assert.equal(domain[0], {
 				label: 'one',
 				groupIndent: 0,
 				siblings: [undefined, domain[1]]
 			});
-			assert.deepEqual(domain[1], {
+			assert.equal(domain[1], {
 				label: 'sub one',
 				groupIndent: 1,
 				siblings: [domain[0], domain[2]]
 			});
-			assert.strictEqual(domain[2], data[0]);
-			assert.deepEqual(domain[3], {
+			assert.is(domain[2], data[0]);
+			assert.equal(domain[3], {
 				label: 'sub two',
 				groupIndent: 1,
 				siblings: [domain[2], domain[4]]
 			});
-			assert.strictEqual(domain[4], data[1]);
-			assert.deepEqual(domain[5], {
+			assert.is(domain[4], data[1]);
+			assert.equal(domain[5], {
 				label: 'two long',
 				groupIndent: 0,
 				siblings: [domain[4], domain[6]]
 			});
-			assert.deepEqual(domain[6], {
+			assert.equal(domain[6], {
 				label: 'sub one',
 				groupIndent: 1,
 				siblings: [domain[5], domain[7]]
 			});
-			assert.strictEqual(domain[7], data[2]);
+			assert.is(domain[7], data[2]);
 
-			assert.strictEqual(scale.maxLabelWidth(), 14);
+			assert.is(scale.maxLabelWidth(), 14);
 
-			assert.strictEqual(scale.isGrouped(), true);
+			assert.is(scale.isGrouped(), true);
 		});
 	});
 

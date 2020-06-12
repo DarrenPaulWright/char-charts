@@ -1,5 +1,5 @@
-import { assert } from 'chai';
 import { List } from 'hord';
+import { assert } from 'type-enforcer';
 import Scale from '../../src/axis/Scale.js';
 
 describe('Scale', () => {
@@ -7,7 +7,7 @@ describe('Scale', () => {
 		it('should have a default domain of 0,1', () => {
 			const scale = new Scale([]);
 
-			assert.deepEqual(scale.domain(), [0, 1]);
+			assert.equal(scale.domain(), [0, 1]);
 		});
 
 		it('should calculate the domain with min 0 when instantiated with values', () => {
@@ -17,7 +17,7 @@ describe('Scale', () => {
 				value: 100
 			}]);
 
-			assert.deepEqual(scale.domain(), [0, 100]);
+			assert.equal(scale.domain(), [0, 100]);
 		});
 
 		it('should calculate the domain with max 0 when instantiated with values', () => {
@@ -27,7 +27,7 @@ describe('Scale', () => {
 				value: -100
 			}]);
 
-			assert.deepEqual(scale.domain(), [-100, 0]);
+			assert.equal(scale.domain(), [-100, 0]);
 		});
 
 		it('should calculate the domain with min 0 when instantiated with data', () => {
@@ -37,7 +37,7 @@ describe('Scale', () => {
 				data: new List([100, 99, 98])
 			}]);
 
-			assert.deepEqual(scale.domain(), [0, 100]);
+			assert.equal(scale.domain(), [0, 100]);
 		});
 
 		it('should calculate the domain with max 0 when instantiated with data', () => {
@@ -47,7 +47,7 @@ describe('Scale', () => {
 				data: new List([-98, -99, -100])
 			}]);
 
-			assert.deepEqual(scale.domain(), [-100, 0]);
+			assert.equal(scale.domain(), [-100, 0]);
 		});
 	});
 });

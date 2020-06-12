@@ -1,4 +1,4 @@
-import { assert } from 'chai';
+import { assert } from 'type-enforcer';
 import { boxChart } from '../index.js';
 
 const xAxisSettings = {
@@ -12,7 +12,7 @@ describe('boxChart', () => {
 		it(`should render something if no data is provided`, () => {
 			const data = boxChart();
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'          ╭──────┬──────┬───────┬──────╮',
 				'undefined ┃      ╵      ╵       ╵      │',
 				'          ╰──────┴──────┴───────┴──────╯',
@@ -24,11 +24,11 @@ describe('boxChart', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
-					{data: [53], label: 'first'}
+					{ data: [53], label: 'first' }
 				]
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'      ╭───────┬───────┬────────┬───────╮',
 				'first │       ╵       ╵ ┃      ╵       │',
 				'      ╰───────┴───────┴────────┴───────╯',
@@ -40,11 +40,11 @@ describe('boxChart', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
-					{data: [30, 70], label: 'first'}
+					{ data: [30, 70], label: 'first' }
 				]
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'      ╭───────┬───────┬────────┬───────╮',
 				'first │       ╵ ▒▒▒▒▒▒▒▓▓▓▓▓▓▓ ╵       │',
 				'      ╰───────┴───────┴────────┴───────╯',
@@ -56,11 +56,11 @@ describe('boxChart', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
-					{data: [69, 70], label: 'first'}
+					{ data: [69, 70], label: 'first' }
 				]
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'      ╭───────┬───────┬────────┬───────╮',
 				'first │       ╵       ╵      ▓ ╵       │',
 				'      ╰───────┴───────┴────────┴───────╯',
@@ -72,11 +72,11 @@ describe('boxChart', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
-					{data: [69, 69.7, 70], label: 'first'}
+					{ data: [69, 69.7, 70], label: 'first' }
 				]
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'      ╭───────┬───────┬────────┬───────╮',
 				'first │       ╵       ╵      ▒ ╵       │',
 				'      ╰───────┴───────┴────────┴───────╯',
@@ -88,11 +88,11 @@ describe('boxChart', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
-					{data: [30, 60, 70], label: 'first'}
+					{ data: [30, 60, 70], label: 'first' }
 				]
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'      ╭───────┬───────┬────────┬───────╮',
 				'first │       ╵ ┣━━━━▒▒▒▒▒▓▓▓┫ ╵       │',
 				'      ╰───────┴───────┴────────┴───────╯',
@@ -104,11 +104,11 @@ describe('boxChart', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
-					{data: [49, 49.5, 50], label: 'first'}
+					{ data: [49, 49.5, 50], label: 'first' }
 				]
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'      ╭───────┬───────┬────────┬───────╮',
 				'first │       ╵       ▓        ╵       │',
 				'      ╰───────┴───────┴────────┴───────╯',
@@ -120,11 +120,11 @@ describe('boxChart', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
-					{data: [49, 50, 51], label: 'first'}
+					{ data: [49, 50, 51], label: 'first' }
 				]
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'      ╭───────┬───────┬────────┬───────╮',
 				'first │       ╵       ▒▓       ╵       │',
 				'      ╰───────┴───────┴────────┴───────╯',
@@ -136,11 +136,11 @@ describe('boxChart', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
-					{data: [25, 26, 26, 26, 74, 74, 74, 75], label: 'first'}
+					{ data: [25, 26, 26, 26, 74, 74, 74, 75], label: 'first' }
 				]
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'      ╭───────┬───────┬────────┬───────╮',
 				'first │       ▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓       │',
 				'      ╰───────┴───────┴────────┴───────╯',
@@ -153,11 +153,11 @@ describe('boxChart', () => {
 				xAxis: xAxisSettings,
 				width: 47,
 				data: [
-					{data: [46, 46, 46, 51, 51, 51, 51], label: 'first'}
+					{ data: [46, 46, 46, 51, 51, 51, 51], label: 'first' }
 				]
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'      ╭─────────┬─────────┬─────────┬─────────╮',
 				'first │         ╵       ▒▒▓         ╵         │',
 				'      ╰─────────┴─────────┴─────────┴─────────╯',
@@ -170,11 +170,11 @@ describe('boxChart', () => {
 				xAxis: xAxisSettings,
 				width: 47,
 				data: [
-					{data: [46, 46, 46, 46, 51, 51, 51], label: 'first'}
+					{ data: [46, 46, 46, 46, 51, 51, 51], label: 'first' }
 				]
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'      ╭─────────┬─────────┬─────────┬─────────╮',
 				'first │         ╵       ▒▓▓         ╵         │',
 				'      ╰─────────┴─────────┴─────────┴─────────╯',
@@ -187,11 +187,11 @@ describe('boxChart', () => {
 				xAxis: xAxisSettings,
 				width: 47,
 				data: [
-					{data: [41, 46, 46, 46, 51, 51, 51, 51, 57], label: 'first'}
+					{ data: [41, 46, 46, 46, 51, 51, 51, 51, 57], label: 'first' }
 				]
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'      ╭─────────┬─────────┬─────────┬─────────╮',
 				'first │         ╵     ┣━▒▒▓━━┫      ╵         │',
 				'      ╰─────────┴─────────┴─────────┴─────────╯',
@@ -204,11 +204,11 @@ describe('boxChart', () => {
 				xAxis: xAxisSettings,
 				width: 47,
 				data: [
-					{data: [41, 46, 46, 46, 46, 51, 51, 51, 57], label: 'first'}
+					{ data: [41, 46, 46, 46, 46, 51, 51, 51, 57], label: 'first' }
 				]
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'      ╭─────────┬─────────┬─────────┬─────────╮',
 				'first │         ╵     ┣━▒▓▓━━┫      ╵         │',
 				'      ╰─────────┴─────────┴─────────┴─────────╯',
@@ -235,7 +235,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'one       ╭─────────┬─────────┬─────────┬─────────╮',
 					'─── two   │         ╵        ╭─ M: 46   ╵         │',
 					'    first │         ╵     ┣━▒▓▓━━┫      ╵         │',
@@ -254,7 +254,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'one       ╭─────────┬─────────┬─────────┬─────────╮',
 					'─── two   │         ╵         ╵       M: 86 ─╮    │',
 					'    first │         ╵         ╵         ╵  ┣━▒▓▓━┫│',
@@ -277,7 +277,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'one       ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │   ▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓━━━━━━━━━━━━━┫   │',
 					'two       │       ╰─ M: 20   ╭─ M: 46   ╵         │',
@@ -301,7 +301,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'one       ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │   ┣━━━━━━━▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓━━━━━━━┫   │',
 					'two       │         ╵M: 46 ─╮ ╵╰─ M: 50 ╵         │',
@@ -325,7 +325,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'one       ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │   ▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓━━━━━━━━━┫   │',
 					'two       │         ╵   ╰─ M: 35        ╵         │',
@@ -346,7 +346,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │         ╵     ┣━▒▓▓━━┫ ── M: 46       │',
 					'          ╰─────────┴─────────┴─────────┴─────────╯',
@@ -354,56 +354,65 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label to the right if prev row is occupied and space is available, outlier in first space`, () => {
-				const data = boxChart({
-					...defaultSettings,
-					data: [{
-						data: [10, 11, 41, 46, 46, 46, 46, 51, 51, 51, 57, 60, 82],
-						label: 'blah blah'
-					}]
-				});
+			it(
+				`should place a label to the right if prev row is occupied and space is available, outlier in first space`,
+				() => {
+					const data = boxChart({
+						...defaultSettings,
+						data: [{
+							data: [10, 11, 41, 46, 46, 46, 46, 51, 51, 51, 57, 60, 82],
+							label: 'blah blah'
+						}]
+					});
 
-				assert.deepEqual(data, [
-					'          ╭─────────┬─────────┬─────────┬─────────╮',
-					'blah blah │   •     ╵     ┣━▒▓▓━━┫·── M: 46·      │',
-					'          ╰─────────┴─────────┴─────────┴─────────╯',
-					'          0        25        50        75       100'
-				]);
-			});
+					assert.equal(data, [
+						'          ╭─────────┬─────────┬─────────┬─────────╮',
+						'blah blah │   •     ╵     ┣━▒▓▓━━┫·── M: 46·      │',
+						'          ╰─────────┴─────────┴─────────┴─────────╯',
+						'          0        25        50        75       100'
+					]);
+				}
+			);
 
-			it(`should place a label to the right if prev row is occupied and space is available, outlier in second space`, () => {
-				const data = boxChart({
-					...defaultSettings,
-					data: [{
-						data: [41, 46, 46, 46, 46, 51, 51, 51, 57, 63],
-						label: 'blah blah'
-					}]
-				});
+			it(
+				`should place a label to the right if prev row is occupied and space is available, outlier in second space`,
+				() => {
+					const data = boxChart({
+						...defaultSettings,
+						data: [{
+							data: [41, 46, 46, 46, 46, 51, 51, 51, 57, 63],
+							label: 'blah blah'
+						}]
+					});
 
-				assert.deepEqual(data, [
-					'          ╭─────────┬─────────┬─────────┬─────────╮',
-					'blah blah │         ╵     ┣━▒▒▓━━┫ ·── M: 49      │',
-					'          ╰─────────┴─────────┴─────────┴─────────╯',
-					'          0        25        50        75       100'
-				]);
-			});
+					assert.equal(data, [
+						'          ╭─────────┬─────────┬─────────┬─────────╮',
+						'blah blah │         ╵     ┣━▒▒▓━━┫ ·── M: 49      │',
+						'          ╰─────────┴─────────┴─────────┴─────────╯',
+						'          0        25        50        75       100'
+					]);
+				}
+			);
 
-			it(`should place a label to the right if prev row is occupied and space is available, outlier in third space`, () => {
-				const data = boxChart({
-					...defaultSettings,
-					data: [{
-						data: [41, 46, 46, 46, 46, 51, 51, 51, 57, 65],
-						label: 'blah blah'
-					}]
-				});
+			it(
+				`should place a label to the right if prev row is occupied and space is available, outlier in third space`,
+				() => {
+					const data = boxChart({
+						...defaultSettings,
+						data: [{
+							data: [41, 46, 46, 46, 46, 51, 51, 51, 57, 65],
+							label: 'blah blah'
+						}]
+					});
 
-				assert.deepEqual(data, [
-					'          ╭─────────┬─────────┬─────────┬─────────╮',
-					'blah blah │         ╵     ┣━▒▒▓━━┫  ·── M: 49     │',
-					'          ╰─────────┴─────────┴─────────┴─────────╯',
-					'          0        25        50        75       100'
-				]);
-			});
+					assert.equal(data, [
+						'          ╭─────────┬─────────┬─────────┬─────────╮',
+						'blah blah │         ╵     ┣━▒▒▓━━┫  ·── M: 49     │',
+						'          ╰─────────┴─────────┴─────────┴─────────╯',
+						'          0        25        50        75       100'
+					]);
+				}
+			);
 
 			it(`should place a label to the left if prev row is occupied and space is available`, () => {
 				const data = boxChart({
@@ -414,7 +423,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │      M: 49 ── ┣━▒▒▓━━┫   ·  ╵         │',
 					'          ╰─────────┴─────────┴─────────┴─────────╯',
@@ -422,56 +431,65 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label to the left if prev row is occupied and space is available, outlier in first space`, () => {
-				const data = boxChart({
-					...defaultSettings,
-					data: [{
-						data: [38, 41, 46, 46, 46, 46, 51, 51, 51, 57, 67],
-						label: 'blah blah'
-					}]
-				});
+			it(
+				`should place a label to the left if prev row is occupied and space is available, outlier in first space`,
+				() => {
+					const data = boxChart({
+						...defaultSettings,
+						data: [{
+							data: [38, 41, 46, 46, 46, 46, 51, 51, 51, 57, 67],
+							label: 'blah blah'
+						}]
+					});
 
-				assert.deepEqual(data, [
-					'          ╭─────────┬─────────┬─────────┬─────────╮',
-					'blah blah │      M: 46 ──·┣━▒▓▓━━┫   ·  ╵         │',
-					'          ╰─────────┴─────────┴─────────┴─────────╯',
-					'          0        25        50        75       100'
-				]);
-			});
+					assert.equal(data, [
+						'          ╭─────────┬─────────┬─────────┬─────────╮',
+						'blah blah │      M: 46 ──·┣━▒▓▓━━┫   ·  ╵         │',
+						'          ╰─────────┴─────────┴─────────┴─────────╯',
+						'          0        25        50        75       100'
+					]);
+				}
+			);
 
-			it(`should place a label to the left if prev row is occupied and space is available, outlier in second space`, () => {
-				const data = boxChart({
-					...defaultSettings,
-					data: [{
-						data: [35, 41, 46, 46, 46, 46, 51, 51, 51, 57, 67],
-						label: 'blah blah'
-					}]
-				});
+			it(
+				`should place a label to the left if prev row is occupied and space is available, outlier in second space`,
+				() => {
+					const data = boxChart({
+						...defaultSettings,
+						data: [{
+							data: [35, 41, 46, 46, 46, 46, 51, 51, 51, 57, 67],
+							label: 'blah blah'
+						}]
+					});
 
-				assert.deepEqual(data, [
-					'          ╭─────────┬─────────┬─────────┬─────────╮',
-					'blah blah │     M: 46 ──· ┣━▒▓▓━━┫   ·  ╵         │',
-					'          ╰─────────┴─────────┴─────────┴─────────╯',
-					'          0        25        50        75       100'
-				]);
-			});
+					assert.equal(data, [
+						'          ╭─────────┬─────────┬─────────┬─────────╮',
+						'blah blah │     M: 46 ──· ┣━▒▓▓━━┫   ·  ╵         │',
+						'          ╰─────────┴─────────┴─────────┴─────────╯',
+						'          0        25        50        75       100'
+					]);
+				}
+			);
 
-			it(`should place a label to the left if prev row is occupied and space is available, outlier in third space`, () => {
-				const data = boxChart({
-					...defaultSettings,
-					data: [{
-						data: [33, 41, 46, 46, 46, 46, 51, 51, 51, 57, 67],
-						label: 'blah blah'
-					}]
-				});
+			it(
+				`should place a label to the left if prev row is occupied and space is available, outlier in third space`,
+				() => {
+					const data = boxChart({
+						...defaultSettings,
+						data: [{
+							data: [33, 41, 46, 46, 46, 46, 51, 51, 51, 57, 67],
+							label: 'blah blah'
+						}]
+					});
 
-				assert.deepEqual(data, [
-					'          ╭─────────┬─────────┬─────────┬─────────╮',
-					'blah blah │    M: 46 ──·  ┣━▒▓▓━━┫   ·  ╵         │',
-					'          ╰─────────┴─────────┴─────────┴─────────╯',
-					'          0        25        50        75       100'
-				]);
-			});
+					assert.equal(data, [
+						'          ╭─────────┬─────────┬─────────┬─────────╮',
+						'blah blah │    M: 46 ──·  ┣━▒▓▓━━┫   ·  ╵         │',
+						'          ╰─────────┴─────────┴─────────┴─────────╯',
+						'          0        25        50        75       100'
+					]);
+				}
+			);
 
 			it(`should place a label in an extra row if prev row is occupied and outliers are in the way`, () => {
 				const data = boxChart({
@@ -482,7 +500,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │         ╵         ╵     ·   ╵┣▒▓▓▓━┫  │',
 					'          │         ╵         ╵         ╵  ╰─ M: 80',
@@ -491,23 +509,26 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label in an extra row to the left if prev row is occupied and outliers are in the way`, () => {
-				const data = boxChart({
-					...defaultSettings,
-					data: [{
-						data: [67, 78, 82, 82, 82, 82, 88, 88, 88, 94],
-						label: 'blah blah'
-					}]
-				});
+			it(
+				`should place a label in an extra row to the left if prev row is occupied and outliers are in the way`,
+				() => {
+					const data = boxChart({
+						...defaultSettings,
+						data: [{
+							data: [67, 78, 82, 82, 82, 82, 88, 88, 88, 94],
+							label: 'blah blah'
+						}]
+					});
 
-				assert.deepEqual(data, [
-					'          ╭─────────┬─────────┬─────────┬─────────╮',
-					'blah blah │         ╵         ╵      ·  ╵┣━▒▓▓▓━┫ │',
-					'          │         ╵         ╵     M: 82 ─╯      │',
-					'          ╰─────────┴─────────┴─────────┴─────────╯',
-					'          0        25        50        75       100'
-				]);
-			});
+					assert.equal(data, [
+						'          ╭─────────┬─────────┬─────────┬─────────╮',
+						'blah blah │         ╵         ╵      ·  ╵┣━▒▓▓▓━┫ │',
+						'          │         ╵         ╵     M: 82 ─╯      │',
+						'          ╰─────────┴─────────┴─────────┴─────────╯',
+						'          0        25        50        75       100'
+					]);
+				}
+			);
 
 			it(`should place a label in the next row if prev row is occupied and outliers are in the way`, () => {
 				const data = boxChart({
@@ -521,7 +542,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │         ╵     ╭─ M: 40   ·  ╵┣━▒▓▓▓━┫ │',
 					'      two │         ╵ ┣━▒▒▓▓▓━┫     M: 82 ─╯      │',
@@ -542,7 +563,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │         ╵  M: 50 ─╮     ·   ╵┣▒▓▓▓━┫  │',
 					'      two │         ╵ ┣━━━▒▒▒▒▒▓▓▓▓━━━┫ ╵  ╰─ M: 80',
@@ -563,7 +584,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │       ╭─ M: 20    ╵    ·   ┣━▒▓▓▓━┫   │',
 					'      two │   ┣━▒▒▓▓▓━┫       ╵         ╵ ╰─ M: 77│',
@@ -584,7 +605,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │         ╵         ╵     ·   ╵┣▒▓▓▓━┫  │',
 					'          │         ╵    M: 55 ─╮       ╵  ╰─ M: 80',
@@ -606,7 +627,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │         ╵     ·   ╵     ·   ╵▒▒▓▓▓━┫  │',
 					'      two │  M: 50 ── ┣━━━▒▒▒▒▒▓▓▓▓━━━┫ ╵  ╰─ M: 80',
@@ -627,7 +648,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │         ╵     ·   ╵   ·     ╵▒▒▓▓▓━┫  │',
 					'      two │       ┣━━━▒▒▒▒▒▒▓▓▓▓▓▓▓━━━┫ ╵  ╰─ M: 80',
@@ -649,7 +670,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │         ╵ ·       ╵╭─ M: 52·╵         │',
 					'          │         ╵ ▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓╵         │',
@@ -668,7 +689,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │         ╵ ·M: 50 ─╮       · ╵         │',
 					'          │         ╵ ▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓ ╵         │',
@@ -687,7 +708,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │         ╵ ·       ·       · ╵         │',
 					'          │         ╵ ┣━━━▒▒▒▒▒▓▓▓▓━━━┫ ── M: 50  │',
@@ -706,7 +727,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │         ╵     ·   ╵   ·     ╵ ·       │',
 					'          │      M: 60 ── ┣━━━▒▒▒▒▒▓▓▓▓━━━┫       │',
@@ -725,7 +746,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │        ·╵     · · · • ·     ╵ ·       │',
 					'          M: 53 ── ┣━━━━━━━▒▒▒▒▒▓▓━━━━━━━━┫       │',
@@ -744,7 +765,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │       · ╵     · · · • ·     ╵ ·       │',
 					'          │       ┣━━━━━━━━▒▒▒▒▒▓▓━━━━━━━━┫       │',
@@ -767,7 +788,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │       · ╵     · · · • ·     ╵ ·       │',
 					'          │       ┣━━━━━━━━▒▒▒▒▒▓▓━━━━━━━━┫       │',
@@ -791,7 +812,7 @@ describe('boxChart', () => {
 					}]
 				});
 
-				assert.deepEqual(data, [
+				assert.equal(data, [
 					'          ╭─────────┬─────────┬─────────┬─────────╮',
 					'blah blah │       · ╵     · · · • ·     ╵ ·       │',
 					'          │       ┣━━━━━━━━▒▒▒▒▒▓▓━━━━━━━━┫       │',
@@ -810,11 +831,11 @@ describe('boxChart', () => {
 			const data = boxChart({
 				ascii: true,
 				data: [
-					{data: [90, 92, 97], label: 'first'}
+					{ data: [90, 92, 97], label: 'first' }
 				]
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'      +-------+-------+--------+-------+',
 				'first |---MMMMM%%%%%%%%%%%---------|   \'',
 				'      +-------+-------+--------+-------+',
@@ -828,18 +849,18 @@ describe('boxChart', () => {
 				fractionDigits: 2,
 				showInlineLabels: true,
 				data: [
-					{data: [20, 50, 90, 90, 90, 92, 92, 97], label: 'first'},
-					{data: [95, 97, 99], label: 'second'},
-					{data: [2, 13, 24], label: 'third'},
-					{data: [0.1, 0.2], label: 'four'},
-					{data: [2], label: 'five'}
+					{ data: [20, 50, 90, 90, 90, 92, 92, 97], label: 'first' },
+					{ data: [95, 97, 99], label: 'second' },
+					{ data: [2, 13, 24], label: 'third' },
+					{ data: [0.1, 0.2], label: 'four' },
+					{ data: [2], label: 'five' }
 				],
 				xAxis: {
 					label: 'Hz'
 				}
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'               Test chart               ',
 				'       ╭───────┬───────┬───────┬───────╮',
 				' first │     · ╵       ┣━━━━━━▒▒▒▒▒▒▒▓━┫',
@@ -861,11 +882,11 @@ describe('boxChart', () => {
 				showInlineLabels: true,
 				showDots: true,
 				data: [
-					{data: [50, 90, 92, 97], label: 'first', group: ['one']},
-					{data: [95, 97, 100], label: 'second', group: ['one']},
-					{data: [2, 13, 24], label: 'third', group: ['two']},
-					{data: [0.1, 0.2], label: 'four', group: ['two']},
-					{data: [2], label: 'five', group: ['two']}
+					{ data: [50, 90, 92, 97], label: 'first', group: ['one'] },
+					{ data: [95, 97, 100], label: 'second', group: ['one'] },
+					{ data: [2, 13, 24], label: 'third', group: ['two'] },
+					{ data: [0.1, 0.2], label: 'four', group: ['two'] },
+					{ data: [2], label: 'five', group: ['two'] }
 				],
 				xAxis: {
 					scale: 'log',
@@ -873,7 +894,7 @@ describe('boxChart', () => {
 				}
 			});
 
-			assert.deepEqual(data, [
+			assert.equal(data, [
 				'                         Test chart                         ',
 				'one    ╭───────┬────────┬────────┬────────┬────────┬───────╮',
 				' first │       ╵        │        ╵        │        ╵  ·    ●',

@@ -1,11 +1,11 @@
-import { assert } from 'chai';
+import { assert } from 'type-enforcer';
 import { barChart } from '../index.js';
 
 describe('barChart', () => {
 	it(`should render something if no data is provided`, () => {
 		const data = barChart();
 
-		assert.deepEqual(data, [
+		assert.equal(data, [
 			'          ╭──────┬──────┬───────┬──────╮',
 			'undefined │  0   ╵      ╵       ╵      │',
 			'          ╰──────┴──────┴───────┴──────╯',
@@ -16,11 +16,11 @@ describe('barChart', () => {
 	it(`should render something if one data point is provided`, () => {
 		const data = barChart({
 			data: [
-				{value: 97, label: 'first'}
+				{ value: 97, label: 'first' }
 			]
 		});
 
-		assert.deepEqual(data, [
+		assert.equal(data, [
 			'      ╭───────┬───────┬────────┬───────╮',
 			'first ▐█▌97▐██████████████████████████▌│',
 			'      ╰───────┴───────┴────────┴───────╯',
@@ -54,7 +54,7 @@ describe('barChart', () => {
 			}]
 		});
 
-		assert.deepEqual(data, [
+		assert.equal(data, [
 			'    ╭─────────┬─────────╮',
 			'one ┃  1      ╵         │',
 			'two ▐  2      ╵         │',
@@ -70,11 +70,11 @@ describe('barChart', () => {
 		const data = barChart({
 			calc: 'min',
 			data: [
-				{data: [10, 20, 30, 40, 50, 60, 70, 80, 90], label: 'first'}
+				{ data: [10, 20, 30, 40, 50, 60, 70, 80, 90], label: 'first' }
 			]
 		});
 
-		assert.deepEqual(data, [
+		assert.equal(data, [
 			'      ╭───────┬───────┬────────┬───────╮',
 			'first ▐█▌10▐███████████████████████████▌',
 			'      ╰───────┴───────┴────────┴───────╯',
@@ -86,11 +86,11 @@ describe('barChart', () => {
 		const data = barChart({
 			calc: 'max',
 			data: [
-				{data: [10, 20, 30, 40, 50, 60, 70, 80, 90], label: 'first'}
+				{ data: [10, 20, 30, 40, 50, 60, 70, 80, 90], label: 'first' }
 			]
 		});
 
-		assert.deepEqual(data, [
+		assert.equal(data, [
 			'      ╭───────┬───────┬────────┬───────╮',
 			'first ▐█▌90▐████████████████████████   │',
 			'      ╰───────┴───────┴────────┴───────╯',
@@ -102,11 +102,11 @@ describe('barChart', () => {
 		const data = barChart({
 			calc: 'median',
 			data: [
-				{data: [10, 30, 40, 50, 60, 70, 80, 90], label: 'first'}
+				{ data: [10, 30, 40, 50, 60, 70, 80, 90], label: 'first' }
 			]
 		});
 
-		assert.deepEqual(data, [
+		assert.equal(data, [
 			'      ╭──────────┬──────────┬──────────╮',
 			'first ▐█▌55▐████████████████████████▌  │',
 			'      ╰──────────┼──────────┼──────────╯',
@@ -118,11 +118,11 @@ describe('barChart', () => {
 		const data = barChart({
 			calc: 'mean',
 			data: [
-				{data: [10, 30, 40, 50, 60, 70, 80, 90], label: 'first'}
+				{ data: [10, 30, 40, 50, 60, 70, 80, 90], label: 'first' }
 			]
 		});
 
-		assert.deepEqual(data, [
+		assert.equal(data, [
 			'      ╭──────────┬──────────┬──────────╮',
 			'first ▐█▌54▐████████████████████████   │',
 			'      ╰──────────┼──────────┼──────────╯',
@@ -134,13 +134,13 @@ describe('barChart', () => {
 		const data = barChart({
 			ascii: true,
 			data: [
-				{value: 92, label: 'first'},
-				{value: 1, label: 'two'},
-				{value: 0}
+				{ value: 92, label: 'first' },
+				{ value: 1, label: 'two' },
+				{ value: 0 }
 			]
 		});
 
-		assert.deepEqual(data, [
+		assert.equal(data, [
 			'      +-------+-------+--------+-------+',
 			'first %% 92 %%%%%%%%%%%%%%%%%%%%%%%%%  |',
 			'  two %  1    \'       \'        \'       |',
@@ -155,18 +155,18 @@ describe('barChart', () => {
 			title: 'Test chart',
 			fractionDigits: 2,
 			data: [
-				{value: 97, label: 'first'},
-				{value: 100, label: 'second'},
-				{value: 3, label: 'third'},
-				{value: 0.123, label: 'four'},
-				{value: 0, label: 'five'}
+				{ value: 97, label: 'first' },
+				{ value: 100, label: 'second' },
+				{ value: 3, label: 'third' },
+				{ value: 0.123, label: 'four' },
+				{ value: 0, label: 'five' }
 			],
 			xAxis: {
 				label: 'Hz'
 			}
 		});
 
-		assert.deepEqual(data, [
+		assert.equal(data, [
 			'               Test chart               ',
 			'       ╭───────┬───────┬───────┬───────╮',
 			' first ▐█▌97.00▐██████████████████████▌│',
@@ -186,11 +186,11 @@ describe('barChart', () => {
 			width: 60,
 			fractionDigits: 2,
 			data: [
-				{value: 97, label: 'first', group: ['one']},
-				{value: 100, label: 'second', group: ['one']},
-				{value: 3, label: 'third', group: ['two']},
-				{value: 0.123, label: 'four', group: ['two']},
-				{value: 0, label: 'five', group: ['two']}
+				{ value: 97, label: 'first', group: ['one'] },
+				{ value: 100, label: 'second', group: ['one'] },
+				{ value: 3, label: 'third', group: ['two'] },
+				{ value: 0.123, label: 'four', group: ['two'] },
+				{ value: 0, label: 'five', group: ['two'] }
 			],
 			xAxis: {
 				scale: 'log',
@@ -198,7 +198,7 @@ describe('barChart', () => {
 			}
 		});
 
-		assert.deepEqual(data, [
+		assert.equal(data, [
 			'                         Test chart                         ',
 			'one    ╭────────────┬────────────┬────────────┬────────────╮',
 			' first ▐█▌97.00▐███████████████████████████████████████████│',
