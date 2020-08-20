@@ -63,8 +63,8 @@ E ┃ ── M: 2.00   ╵      ╵       ╵      │
 [build-url]: https://travis-ci.org/DarrenPaulWright/char-charts
 [coverage]: https://coveralls.io/repos/github/DarrenPaulWright/char-charts/badge.svg?branch&#x3D;master
 [coverage-url]: https://coveralls.io/github/DarrenPaulWright/char-charts?branch&#x3D;master
-[deps]: https://david-dm.org/darrenpaulwright/char-charts.svg
-[deps-url]: https://david-dm.org/darrenpaulwright/char-charts
+[deps]: https://david-dm.org/DarrenPaulWright/char-charts.svg
+[deps-url]: https://david-dm.org/DarrenPaulWright/char-charts
 [size]: https://packagephobia.now.sh/badge?p&#x3D;char-charts
 [size-url]: https://packagephobia.now.sh/result?p&#x3D;char-charts
 [vulnerabilities]: https://snyk.io/test/github/DarrenPaulWright/char-charts/badge.svg?targetFile&#x3D;package.json
