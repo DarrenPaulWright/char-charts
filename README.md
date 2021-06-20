@@ -40,7 +40,8 @@ D ┃  0.15╵       ╵      ╵       ╵      │
 E ▐▌  2.00       ╵      ╵       ╵      │
   ╰──────┴───────┴──────┴───────┴──────╯
   0     20      40     60      80    100
-                    Hz</code></pre>
+                    Hz
+</code></pre>
 </dd>
 <dt><a href="docs/boxChart.md">boxChart([settings])</a> ⇒ <code>Array</code></dt>
 <dd><p>Builds a box and whisker chart.</p>
@@ -53,7 +54,8 @@ D ▒ ── M: 0.15   ╵      ╵       ╵      │
 E ┃ ── M: 2.00   ╵      ╵       ╵      │
   ╰──────┴───────┴──────┴───────┴──────╯
   0     20      40     60      80    100
-                    Hz</code></pre>
+                    Hz
+</code></pre>
 </dd>
 </dl>
 
