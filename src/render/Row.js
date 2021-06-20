@@ -27,9 +27,9 @@ export default class Row {
 						.padEnd(value.offset - 1, this.CHART_HORIZONTAL)
 						.concat(index === last ?
 							rightChar :
-							value.isMajor ?
+							(value.isMajor ?
 								tickCharMajor :
-								tickChar);
+								tickChar));
 				}, '')
 				.padStart(this._width - label.length, SPACE)
 		);
@@ -57,8 +57,8 @@ export default class Row {
 
 	padEnd(value, char) {
 		if (char === SPACE) {
-			for (let i = this.length + 1; i <= value; i++) {
-				this.append(this._xAxis.isTickOffset(i) ? this.getVerticalChar(i) : char);
+			for (let index = this.length + 1; index <= value; index++) {
+				this.append(this._xAxis.isTickOffset(index) ? this.getVerticalChar(index) : char);
 			}
 		}
 		else {
@@ -69,23 +69,22 @@ export default class Row {
 	}
 
 	prependLabel(result) {
-		if (result.label !== this.prevLabel) {
-			if ('groupIndent' in result) {
-				this.prepend(
-					(result.groupIndent ? this.GROUP_HEADER_FILL.repeat((result.groupIndent * INDENT_WIDTH) - 1)
-						.concat(SPACE) : '')
-						.concat(result.label)
-						.padEnd(this._maxLabelWidth, SPACE)
-				);
-			}
-			else {
-				this.prepend(
-					result.label.concat(SPACE).padStart(this._maxLabelWidth, SPACE)
-				);
-			}
+		if (result.label === this.prevLabel) {
+			this.prepend(SPACE.repeat(this._maxLabelWidth));
+		}
+		else if ('groupIndent' in result) {
+			this.prepend(
+				(result.groupIndent ? this.GROUP_HEADER_FILL.repeat((result.groupIndent * INDENT_WIDTH) - 1)
+					.concat(SPACE) : '')
+					.concat(result.label)
+					.padEnd(this._maxLabelWidth, SPACE)
+			);
 		}
 		else {
-			this.prepend(SPACE.repeat(this._maxLabelWidth));
+			this.prepend(
+				result.label.concat(SPACE)
+					.padStart(this._maxLabelWidth, SPACE)
+			);
 		}
 
 		this.prevLabel = result.label;
@@ -125,7 +124,8 @@ export default class Row {
 			this.CHART_TOP_TICK,
 			this.CHART_TOP_TICK,
 			this.CHART_TOP_RIGHT,
-			this._settings.yAxis.scale().isGrouped() ? this._settings.yAxis.domain()[0].label : ''
+			this._settings.yAxis.scale()
+				.isGrouped() ? this._settings.yAxis.domain()[0].label : ''
 		);
 	}
 

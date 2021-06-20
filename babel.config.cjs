@@ -8,7 +8,7 @@ module.exports = function(api) {
 		['istanbul', {'exclude': ['tests/**/*.js']}]
 	];
 
-	api.cache(false);
+	api.cache(true);
 
 	return {
 		presets,

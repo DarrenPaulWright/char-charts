@@ -6,7 +6,7 @@ import LogScale from '../../src/axis/LogScale.js';
 
 describe('Axis', () => {
 	describe('init', () => {
-		it(`should accept an empty array`, () => {
+		it('should accept an empty array', () => {
 			const axis = new Axis({}, []);
 
 			assert.is(axis.domain().length, 2);
@@ -14,13 +14,13 @@ describe('Axis', () => {
 	});
 
 	describe('scale', () => {
-		it(`should use linear scale by default`, () => {
+		it('should use linear scale by default', () => {
 			const axis = new Axis({}, []);
 
 			assert.is(axis.scale() instanceof LinearScale, true);
 		});
 
-		it(`should use log scale if specified`, () => {
+		it('should use log scale if specified', () => {
 			const axis = new Axis({
 				scale: 'log'
 			}, []);
@@ -28,7 +28,7 @@ describe('Axis', () => {
 			assert.is(axis.scale() instanceof LogScale, true);
 		});
 
-		it(`should use band scale if specified`, () => {
+		it('should use band scale if specified', () => {
 			const axis = new Axis({
 				scale: 'band'
 			}, []);

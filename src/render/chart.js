@@ -9,7 +9,7 @@ export default (settings, Row) => {
 		settings.useColor = chalk.supportsColor;
 	}
 
-	settings.CHARS = settings.ascii ? ASCII : settings.useColor ? COLOR : MONOCHROME;
+	settings.CHARS = settings.ascii ? ASCII : (settings.useColor ? COLOR : MONOCHROME);
 
 	processData(settings);
 	const row = new Row(settings);

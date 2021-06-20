@@ -3,13 +3,13 @@ import { INDENT_WIDTH } from '../render/chars.js';
 import Scale from './Scale.js';
 
 const addRow = (array, data) => {
-	const prev = array[array.length - 1];
+	const previous = array[array.length - 1];
 
-	if (prev) {
-		prev.siblings.push(data);
+	if (previous) {
+		previous.siblings.push(data);
 	}
 
-	data.siblings = [prev];
+	data.siblings = [previous];
 
 	array.push(data);
 };

@@ -9,7 +9,7 @@ const xAxisSettings = {
 
 describe('boxChart', () => {
 	describe('single row', () => {
-		it(`should render something if no data is provided`, () => {
+		it('should render something if no data is provided', () => {
 			const data = boxChart();
 
 			assert.equal(data, [
@@ -20,7 +20,7 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should render a single character for one datum`, () => {
+		it('should render a single character for one datum', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
@@ -36,7 +36,7 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should render a box for two datum`, () => {
+		it('should render a box for two datum', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
@@ -52,7 +52,7 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should render a box for two datum on a single character`, () => {
+		it('should render a box for two datum on a single character', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
@@ -68,7 +68,7 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should render a Q1 fill on a single character`, () => {
+		it('should render a Q1 fill on a single character', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
@@ -84,7 +84,7 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should render a box with whiskers for three datum`, () => {
+		it('should render a box with whiskers for three datum', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
@@ -100,7 +100,7 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should prioritize box over whiskers on a single character`, () => {
+		it('should prioritize box over whiskers on a single character', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
@@ -116,7 +116,7 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should prioritize box over whiskers on two characters`, () => {
+		it('should prioritize box over whiskers on two characters', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
@@ -132,7 +132,7 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should prioritize box over whiskers on more characters`, () => {
+		it('should prioritize box over whiskers on more characters', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				data: [
@@ -148,7 +148,7 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should show the right side of the box if 3 or more characters`, () => {
+		it('should show the right side of the box if 3 or more characters', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				width: 47,
@@ -165,7 +165,7 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should show the left side of the box if 3 or more characters`, () => {
+		it('should show the left side of the box if 3 or more characters', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				width: 47,
@@ -182,12 +182,15 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should show the right side of the box if 3 or more characters with whiskers`, () => {
+		it('should show the right side of the box if 3 or more characters with whiskers', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				width: 47,
 				data: [
-					{ data: [41, 46, 46, 46, 51, 51, 51, 51, 57], label: 'first' }
+					{
+						data: [41, 46, 46, 46, 51, 51, 51, 51, 57],
+						label: 'first'
+					}
 				]
 			});
 
@@ -199,12 +202,15 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should show the left side of the box if 3 or more characters with whiskers`, () => {
+		it('should show the left side of the box if 3 or more characters with whiskers', () => {
 			const data = boxChart({
 				xAxis: xAxisSettings,
 				width: 47,
 				data: [
-					{ data: [41, 46, 46, 46, 46, 51, 51, 51, 57], label: 'first' }
+					{
+						data: [41, 46, 46, 46, 46, 51, 51, 51, 57],
+						label: 'first'
+					}
 				]
 			});
 
@@ -225,7 +231,7 @@ describe('boxChart', () => {
 		};
 
 		describe('groups', () => {
-			it(`should place a label to the right in a prev group row`, () => {
+			it('should place a label to the right in a prev group row', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
@@ -244,7 +250,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label to the left in a prev group row`, () => {
+			it('should place a label to the left in a prev group row', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
@@ -263,11 +269,25 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label to the right in a prev group row with labels`, () => {
+			it('should place a label to the right in a prev group row with labels', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
-						data: [10, 10, 10, 10, 10, 10, 10, 20, 30, 40, 50, 60, 70, 80, 90],
+						data: [10,
+							10,
+							10,
+							10,
+							10,
+							10,
+							10,
+							20,
+							30,
+							40,
+							50,
+							60,
+							70,
+							80,
+							90],
 						label: 'blah blah',
 						group: ['one']
 					}, {
@@ -287,7 +307,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label to the left in a prev group row with labels`, () => {
+			it('should place a label to the left in a prev group row with labels', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
@@ -311,7 +331,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label on the same row if a prev group row has a label on the median`, () => {
+			it('should place a label on the same row if a prev group row has a label on the median', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
@@ -337,7 +357,7 @@ describe('boxChart', () => {
 		});
 
 		describe('outliers', () => {
-			it(`should place a label to the right if prev row is occupied and space is available`, () => {
+			it('should place a label to the right if prev row is occupied and space is available', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
@@ -355,12 +375,24 @@ describe('boxChart', () => {
 			});
 
 			it(
-				`should place a label to the right if prev row is occupied and space is available, outlier in first space`,
+				'should place a label to the right if prev row is occupied and space is available, outlier in first space',
 				() => {
 					const data = boxChart({
 						...defaultSettings,
 						data: [{
-							data: [10, 11, 41, 46, 46, 46, 46, 51, 51, 51, 57, 60, 82],
+							data: [10,
+								11,
+								41,
+								46,
+								46,
+								46,
+								46,
+								51,
+								51,
+								51,
+								57,
+								60,
+								82],
 							label: 'blah blah'
 						}]
 					});
@@ -375,7 +407,7 @@ describe('boxChart', () => {
 			);
 
 			it(
-				`should place a label to the right if prev row is occupied and space is available, outlier in second space`,
+				'should place a label to the right if prev row is occupied and space is available, outlier in second space',
 				() => {
 					const data = boxChart({
 						...defaultSettings,
@@ -395,7 +427,7 @@ describe('boxChart', () => {
 			);
 
 			it(
-				`should place a label to the right if prev row is occupied and space is available, outlier in third space`,
+				'should place a label to the right if prev row is occupied and space is available, outlier in third space',
 				() => {
 					const data = boxChart({
 						...defaultSettings,
@@ -414,7 +446,7 @@ describe('boxChart', () => {
 				}
 			);
 
-			it(`should place a label to the left if prev row is occupied and space is available`, () => {
+			it('should place a label to the left if prev row is occupied and space is available', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
@@ -432,7 +464,7 @@ describe('boxChart', () => {
 			});
 
 			it(
-				`should place a label to the left if prev row is occupied and space is available, outlier in first space`,
+				'should place a label to the left if prev row is occupied and space is available, outlier in first space',
 				() => {
 					const data = boxChart({
 						...defaultSettings,
@@ -452,7 +484,7 @@ describe('boxChart', () => {
 			);
 
 			it(
-				`should place a label to the left if prev row is occupied and space is available, outlier in second space`,
+				'should place a label to the left if prev row is occupied and space is available, outlier in second space',
 				() => {
 					const data = boxChart({
 						...defaultSettings,
@@ -472,7 +504,7 @@ describe('boxChart', () => {
 			);
 
 			it(
-				`should place a label to the left if prev row is occupied and space is available, outlier in third space`,
+				'should place a label to the left if prev row is occupied and space is available, outlier in third space',
 				() => {
 					const data = boxChart({
 						...defaultSettings,
@@ -491,7 +523,7 @@ describe('boxChart', () => {
 				}
 			);
 
-			it(`should place a label in an extra row if prev row is occupied and outliers are in the way`, () => {
+			it('should place a label in an extra row if prev row is occupied and outliers are in the way', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
@@ -510,7 +542,7 @@ describe('boxChart', () => {
 			});
 
 			it(
-				`should place a label in an extra row to the left if prev row is occupied and outliers are in the way`,
+				'should place a label in an extra row to the left if prev row is occupied and outliers are in the way',
 				() => {
 					const data = boxChart({
 						...defaultSettings,
@@ -530,7 +562,7 @@ describe('boxChart', () => {
 				}
 			);
 
-			it(`should place a label in the next row if prev row is occupied and outliers are in the way`, () => {
+			it('should place a label in the next row if prev row is occupied and outliers are in the way', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
@@ -551,7 +583,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should not create an extra row if labels fit`, () => {
+			it('should not create an extra row if labels fit', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
@@ -572,7 +604,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label in the next row if prev row is occupied and outliers are in the way`, () => {
+			it('should place a label in the prev row if able', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
@@ -593,7 +625,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place labels for next row on extra row if needed`, () => {
+			it('should place labels for next row on extra row if needed', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
@@ -615,7 +647,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place labels to the left if previous row label is in the way`, () => {
+			it('should place labels to the left if previous row label is in the way', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
@@ -636,7 +668,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place labels on extra row if previous row label is in the way`, () => {
+			it('should place labels on extra row if previous row label is in the way', () => {
 				const data = boxChart({
 					...defaultSettings,
 					data: [{
@@ -660,7 +692,7 @@ describe('boxChart', () => {
 		});
 
 		describe('showDots', () => {
-			it(`should place a label to the right`, () => {
+			it('should place a label to the right', () => {
 				const data = boxChart({
 					...defaultSettings,
 					showDots: true,
@@ -679,7 +711,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label to the left`, () => {
+			it('should place a label to the left', () => {
 				const data = boxChart({
 					...defaultSettings,
 					showDots: true,
@@ -698,7 +730,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label on the same row if dots are in the way`, () => {
+			it('should place a label on the same row if dots are in the way', () => {
 				const data = boxChart({
 					...defaultSettings,
 					showDots: true,
@@ -717,7 +749,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label on the same row to the left if dots are in the way`, () => {
+			it('should place a label on the same row to the left if dots are in the way', () => {
 				const data = boxChart({
 					...defaultSettings,
 					showDots: true,
@@ -736,7 +768,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a left label all the way to the left edge`, () => {
+			it('should place a left label all the way to the left edge', () => {
 				const data = boxChart({
 					...defaultSettings,
 					showDots: true,
@@ -755,7 +787,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label on an extra row`, () => {
+			it('should place a label on an extra row', () => {
 				const data = boxChart({
 					...defaultSettings,
 					showDots: true,
@@ -775,7 +807,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label between dots`, () => {
+			it('should place a label between wide dots', () => {
 				const data = boxChart({
 					...defaultSettings,
 					showDots: true,
@@ -799,7 +831,7 @@ describe('boxChart', () => {
 				]);
 			});
 
-			it(`should place a label between dots`, () => {
+			it('should place a label between dots', () => {
 				const data = boxChart({
 					...defaultSettings,
 					showDots: true,
@@ -827,7 +859,7 @@ describe('boxChart', () => {
 	});
 
 	describe('full', () => {
-		it(`should render ascii`, () => {
+		it('should render ascii', () => {
 			const data = boxChart({
 				ascii: true,
 				data: [
@@ -843,7 +875,7 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should render a full chart with multiple data points`, () => {
+		it('should render a full chart with multiple data points', () => {
 			const data = boxChart({
 				title: 'Test chart',
 				fractionDigits: 2,
@@ -874,7 +906,7 @@ describe('boxChart', () => {
 			]);
 		});
 
-		it(`should render groups and custom width`, () => {
+		it('should render groups and custom width', () => {
 			const data = boxChart({
 				title: 'Test chart',
 				width: 60,

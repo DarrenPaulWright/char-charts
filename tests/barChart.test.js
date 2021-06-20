@@ -2,7 +2,7 @@ import { assert } from 'type-enforcer';
 import { barChart } from '../index.js';
 
 describe('barChart', () => {
-	it(`should render something if no data is provided`, () => {
+	it('should render something if no data is provided', () => {
 		const data = barChart();
 
 		assert.equal(data, [
@@ -13,7 +13,7 @@ describe('barChart', () => {
 		]);
 	});
 
-	it(`should render something if one data point is provided`, () => {
+	it('should render something if one data point is provided', () => {
 		const data = barChart({
 			data: [
 				{ value: 97, label: 'first' }
@@ -66,7 +66,7 @@ describe('barChart', () => {
 		]);
 	});
 
-	it(`should calculate the min value`, () => {
+	it('should calculate the min value', () => {
 		const data = barChart({
 			calc: 'min',
 			data: [
@@ -82,7 +82,7 @@ describe('barChart', () => {
 		]);
 	});
 
-	it(`should calculate the max value`, () => {
+	it('should calculate the max value', () => {
 		const data = barChart({
 			calc: 'max',
 			data: [
@@ -98,7 +98,7 @@ describe('barChart', () => {
 		]);
 	});
 
-	it(`should calculate the median value`, () => {
+	it('should calculate the median value', () => {
 		const data = barChart({
 			calc: 'median',
 			data: [
@@ -114,7 +114,7 @@ describe('barChart', () => {
 		]);
 	});
 
-	it(`should calculate the mean value`, () => {
+	it('should calculate the mean value', () => {
 		const data = barChart({
 			calc: 'mean',
 			data: [
@@ -130,7 +130,7 @@ describe('barChart', () => {
 		]);
 	});
 
-	it(`should render ascii`, () => {
+	it('should render ascii', () => {
 		const data = barChart({
 			ascii: true,
 			data: [
@@ -150,7 +150,7 @@ describe('barChart', () => {
 		]);
 	});
 
-	it(`should a full chart with multiple data points`, () => {
+	it('should a full chart with multiple data points', () => {
 		const data = barChart({
 			title: 'Test chart',
 			fractionDigits: 2,
@@ -180,7 +180,7 @@ describe('barChart', () => {
 		]);
 	});
 
-	it(`should render groups and custom width`, () => {
+	it('should render groups and custom width', () => {
 		const data = barChart({
 			title: 'Test chart',
 			width: 60,

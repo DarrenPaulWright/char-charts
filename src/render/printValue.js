@@ -8,5 +8,5 @@ export default (value, desiredFractionDigits) => {
 	return value.toLocaleString() +
 		(desiredFractionDigits && actualFractionDigits === 0 ? '.' : '') +
 		'0'.repeat(desiredFractionDigits - actualFractionDigits);
-}
+};
 

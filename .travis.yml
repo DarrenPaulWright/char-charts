@@ -3,7 +3,7 @@ services:
   - xvfb
 language: node_js
 node_js:
-  - "10.12.0"
+  - "14.17.1"
 script: npm run test
 before_script:
   - npm install

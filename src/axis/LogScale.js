@@ -42,14 +42,14 @@ export default class LogScale extends Scale {
 			return this.getCharOffset(b) - this.getCharOffset(a) > this.minTickOffset;
 		};
 
-		const divideRange = (start, end) => {
-			const mid = round(mean(start, end), 2, 2);
+		const divideRange = (rangeStart, rangeEnd) => {
+			const mid = round(mean(rangeStart, rangeEnd), 2, 2);
 
-			if (isBigEnough(start, mid)) {
+			if (isBigEnough(rangeStart, mid)) {
 				ticks.push(mid);
 
-				divideRange(start, mid);
-				divideRange(mid, end);
+				divideRange(rangeStart, mid);
+				divideRange(mid, rangeEnd);
 			}
 		};
 

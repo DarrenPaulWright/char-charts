@@ -6,24 +6,24 @@ const ADJUSTMENTS = [1, 2, 4, 5];
 
 export default class LinearScale extends Scale {
 	range() {
-		let prev = {};
+		let previous = {};
 		const minValue = this.domain()[0];
 		const maxValue = this.domain()[1];
 		let tickValue = this.tickValue();
 		let start = this.start();
 		let end = this.end();
-		let size = this.size();
-		let adjLength = ADJUSTMENTS.length;
+		const size = this.size();
+		const adjLength = ADJUSTMENTS.length;
 
 		const setScale = () => {
 			this._scaleValue = size / (end - start);
 		};
 
 		const optimizeRange = (pos, origTickValue, origStart, origEnd) => {
-			prev = {
-				tickValue: tickValue,
-				start: start,
-				end: end
+			previous = {
+				tickValue,
+				start,
+				end
 			};
 
 			tickValue = origTickValue /
@@ -31,19 +31,19 @@ export default class LinearScale extends Scale {
 					Math.pow(10, Math.floor(pos / adjLength)));
 
 			if (this.shouldGetStart()) {
-				start = origStart + Math.floor((minValue - origStart) / tickValue) * tickValue;
+				start = origStart + (Math.floor((minValue - origStart) / tickValue) * tickValue);
 			}
 
 			if (this.shouldGetEnd()) {
-				end = origEnd - Math.floor((origEnd - maxValue) / tickValue) * tickValue;
+				end = origEnd - (Math.floor((origEnd - maxValue) / tickValue) * tickValue);
 			}
 
 			setScale();
 
 			if ((tickValue * this._scaleValue) < this.minTickOffset || pos > 100) {
-				tickValue = prev.tickValue;
-				start = prev.start;
-				end = prev.end;
+				tickValue = previous.tickValue;
+				start = previous.start;
+				end = previous.end;
 				setScale();
 			}
 			else {
@@ -79,7 +79,7 @@ export default class LinearScale extends Scale {
 		const end = this.end();
 		const tickValue = this.tickValue();
 		const ticks = fill(Math.round((end - start) / tickValue) + 1, (index) => {
-			return index * tickValue + start;
+			return (index * tickValue) + start;
 		});
 
 		this._majorTickValue = Math.pow(10, integerDigits(end) - 1);

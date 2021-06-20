@@ -3,7 +3,7 @@ import BandScale from '../../src/axis/BandScale.js';
 
 describe('BandScale', () => {
 	describe('init', () => {
-		it(`should accept an empty array`, () => {
+		it('should accept an empty array', () => {
 			const scale = new BandScale([]);
 
 			assert.is(scale.domain().length, 0);
@@ -11,7 +11,7 @@ describe('BandScale', () => {
 			assert.is(scale.isGrouped(), false);
 		});
 
-		it(`should set the domain and maxLabelWidth`, () => {
+		it('should set the domain and maxLabelWidth', () => {
 			const data = [{
 				value: 0,
 				label: 'first',
@@ -45,7 +45,7 @@ describe('BandScale', () => {
 			assert.is(scale.isGrouped(), false);
 		});
 
-		it(`should add rows for groups`, () => {
+		it('should add rows for groups', () => {
 			const data = [{
 				value: 0,
 				label: 'first',
@@ -89,7 +89,7 @@ describe('BandScale', () => {
 			assert.is(scale.isGrouped(), true);
 		});
 
-		it(`should add rows for nested groups`, () => {
+		it('should add rows for nested groups', () => {
 			const data = [{
 				value: 0,
 				label: 'first',
@@ -148,5 +148,4 @@ describe('BandScale', () => {
 			assert.is(scale.isGrouped(), true);
 		});
 	});
-
 });

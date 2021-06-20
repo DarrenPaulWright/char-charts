@@ -47,17 +47,17 @@ export default class Scale {
 }
 
 Object.assign(Scale.prototype, {
-	domain: method.array({init: [0, 1]}),
-	tickValue: method.float({init: 0}),
-	start: method.float({init: 0}),
-	end: method.float({init: 0}),
+	domain: method.array({ init: [0, 1] }),
+	tickValue: method.float({ init: 0 }),
+	start: method.float({ init: 0 }),
+	end: method.float({ init: 0 }),
 	size: method.integer({
 		init: 0,
 		set() {
 			this.range();
 		}
 	}),
-	shouldGetTickValue: method.boolean({init: true}),
-	shouldGetStart: method.boolean({init: true}),
-	shouldGetEnd: method.boolean({init: true})
+	shouldGetTickValue: method.boolean({ init: true }),
+	shouldGetStart: method.boolean({ init: true }),
+	shouldGetEnd: method.boolean({ init: true })
 });

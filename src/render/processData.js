@@ -33,7 +33,7 @@ export default (settings) => {
 		}
 	});
 
-	settings.yAxis = new Axis({scale: 'band'}, settings.data);
+	settings.yAxis = new Axis({ scale: 'band' }, settings.data);
 
 	settings.xAxis = new Axis(settings.xAxis, settings.data)
 		.size(settings.width - settings.yAxis.scale().maxLabelWidth());
@@ -45,4 +45,4 @@ export default (settings) => {
 			value.outliers = value.outliers.map(mapChars);
 		});
 	}
-}
+};

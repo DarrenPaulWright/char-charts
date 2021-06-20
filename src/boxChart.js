@@ -26,14 +26,14 @@ class BoxRow extends Row {
 	}
 
 	addWhiteSpace(value, skipDots = false) {
-		for (let i = this.length + 1; i <= value; i++) {
-			const num = skipDots || !this.rowData ? 0 : this.getDotIndex(this.rowData.dotsOffsets.findAll(i).length);
+		for (let index = this.length + 1; index <= value; index++) {
+			const number = skipDots || !this.rowData ? 0 : this.getDotIndex(this.rowData.dotsOffsets.findAll(index).length);
 
-			if (num > 0) {
-				this.append(this.DOTS.charAt(Math.min(num, this.DOTS.length) - 1));
+			if (number > 0) {
+				this.append(this.DOTS.charAt(Math.min(number, this.DOTS.length) - 1));
 			}
 			else {
-				this.append(this._xAxis.isTickOffset(i) ? this.getVerticalChar(i) : SPACE);
+				this.append(this._xAxis.isTickOffset(index) ? this.getVerticalChar(index) : SPACE);
 			}
 		}
 
@@ -41,7 +41,7 @@ class BoxRow extends Row {
 	}
 
 	hasDot(data, low, high, key) {
-		return data && data[key] && data[key].length > 0 &&
+		return data && data[key] && data[key].length !== 0 &&
 			data[key].some((dot) => dot >= low && dot <= high);
 	}
 
@@ -54,7 +54,8 @@ class BoxRow extends Row {
 		}) !== -1;
 	}
 
-	canPlaceLabel(dataRow, placementRow, label, low, relation, isDots = false, ignoreTypes) {
+	// eslint-disable-next-line max-params
+	canPlaceLabel(dataRow, placementRow, label, low, relation, isDots = false, ignoreTypes = []) {
 		if (!dataRow.isInlineLabelPlaced && placementRow.offsets !== undefined) {
 			let high = low + label.length - 1;
 
@@ -67,14 +68,13 @@ class BoxRow extends Row {
 				(isDots || high < placementRow.offsets.min || low > placementRow.offsets.max + 1) &&
 				!this.hasLabel(placementRow, low, high, isDots, ignoreTypes) &&
 				!this.hasDot(placementRow, low, high, isDots ? 'dotsOffsets' : 'outliers')) {
-
 				dataRow.isInlineLabelPlaced = true;
 
 				placementRow.placedLabels.push({
-					label: label,
-					low: low,
-					high: high,
-					relation: relation
+					label,
+					low,
+					high,
+					relation
 				});
 			}
 		}
@@ -181,12 +181,12 @@ class BoxRow extends Row {
 					this.canPlaceLabel(rowData, next, medianLabel + this.ARROW_RIGHT_UP, -thisMedianOffset + 1, PREV_ROW, showDots);
 				}
 
-				for (let i = 2; i < 5 && !rowData.isInlineLabelPlaced; i++) {
-					this.canPlaceLabel(rowData, rowData, this.ARROW_LEFT + medianLabel, rowData.offsets.max + i, SAME_ROW, false, this._showDots ? [PREV_ROW] : []);
+				for (let index = 2; index < 5 && !rowData.isInlineLabelPlaced; index++) {
+					this.canPlaceLabel(rowData, rowData, this.ARROW_LEFT + medianLabel, rowData.offsets.max + index, SAME_ROW, false, this._showDots ? [PREV_ROW] : []);
 				}
 
-				for (let i = 2; i < 5 && !rowData.isInlineLabelPlaced; i++) {
-					this.canPlaceLabel(rowData, rowData, medianLabel + this.ARROW_RIGHT, -rowData.offsets.min + i, SAME_ROW, false, this._showDots ? [PREV_ROW] : []);
+				for (let index = 2; index < 5 && !rowData.isInlineLabelPlaced; index++) {
+					this.canPlaceLabel(rowData, rowData, medianLabel + this.ARROW_RIGHT, -rowData.offsets.min + index, SAME_ROW, false, this._showDots ? [PREV_ROW] : []);
 				}
 
 				if (!rowData.isInlineLabelPlaced) {
@@ -318,22 +318,22 @@ class BoxRow extends Row {
  *
  * @function boxChart
  *
- * @param {Object} [settings]
- * @param {int} [settings.width=40] - Total width in characters, including y axis labels
- * @param {int} [settings.fractionDigits=0] - Number of fraction digits to display on inline labels
- * @param {int} [settings.showInlineLabels=false] - Show a median label for each box. While labels try to fit in unused spaces, extra rows my be added if necessary.
- * @param {boolean} [settings.ascii=false] - Use only ascii characters
- * @param {boolean} [settings.showDots=false] - Add a row with dots that represent data points
- * @param {Object} [settings._xAxis] - All x axis settings are optional. The scale auto adjust to fit the data except where a value is provided here.
- * @param {Object} [settings._xAxis.scale=linear] - options are 'linear' or 'log'
- * @param {Object} [settings._xAxis.label] - If provided, an extra row is returned with this label centered under the x axis labels
- * @param {Number} [settings._xAxis.start] - The value on the left side of the chart
- * @param {Number} [settings._xAxis.end] - The value on the right side of the chart
- * @param {Number} [settings._xAxis.tickValue] - The value between each tick
- * @param {Array.<Object>} [settings.data]
- * @param {Number[]} [settings.data[].data] - Use this or 'value'. If this is used, also provide the 'calc' setting.
- * @param {String} [settings.data[].label]
- * @param {String[]} [settings.data[].group]
+ * @param {object} [settings] - Settings object.
+ * @param {number.int} [settings.width=40] - Total width in characters, including y axis labels.
+ * @param {number.int} [settings.fractionDigits=0] - Number of fraction digits to display on inline labels.
+ * @param {number.int} [settings.showInlineLabels=false] - Show a median label for each box. While labels try to fit in unused spaces, extra rows my be added if necessary.
+ * @param {boolean} [settings.ascii=false] - Use only ascii characters.
+ * @param {boolean} [settings.showDots=false] - Add a row with dots that represent data points.
+ * @param {object} [settings._xAxis] - All x axis settings are optional. The scale auto adjust to fit the data except where a value is provided here.
+ * @param {object} [settings._xAxis.scale=linear] - Options are 'linear' or 'log'.
+ * @param {object} [settings._xAxis.label] - If provided, an extra row is returned with this label centered under the x axis labels.
+ * @param {number} [settings._xAxis.start] - The value on the left side of the chart.
+ * @param {number} [settings._xAxis.end] - The value on the right side of the chart.
+ * @param {number} [settings._xAxis.tickValue] - The value between each tick.
+ * @param {Array.<object>} [settings.data] - The data to display.
+ * @param {number[]} [settings.data[].data] - Use this or 'value'. If this is used, also provide the 'calc' setting.
+ * @param {string} [settings.data[].label] - A display label.
+ * @param {string[]} [settings.data[].group] - A group that this datum belongs in.
  *
  * @returns {Array} An array of strings, one string per row.
  */

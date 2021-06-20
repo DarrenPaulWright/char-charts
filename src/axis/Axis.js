@@ -13,9 +13,8 @@ const getScale = (scale) => {
 	else if (scale === 'band') {
 		return BandScale;
 	}
-	else {
-		return LinearScale;
-	}
+
+	return LinearScale;
 };
 
 export default class Axis {

@@ -7,14 +7,14 @@ import Row from './render/Row.js';
 class BarRow extends Row {
 	render(rowData) {
 		rowData.value = rowData.value || 0;
-		let inlineLabel = 'groupIndent' in rowData ? '' : printValue(rowData.value, this._fractionDigits);
-		let barWidth = Math.round(this.getCharOffset(rowData.value, 3) * 2) / 2;
+		const inlineLabel = 'groupIndent' in rowData ? '' : printValue(rowData.value, this._fractionDigits);
+		const barWidth = Math.round(this.getCharOffset(rowData.value, 3) * 2) / 2;
 
 		this._string = rowData.value === this._xAxis.scale().start() ?
 			this.getVerticalChar(1) :
-			barWidth >= 1 ?
+			(barWidth >= 1 ?
 				this.BAR_HALF_RIGHT :
-				this.BAR_SINGLE;
+				this.BAR_SINGLE);
 
 		const finishBar = () => {
 			const floor = Math.floor(barWidth);
@@ -73,23 +73,23 @@ class BarRow extends Row {
  *
  * @function barChart
  *
- * @param {Object} [settings]
- * @param {int} [settings.width=40] - Total width in characters, including y axis labels
- * @param {int} [settings.fractionDigits=0] - Number of fraction digits to display on inline labels
- * @param {int} [settings.showInlineLabels=true] - Show a value label for each bar
- * @param {boolean} [settings.ascii=false] - Use only ascii characters
+ * @param {object} [settings] - Settings object.
+ * @param {number.int} [settings.width=40] - Total width in characters, including y axis labels.
+ * @param {number.int} [settings.fractionDigits=0] - Number of fraction digits to display on inline labels.
+ * @param {number.int} [settings.showInlineLabels=true] - Show a value label for each bar.
+ * @param {boolean} [settings.ascii=false] - Use only ascii characters.
  * @param {string} [settings.calc] - Options are 'min', 'max', 'mean', and 'median'. Only use if data objects have a 'data' property instead of 'value'.
- * @param {Object} [settings._xAxis] - All x axis settings are optional. The scale auto adjust to fit the data except where a value is provided here.
- * @param {Object} [settings._xAxis.scale=linear] - options are 'linear' or 'log'
- * @param {Object} [settings._xAxis.label] - If provided, an extra row is returned with this label centered under the x axis labels
- * @param {Number} [settings._xAxis.start] - The value on the left side of the chart
- * @param {Number} [settings._xAxis.end] - The value on the right side of the chart
- * @param {Number} [settings._xAxis.tickValue] - The value between each tick
- * @param {Array.<Object>} [settings.data]
- * @param {Number[]} [settings.data[].data] - Use this or 'value'. If this is used, also provide the 'calc' setting.
- * @param {Number} [settings.data[].value]
- * @param {String} [settings.data[].label]
- * @param {String[]} [settings.data[].group]
+ * @param {object} [settings._xAxis] - All x axis settings are optional. The scale auto adjust to fit the data except where a value is provided here.
+ * @param {object} [settings._xAxis.scale=linear] - Options are 'linear' or 'log'.
+ * @param {object} [settings._xAxis.label] - If provided, an extra row is returned with this label centered under the x axis labels.
+ * @param {number} [settings._xAxis.start] - The value on the left side of the chart.
+ * @param {number} [settings._xAxis.end] - The value on the right side of the chart.
+ * @param {number} [settings._xAxis.tickValue] - The value between each tick.
+ * @param {Array.<object>} [settings.data] - The data for the chart.
+ * @param {number[]} [settings.data[].data] - Use this or 'value'. If this is used, also provide the 'calc' setting.
+ * @param {number} [settings.data[].value] - The numeric value.
+ * @param {string} [settings.data[].label] - A display label.
+ * @param {string[]} [settings.data[].group] - A group that this datum belongs in.
  *
  * @returns {Array} An array of strings, one string per row.
  */

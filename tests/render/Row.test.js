@@ -20,7 +20,7 @@ const baseSettings = {
 
 describe('Row', () => {
 	describe('prepend', () => {
-		it(`should add a string to the beginning`, () => {
+		it('should add a string to the beginning', () => {
 			const row = new Row(baseSettings);
 
 			row._string = 'ing';
@@ -32,7 +32,7 @@ describe('Row', () => {
 	});
 
 	describe('append', () => {
-		it(`should add a string to the end`, () => {
+		it('should add a string to the end', () => {
 			const row = new Row(baseSettings);
 
 			row._string = 'test';
@@ -44,7 +44,7 @@ describe('Row', () => {
 	});
 
 	describe('padEnd', () => {
-		it(`should add a character until the value length is reached`, () => {
+		it('should add a character until the value length is reached', () => {
 			const row = new Row(baseSettings);
 
 			row._string = 'test';
@@ -54,7 +54,7 @@ describe('Row', () => {
 			assert.is(row.toString(), 'testiiiiii');
 		});
 
-		it(`should add spaces with tick marks`, () => {
+		it('should add spaces with tick marks', () => {
 			const row = new Row(baseSettings);
 
 			row.padEnd(6, ' ');
@@ -69,7 +69,7 @@ describe('Row', () => {
 	});
 
 	describe('prependLabel', () => {
-		it(`should add a label to the beginning`, () => {
+		it('should add a label to the beginning', () => {
 			const row = new Row(baseSettings);
 
 			row.padEnd(20, ' ');
@@ -79,7 +79,7 @@ describe('Row', () => {
 			assert.is(row.toString(), '     one .        |         .');
 		});
 
-		it(`should add spaces if the same label is set twice`, () => {
+		it('should add spaces if the same label is set twice', () => {
 			const row = new Row(baseSettings);
 
 			row.padEnd(20, ' ');
@@ -97,7 +97,7 @@ describe('Row', () => {
 			assert.is(row.toString(), '         .        |         .');
 		});
 
-		it(`should add a group label to the beginning`, () => {
+		it('should add a group label to the beginning', () => {
 			const row = new Row(baseSettings);
 
 			row.padEnd(20, ' ');
@@ -107,7 +107,7 @@ describe('Row', () => {
 			assert.is(row.toString(), 'group    .        |         .');
 		});
 
-		it(`should add a nested group label to the beginning`, () => {
+		it('should add a nested group label to the beginning', () => {
 			const row = new Row(baseSettings);
 
 			row.padEnd(20, ' ');
