@@ -52,7 +52,9 @@ export default class Row {
 	}
 
 	getVerticalChar(offset) {
-		return this._xAxis.isMajorTick(offset) ? this.CHART_VERTICAL_MAJOR : this.CHART_VERTICAL_MINOR;
+		return this._xAxis.isMajorTick(offset) ?
+			this.CHART_VERTICAL_MAJOR :
+			this.CHART_VERTICAL_MINOR;
 	}
 
 	padEnd(value, char) {

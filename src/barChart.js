@@ -74,17 +74,18 @@ class BarRow extends Row {
  * @function barChart
  *
  * @param {object} [settings] - Settings object.
+ * @param {string} [settings.title] - Title of the chart.
  * @param {number.int} [settings.width=40] - Total width in characters, including y axis labels.
  * @param {number.int} [settings.fractionDigits=0] - Number of fraction digits to display on inline labels.
  * @param {number.int} [settings.showInlineLabels=true] - Show a value label for each bar.
  * @param {boolean} [settings.ascii=false] - Use only ascii characters.
  * @param {string} [settings.calc] - Options are 'min', 'max', 'mean', and 'median'. Only use if data objects have a 'data' property instead of 'value'.
- * @param {object} [settings._xAxis] - All x axis settings are optional. The scale auto adjust to fit the data except where a value is provided here.
- * @param {object} [settings._xAxis.scale=linear] - Options are 'linear' or 'log'.
- * @param {object} [settings._xAxis.label] - If provided, an extra row is returned with this label centered under the x axis labels.
- * @param {number} [settings._xAxis.start] - The value on the left side of the chart.
- * @param {number} [settings._xAxis.end] - The value on the right side of the chart.
- * @param {number} [settings._xAxis.tickValue] - The value between each tick.
+ * @param {object} [settings.xAxis] - All x axis settings are optional. The scale auto adjust to fit the data except where a value is provided here.
+ * @param {object} [settings.xAxis.scale=linear] - Options are 'linear' or 'log'.
+ * @param {object} [settings.xAxis.label] - If provided, an extra row is returned with this label centered under the x axis labels.
+ * @param {number} [settings.xAxis.start] - The value on the left side of the chart.
+ * @param {number} [settings.xAxis.end] - The value on the right side of the chart.
+ * @param {number} [settings.xAxis.tickValue] - The value between each tick.
  * @param {Array.<object>} [settings.data] - The data for the chart.
  * @param {number[]} [settings.data[].data] - Use this or 'value'. If this is used, also provide the 'calc' setting.
  * @param {number} [settings.data[].value] - The numeric value.
@@ -94,7 +95,7 @@ class BarRow extends Row {
  * @returns {Array} An array of strings, one string per row.
  */
 export default (settings) => {
-	settings = superimpose({
+	return chart(superimpose({
 		width: 40,
 		fractionDigits: 0,
 		showInlineLabels: true,
@@ -103,7 +104,5 @@ export default (settings) => {
 			value: 0
 		}],
 		xAxis: {}
-	}, settings);
-
-	return chart(settings, BarRow);
+	}, settings), BarRow);
 };

@@ -234,10 +234,10 @@ class BoxRow extends Row {
 		this._string = '';
 
 		return this.padEnd(
-			this._xAxis.size(),
-			SPACE,
-			skipDots ? [EXTRA_ROW, NEXT_ROW] : [PREV_ROW, SAME_ROW_DOTS],
-			skipDots
+				this._xAxis.size(),
+				SPACE,
+				skipDots ? [EXTRA_ROW, NEXT_ROW] : [PREV_ROW, SAME_ROW_DOTS],
+				skipDots
 			)
 			.prependLabel(this.rowData)
 			.toString();
@@ -319,17 +319,18 @@ class BoxRow extends Row {
  * @function boxChart
  *
  * @param {object} [settings] - Settings object.
+ * @param {string} [settings.title] - Title of the chart.
  * @param {number.int} [settings.width=40] - Total width in characters, including y axis labels.
  * @param {number.int} [settings.fractionDigits=0] - Number of fraction digits to display on inline labels.
  * @param {number.int} [settings.showInlineLabels=false] - Show a median label for each box. While labels try to fit in unused spaces, extra rows my be added if necessary.
  * @param {boolean} [settings.ascii=false] - Use only ascii characters.
  * @param {boolean} [settings.showDots=false] - Add a row with dots that represent data points.
- * @param {object} [settings._xAxis] - All x axis settings are optional. The scale auto adjust to fit the data except where a value is provided here.
- * @param {object} [settings._xAxis.scale=linear] - Options are 'linear' or 'log'.
- * @param {object} [settings._xAxis.label] - If provided, an extra row is returned with this label centered under the x axis labels.
- * @param {number} [settings._xAxis.start] - The value on the left side of the chart.
- * @param {number} [settings._xAxis.end] - The value on the right side of the chart.
- * @param {number} [settings._xAxis.tickValue] - The value between each tick.
+ * @param {object} [settings.xAxis] - All x axis settings are optional. The scale auto adjust to fit the data except where a value is provided here.
+ * @param {object} [settings.xAxis.scale=linear] - Options are 'linear' or 'log'.
+ * @param {object} [settings.xAxis.label] - If provided, an extra row is returned with this label centered under the x axis labels.
+ * @param {number} [settings.xAxis.start] - The value on the left side of the chart.
+ * @param {number} [settings.xAxis.end] - The value on the right side of the chart.
+ * @param {number} [settings.xAxis.tickValue] - The value between each tick.
  * @param {Array.<object>} [settings.data] - The data to display.
  * @param {number[]} [settings.data[].data] - Use this or 'value'. If this is used, also provide the 'calc' setting.
  * @param {string} [settings.data[].label] - A display label.
@@ -338,7 +339,7 @@ class BoxRow extends Row {
  * @returns {Array} An array of strings, one string per row.
  */
 export default (settings) => {
-	settings = superimpose({
+	return chart(superimpose({
 		width: 40,
 		fractionDigits: 0,
 		showInlineLabels: false,
@@ -349,7 +350,5 @@ export default (settings) => {
 		xAxis: {}
 	}, settings, {
 		calc: 'quartiles'
-	});
-
-	return chart(settings, BoxRow);
+	}), BoxRow);
 };

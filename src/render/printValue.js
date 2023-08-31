@@ -1,12 +1,8 @@
-import { fractionDigits, round } from 'type-enforcer-math';
+import { isNumber } from 'type-enforcer';
 
-export default (value, desiredFractionDigits) => {
-	value = round(value, desiredFractionDigits);
-
-	const actualFractionDigits = fractionDigits(value);
-
-	return value.toLocaleString() +
-		(desiredFractionDigits && actualFractionDigits === 0 ? '.' : '') +
-		'0'.repeat(desiredFractionDigits - actualFractionDigits);
+export default (value, desiredFractionDigits = 0) => {
+	return isNumber(value) ? value.toLocaleString(undefined, {
+		minimumFractionDigits: desiredFractionDigits,
+		maximumFractionDigits: desiredFractionDigits
+	}) : '?';
 };
-

@@ -1,13 +1,8 @@
-import chalk from 'chalk';
 import { ASCII, COLOR, MONOCHROME } from './chars.js';
 import processData from './processData.js';
 
 export default (settings, Row) => {
 	let chart = [];
-
-	if (settings.useColor === undefined) {
-		settings.useColor = chalk.supportsColor;
-	}
 
 	settings.CHARS = settings.ascii ? ASCII : (settings.useColor ? COLOR : MONOCHROME);
 
