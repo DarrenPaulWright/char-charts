@@ -1,5 +1,5 @@
-import { assert } from 'type-enforcer';
-import printValue from '../../src/render/printValue.js';
+import { assert, describe, it } from 'hippogriff';
+import printValue from './printValue.js';
 
 describe('printValue', () => {
 	it('should return a number as a string if no fractionDigits are provided', () => {

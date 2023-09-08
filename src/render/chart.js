@@ -1,32 +1,25 @@
-import { ASCII, COLOR, MONOCHROME } from './chars.js';
-import processData from './processData.js';
-
-export default (settings, Row) => {
-	let chart = [];
-
-	settings.CHARS = settings.ascii ? ASCII : (settings.useColor ? COLOR : MONOCHROME);
-
-	processData(settings);
-	const row = new Row(settings);
-
-	if (settings.title) {
-		chart.push(row.title());
-	}
-
-	chart.push(row.top());
-
-	settings.yAxis.domain().forEach((value, index) => {
-		if (!settings.yAxis.scale().isGrouped() || index !== 0) {
-			chart = chart.concat(row.render(value));
-		}
-	});
-
-	chart.push(row.bottom());
-	chart.push(row.bottomLabels());
-
-	if (settings.xAxis.label()) {
-		chart.push(row.xAxisLabel());
-	}
-
-	return chart;
+import processSettings from './processSettings.js';
+export default (settings, RowClass) => {
+    let output = [];
+    const internalSettings = processSettings(settings);
+    const row = new RowClass(internalSettings);
+    if (internalSettings.title) {
+        output.push(row.title());
+    }
+    output.push(row.top());
+    internalSettings.yAxis.domain()
+        .forEach((value) => {
+        row.preProcess(value);
+    });
+    internalSettings.yAxis.domain()
+        .forEach((value, index) => {
+        if (!internalSettings.yAxis.scale.isGrouped() || index !== 0) {
+            output = output.concat(...row.render(value));
+        }
+    });
+    output.push(row.bottom(), row.bottomLabels());
+    if (internalSettings.xAxis.label) {
+        output.push(row.xAxisLabel());
+    }
+    return output;
 };

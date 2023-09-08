@@ -3,58 +3,69 @@ import { SPACE } from './render/chars.js';
 import chart from './render/chart.js';
 import printValue from './render/printValue.js';
 import Row from './render/Row.js';
-
 class BarRow extends Row {
-	render(rowData) {
-		rowData.value = rowData.value || 0;
-		const inlineLabel = 'groupIndent' in rowData ? '' : printValue(rowData.value, this._fractionDigits);
-		const barWidth = Math.round(this.getCharOffset(rowData.value, 3) * 2) / 2;
-
-		this._string = rowData.value === this._xAxis.scale().start() ?
-			this.getVerticalChar(1) :
-			(barWidth >= 1 ?
-				this.BAR_HALF_RIGHT :
-				this.BAR_SINGLE);
-
-		const finishBar = () => {
-			const floor = Math.floor(barWidth);
-
-			this.padEnd(barWidth - 1, this.BAR_FILL);
-
-			if (barWidth > 1 && barWidth - floor === 0.5) {
-				this.append(this.BAR_HALF_LEFT);
-			}
-		};
-
-		if (!this._showInlineLabels || barWidth + inlineLabel.length + 2 < this._xAxis.size()) {
-			finishBar();
-
-			if (this._showInlineLabels) {
-				this
-					.padEnd(this.length + 2, SPACE)
-					.append(inlineLabel);
-			}
-		}
-		else {
-			if (this._useColor) {
-				this.padEnd(barWidth - inlineLabel.length - 2, this.BAR_FILL)
-					.append(inlineLabel);
-			}
-			else {
-				this.padEnd(2, this.BAR_FILL)
-					.append((this._settings.ascii ? ' ' : this.BAR_HALF_LEFT) + inlineLabel + (this._settings.ascii ? ' ' : this.BAR_HALF_RIGHT));
-			}
-
-			finishBar();
-		}
-
-		this.padEnd(this._xAxis.size(), SPACE)
-			.prependLabel(rowData);
-
-		return this.toString();
-	}
+    MIN_BAR_REMAINING = 3;
+    label = '';
+    barWidth = 0;
+    finishBar() {
+        if (this.barWidth > 1) {
+            this.padEnd(Math.floor(this.barWidth), this.CHARS.BAR_FILL, this.rowData.color);
+            if (this.barWidth % 1 === 0.5) {
+                this.append(this.CHARS.BAR_HALF_LEFT, this.rowData.color);
+            }
+        }
+    }
+    renderBarWithoutInsetLabel() {
+        this.finishBar();
+        if (this.settings.showInlineLabels) {
+            this
+                .padEnd(this.length + 2, SPACE)
+                .append(this.label, this.rowData.color);
+        }
+    }
+    renderBarWithInsetLabel() {
+        if (this.settings.useColor && this.settings.style !== 'ascii') {
+            this.padEnd(this.barWidth - this.label.length - this.MIN_BAR_REMAINING, this.CHARS.BAR_FILL, this.rowData.color)
+                .append(this.label, this.rowData.bgColor);
+        }
+        else {
+            this.padEnd(this.barWidth - this.label.length - this.MIN_BAR_REMAINING - 2, this.CHARS.BAR_FILL, this.rowData.color)
+                .append((this.settings.style === 'ascii') ?
+                ` ${this.label} ` :
+                this.CHARS.BAR_HALF_LEFT + this.label + this.CHARS.BAR_HALF_RIGHT, (this.settings.style === 'ascii') ?
+                this.rowData.color :
+                this.rowData.bgColor);
+        }
+        this.finishBar();
+    }
+    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+    preProcess(rowData) {
+        rowData.value ||= 0;
+    }
+    render(rowData) {
+        this.prepRender(rowData);
+        this.label = this.isGroup ?
+            '' :
+            printValue(rowData.value, this.settings.fractionDigits);
+        this.barWidth = Math.round(this.getCharOffset(rowData.value, 1) * 2) / 2;
+        this.reset()
+            .append(rowData.value === this.settings.xAxis.scale.start ?
+            this.getVerticalChar(1) :
+            (this.barWidth >= 1 ?
+                this.CHARS.BAR_HALF_RIGHT :
+                this.CHARS.BAR_SINGLE), this.isGroup ? this.BOX_COLOR : rowData.color);
+        if (!this.settings.showInlineLabels ||
+            this.barWidth + this.label.length + this.MIN_BAR_REMAINING < this.settings.xAxis.size) {
+            this.renderBarWithoutInsetLabel();
+        }
+        else {
+            this.renderBarWithInsetLabel();
+        }
+        this.padEnd(this.settings.xAxis.size, SPACE)
+            .prependLabel(false, this.isGroup ? undefined : rowData.color);
+        return [this.toString()];
+    }
 }
-
 /**
  * Builds a bar chart.
  *
@@ -75,14 +86,14 @@ class BarRow extends Row {
  *
  * @param {object} [settings] - Settings object.
  * @param {string} [settings.title] - Title of the chart.
- * @param {number.int} [settings.width=40] - Total width in characters, including y axis labels.
+ * @param {number.int} [settings.width=40] - Total width in characters, including y-axis labels.
  * @param {number.int} [settings.fractionDigits=0] - Number of fraction digits to display on inline labels.
  * @param {number.int} [settings.showInlineLabels=true] - Show a value label for each bar.
  * @param {boolean} [settings.ascii=false] - Use only ascii characters.
  * @param {string} [settings.calc] - Options are 'min', 'max', 'mean', and 'median'. Only use if data objects have a 'data' property instead of 'value'.
- * @param {object} [settings.xAxis] - All x axis settings are optional. The scale auto adjust to fit the data except where a value is provided here.
+ * @param {object} [settings.xAxis] - All x-axis settings are optional. The scale auto adjust to fit the data except where a value is provided here.
  * @param {object} [settings.xAxis.scale=linear] - Options are 'linear' or 'log'.
- * @param {object} [settings.xAxis.label] - If provided, an extra row is returned with this label centered under the x axis labels.
+ * @param {object} [settings.xAxis.label] - If provided, an extra row is returned with this label centered under the x-axis labels.
  * @param {number} [settings.xAxis.start] - The value on the left side of the chart.
  * @param {number} [settings.xAxis.end] - The value on the right side of the chart.
  * @param {number} [settings.xAxis.tickValue] - The value between each tick.
@@ -95,14 +106,18 @@ class BarRow extends Row {
  * @returns {Array} An array of strings, one string per row.
  */
 export default (settings) => {
-	return chart(superimpose({
-		width: 40,
-		fractionDigits: 0,
-		showInlineLabels: true,
-		data: [{
-			label: 'undefined',
-			value: 0
-		}],
-		xAxis: {}
-	}, settings), BarRow);
+    return chart(superimpose({
+        title: '',
+        render: {
+            width: 40,
+            fractionDigits: 0,
+            showInlineLabels: true,
+            showDots: false,
+            style: 'rounded',
+            colors: 'bright'
+        },
+        calc: null,
+        data: [],
+        xAxis: {}
+    }, settings), BarRow);
 };
