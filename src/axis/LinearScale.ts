@@ -77,12 +77,12 @@ export default class LinearScale extends Scale {
 	}
 
 	ticks(): Array<number> {
-		const ticks = fill(
-			Math.round((this.end - this.start) / this.tickValue) + 1,
-			(index: number) => {
-				return (index * this.tickValue) + this.start;
-			}
-		);
+		const total = Math.ceil((this.end - this.start) / this.tickValue) + 1;
+		const ticks = fill(total, (index: number) => {
+			return index === total - 1 ?
+				this.end :
+				(index * this.tickValue) + this.start;
+		});
 
 		this.majorTickValue = Math.pow(10, integerDigits(this.end) - 1);
 

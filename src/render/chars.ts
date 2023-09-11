@@ -24,7 +24,7 @@ export const ROUNDED_STYLE = {
 
 	GROUP_HEADER_FILL: '─',
 
-	BAR_FILL: '█',
+	BAR_FILL: '█▒░',
 	BAR_HALF_LEFT: '▌',
 	BAR_HALF_RIGHT: '▐',
 	BAR_SINGLE: '┃',
@@ -142,7 +142,7 @@ export const ASCII_STYLE: typeof ROUNDED_STYLE = {
 
 	GROUP_HEADER_FILL: '-',
 
-	BAR_FILL: '%',
+	BAR_FILL: '%#@',
 	BAR_HALF_LEFT: '%',
 	BAR_HALF_RIGHT: '%',
 	BAR_SINGLE: '%',

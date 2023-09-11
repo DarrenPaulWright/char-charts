@@ -1,13 +1,13 @@
 import { superimpose } from 'object-agent';
-import { barChart, boxChart } from '../index.js';
+import { barChart, boxChart, stackedBarChart } from '../index.js';
 
 const asciiOnly = false;
 
-const runChartVariants = (Chart, settings) => {
+const runChartVariants = (chart, settings) => {
 	console.log('');
 	console.log('');
 
-	console.log(Chart(superimpose(settings, {
+	console.log(chart(superimpose(settings, {
 		title: settings.title + ' ascii',
 		render: {
 			style: 'ascii',
@@ -18,7 +18,7 @@ const runChartVariants = (Chart, settings) => {
 	console.log('');
 	console.log('');
 
-	console.log(Chart(superimpose(settings, {
+	console.log(chart(superimpose(settings, {
 		title: settings.title + ', ascii, Bright',
 		render: {
 			style: 'ascii',
@@ -30,7 +30,7 @@ const runChartVariants = (Chart, settings) => {
 		console.log('');
 		console.log('');
 
-		console.log(Chart(superimpose(settings, {
+		console.log(chart(superimpose(settings, {
 			title: settings.title + ' Doubled, inline labels false',
 			render: {
 				showInlineLabels: false,
@@ -42,7 +42,7 @@ const runChartVariants = (Chart, settings) => {
 		console.log('');
 		console.log('');
 
-		console.log(Chart(superimpose(settings, {
+		console.log(chart(superimpose(settings, {
 			title: settings.title + ' Normal',
 			render: {
 				style: 'doubled',
@@ -61,7 +61,7 @@ const runChartVariants = (Chart, settings) => {
 				console.log('');
 				console.log('');
 
-				console.log(Chart(superimpose(settings, {
+				console.log(chart(superimpose(settings, {
 					title: `${ settings.title }, ${ colors }`,
 					render: {
 						colors
@@ -115,6 +115,39 @@ runChartVariants(barChart, {
 	}
 });
 
+runChartVariants(stackedBarChart, {
+	title: 'Stacked Bar Chart',
+	render: {
+		width: 60,
+		showInlineLabels: false
+	},
+	data: [{
+		value: [2, 4, 6, 4],
+		label: 'Oranges',
+		group: ['Fruit']
+	}, {
+		value: [3, 6, 9, 5],
+		label: 'Apples',
+		group: ['Fruit']
+	}, {
+		value: [4, 4, 7, 5],
+		label: 'Pears',
+		group: ['Fruit']
+	}, {
+		value: [2, 4, 6, 4],
+		label: 'Almond',
+		group: ['Nuts']
+	}, {
+		value: [3, 6, 9, 5],
+		label: 'Peanut',
+		group: ['Nuts']
+	}, {
+		value: [0, 0, 0],
+		label: 'Pecan',
+		group: ['Nuts']
+	}]
+});
+
 runChartVariants(boxChart, {
 	title: 'Box Chart',
 	render: {
@@ -148,3 +181,21 @@ runChartVariants(boxChart, {
 		label: 'Hz'
 	}
 });
+
+console.log('');
+console.log('');
+
+console.log(stackedBarChart({
+	render: {
+		width: 80,
+		colors: 'passFail'
+	},
+	data: [{
+		value: [87, 4, 6],
+		label: ''
+	}],
+	xAxis: {
+		start: 0,
+		end: 97
+	}
+}).join('\n'));

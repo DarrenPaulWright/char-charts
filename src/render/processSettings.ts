@@ -63,6 +63,11 @@ const colorPalletes = {
 		chalk.cyanBright,
 		chalk.white
 	],
+	passFail: [
+		chalk.greenBright,
+		chalk.redBright,
+		chalk.grey
+	],
 	blue: [
 		chalk.blueBright
 	],
@@ -96,7 +101,7 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 	const bgColors = colors.map((color) => color.inverse);
 
 	const data: Array<IChartDataInternal> = settings.data.map((value, index) => {
-		const output: Partial<IChartDataInternal> = {
+		const output: IChartDataInternal = {
 			label: value.label ?? '',
 			group: value.group ?? [],
 			isGroup: false,
@@ -118,7 +123,7 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 
 		calcValue(output, settings.calc);
 
-		return output as IChartDataInternal;
+		return output;
 	});
 
 	const yAxis = new Axis({ scale: 'band' }, data);
@@ -137,6 +142,7 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 	return {
 		title: settings.title,
 		...settings.render,
+		colors,
 		calc: settings.calc,
 		useColor,
 		yAxis,

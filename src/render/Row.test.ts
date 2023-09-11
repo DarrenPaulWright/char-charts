@@ -43,6 +43,7 @@ const baseSettings: ISettingsInternal = {
 	showDots: false,
 	style: 'rounded',
 	useColor: false,
+	colors: [],
 	calc: null,
 	xAxis,
 	yAxis,

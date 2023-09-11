@@ -57,6 +57,10 @@ export default class BandScale extends Scale {
 				value.label.length + (this._isGrouped ? 3 : 1)
 			);
 
+			if (this.maxLabelWidth === 1) {
+				this.maxLabelWidth = 0;
+			}
+
 			return result;
 		}, []);
 	}

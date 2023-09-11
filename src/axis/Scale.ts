@@ -1,10 +1,15 @@
 import type { IBandDomain, IChartDataInternal, INumericDomain } from '../types';
 
 const getValue = (value: IChartDataInternal, loc: 'first' | 'last', origin: number): number => {
+	if (Array.isArray(value.value)) {
+		return value.value.reduce<number>((result, item) => result + item, 0);
+	}
+
 	if (value.value !== undefined) {
 		return value.value;
 	}
-	else if (value.data && value.data[loc]() !== undefined) {
+
+	if (value.data && value.data[loc]() !== undefined) {
 		return value.data[loc]() as number;
 	}
 

@@ -14,7 +14,8 @@ export default abstract class Row {
 
 	protected settings: ISettingsInternal;
 	protected CHARS: typeof ROUNDED_STYLE;
-	protected BOX_COLOR = chalk.grey.dim;
+
+	protected BOX_COLOR = chalk.grey;
 
 	constructor(settings: ISettingsInternal) {
 		this.settings = settings;

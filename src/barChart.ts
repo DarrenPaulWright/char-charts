@@ -14,7 +14,7 @@ class BarRow extends Row {
 		if (this.barWidth > 1) {
 			this.padEnd(
 				Math.floor(this.barWidth),
-				this.CHARS.BAR_FILL,
+				this.CHARS.BAR_FILL[0],
 				this.rowData.color
 			);
 
@@ -38,7 +38,7 @@ class BarRow extends Row {
 		if (this.settings.useColor && this.settings.style !== 'ascii') {
 			this.padEnd(
 					this.barWidth - this.label.length - this.MIN_BAR_REMAINING,
-					this.CHARS.BAR_FILL,
+					this.CHARS.BAR_FILL[0],
 					this.rowData.color
 				)
 				.append(this.label, this.rowData.bgColor);
@@ -46,7 +46,7 @@ class BarRow extends Row {
 		else {
 			this.padEnd(
 					this.barWidth - this.label.length - this.MIN_BAR_REMAINING - 2,
-					this.CHARS.BAR_FILL,
+					this.CHARS.BAR_FILL[0],
 					this.rowData.color
 				)
 				.append(
@@ -72,9 +72,9 @@ class BarRow extends Row {
 
 		this.label = this.isGroup ?
 			'' :
-			printValue(rowData.value, this.settings.fractionDigits);
+			printValue(rowData.value as number, this.settings.fractionDigits);
 
-		this.barWidth = Math.round(this.getCharOffset(rowData.value, 1) * 2) / 2;
+		this.barWidth = Math.round(this.getCharOffset(rowData.value as number, 1) * 2) / 2;
 
 		this.reset()
 			.append(
@@ -155,6 +155,8 @@ export default (settings: ISettings): Array<string> => {
 		},
 		calc: null,
 		data: [],
-		xAxis: {}
+		xAxis: {
+			start: 0
+		}
 	}, settings) as DeepRequired<ISettings>, BarRow);
 };
