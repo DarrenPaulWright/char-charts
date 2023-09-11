@@ -1,62 +1,66 @@
 import { superimpose } from 'object-agent';
 import { barChart, boxChart, stackedBarChart } from '../index.js';
+import type { ISettings } from './types';
 
 const asciiOnly = false;
 
-const runChartVariants = (chart, settings) => {
+const runChartVariants = (
+	chart: typeof barChart | typeof boxChart | typeof stackedBarChart,
+	settings: ISettings
+) => {
 	console.log('');
 	console.log('');
 
 	console.log(chart(superimpose(settings, {
-		title: settings.title + ' ascii',
+		title: `${ settings.title } ascii`,
 		render: {
 			style: 'ascii',
 			colors: 'none'
 		}
-	})).join('\n'));
+	}) as ISettings).join('\n'));
 
 	console.log('');
 	console.log('');
 
 	console.log(chart(superimpose(settings, {
-		title: settings.title + ', ascii, Bright',
+		title: `${ settings.title }, ascii, Bright`,
 		render: {
 			style: 'ascii',
 			colors: 'bright'
 		}
-	})).join('\n'));
+	}) as ISettings).join('\n'));
 
 	if (!asciiOnly) {
 		console.log('');
 		console.log('');
 
 		console.log(chart(superimpose(settings, {
-			title: settings.title + ' Doubled, inline labels false',
+			title: `${ settings.title } Doubled, inline labels false`,
 			render: {
 				showInlineLabels: false,
 				style: 'squared',
 				colors: 'cool'
 			}
-		})).join('\n'));
+		}) as ISettings).join('\n'));
 
 		console.log('');
 		console.log('');
 
 		console.log(chart(superimpose(settings, {
-			title: settings.title + ' Normal',
+			title: `${ settings.title } Normal`,
 			render: {
 				style: 'doubled',
 				colors: 'blue'
 			}
-		})).join('\n'));
+		}) as ISettings).join('\n'));
 
-		[
+		([
 			'bright',
 			'dim',
 			'cool',
 			'red',
 			'cyan'
-		]
+		] as Array<Required<Required<ISettings>['render']>['colors']>)
 			.forEach((colors) => {
 				console.log('');
 				console.log('');
@@ -66,7 +70,7 @@ const runChartVariants = (chart, settings) => {
 					render: {
 						colors
 					}
-				})).join('\n'));
+				}) as ISettings).join('\n'));
 			});
 	}
 };
