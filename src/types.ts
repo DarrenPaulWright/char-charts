@@ -28,14 +28,14 @@ export type IBandDomain = RequireKeys<IChartDataInternal, 'label' | 'value' | 's
 
 export interface IChartData {
 	data?: Array<number>;
-	value?: number;
+	value?: number | Array<number>;
 	label: string;
 	group?: Array<string>;
 }
 
 export interface IChartDataInternal {
 	data?: List;
-	value?: number;
+	value?: number | Array<number>;
 	label: string;
 	group: Array<string>;
 	isGroup: boolean;
@@ -81,7 +81,7 @@ export interface ISettings {
 		showInlineLabels?: boolean;
 		showDots?: boolean;
 		style?: 'rounded' | 'squared' | 'doubled' | 'ascii';
-		colors?: 'none' | 'bright' | 'dim' | 'cool' | 'blue' | 'green' | 'magenta' | 'yellow' | 'cyan' | 'red';
+		colors?: 'none' | 'bright' | 'dim' | 'cool' | 'passFail' | 'blue' | 'green' | 'magenta' | 'yellow' | 'cyan' | 'red';
 	};
 	calc?: 'min' | 'max' | 'mean' | 'median' | 'quartiles' | null;
 	xAxis?: IAxisSettings;
@@ -95,6 +95,7 @@ export interface ISettingsInternal {
 	showInlineLabels: boolean;
 	showDots: boolean;
 	useColor: boolean;
+	colors: Array<typeof chalk>;
 	style: DeepRequired<ISettings>['render']['style'];
 	CHARS: typeof ROUNDED_STYLE;
 	calc: 'min' | 'max' | 'mean' | 'median' | 'quartiles' | null;
