@@ -448,46 +448,55 @@ class BoxRow extends Row {
  * Builds a box and whisker chart.
  *
  * ```text
- *                Test chart
- *   ╭──────┬───────┬──────┬───────┬──────╮
- * A │      ·       ╵  ┣━━━━━━━▒▒▒▒▒▒▒▒▓━┫│
- * B │    ╭─ M: 13.00      ╵M: 90.00 ─╯  ▒▓
- * C ┣━▒▒▒▓▓▓━┫     ╵      ╵   M: 97.00 ─╯│
- * D ▒ ── M: 0.15   ╵      ╵       ╵      │
- * E ┃ ── M: 2.00   ╵      ╵       ╵      │
- *   ╰──────┴───────┴──────┴───────┴──────╯
- *   0     20      40     60      80    100
-                    Hz
+ * String   ╭─────────┬─────────┬─────────┬─────────┬─────────╮
+ *          │         ·         ╵    •    ╵         ╵    ●• · │
+ *   concat │         ·         ╵    ┣━━━━━━━━━░░░░░░░░░░▓▓━┫ │
+ *          │         ╵         ╵         ╵   μ½: 90.00 ─╯ ····
+ *   length │         ╵         ╵         ╵         ╵      ┣░▓┫
+ * Array    │      ╭─ μ½: 13.00 ╵         ╵       μ½: 98.00 ─╯│
+ *          │·    ·   ╵ ·       ╵         ╵         ╵         │
+ *     push │┣━░░░░▓▓▓━━┫       ╵         ╵         ╵         │
+ *          •         ╵         ╵         ╵         ╵         │
+ *   concat ░ ── μ½: 0.15       ╵         ╵         ╵         │
+ *          │·        ╵         ╵         ╵         ╵         │
+ *    shift │┃ ── μ½: 2.00      ╵         ╵         ╵         │
+ *          ╰─────────┴─────────┴─────────┴─────────┴─────────╯
+ *          0        20        40        60        80       100
+ *                                 Ops/s
  * ```
  *
  * @function boxChart
  *
- * @param {object} [settings] - Settings object.
+ * @param {object} settings - Settings object.
  * @param {string} [settings.title] - Title of the chart.
- * @param {number.int} [settings.width=40] - Total width in characters, including y-axis labels.
- * @param {number.int} [settings.fractionDigits=0] - Number of fraction digits to display on inline labels.
- * @param {number.int} [settings.showInlineLabels=false] - Show a median label for each box. While labels try to fit in unused spaces, extra rows may be added if necessary.
- * @param {boolean} [settings.ascii=false] - Use only ascii characters.
- * @param {boolean} [settings.useColor=false] - Use colors for each row.
- * @param {boolean} [settings.showDots=false] - Add a row with dots that represent data points.
+ *
+ * @param {Array<object>} settings.data
+ * @param {number[]} [settings.data[].data] - The data points for this row.
+ * @param {string} [settings.data[].label] - A display label.
+ * @param {string[]} [settings.data[].group] - A group or groups that this datum belongs in.
+ *
  * @param {object} [settings.xAxis] - All x-axis settings are optional. The scale auto adjust to fit the data except where a value is provided here.
- * @param {object} [settings.xAxis.scale=linear] - Options are 'linear' or 'log'.
- * @param {object} [settings.xAxis.label] - If provided, an extra row is returned with this label centered under the x-axis labels.
+ * @param {'linear' | 'log'} [settings.xAxis.scale=linear] - Options are 'linear' or 'log'.
+ * @param {string} [settings.xAxis.label] - If provided, an extra row is returned with this label centered under the x-axis labels.
  * @param {number} [settings.xAxis.start] - The value on the left side of the chart.
  * @param {number} [settings.xAxis.end] - The value on the right side of the chart.
  * @param {number} [settings.xAxis.tickValue] - The value between each tick.
- * @param {Array.<object>} [settings.data] - The data to display.
- * @param {number[]} [settings.data[].data] - Use this or 'value'. If this is used, also provide the 'calc' setting.
- * @param {string} [settings.data[].label] - A display label.
- * @param {string[]} [settings.data[].group] - A group that this datum belongs in.
  *
- * @returns {Array} An array of strings, one string per row.
+ * @param {object} [settings.render] - Settings that effect the rendered look and feel.
+ * @param {number} [settings.render.width=60] - Total width in characters, including y-axis labels.
+ * @param {number} [settings.render.fractionDigits=0] - Number of fraction digits to display on inline labels.
+ * @param {boolean} [settings.render.showInlineLabels=false] - Show a median label for each box. While labels try to fit in unused spaces, extra rows may be added if necessary.
+ * @param {string} [settings.render.style='rounded'] - The style of characters used to generate the chart. Options are 'rounded', 'squared', 'doubled', or 'ascii'.
+ * @param {string} [settings.render.colors='bright'] - Color pallete to use. Options are 'none', 'bright', 'dim', 'cool', 'passFail', 'blue', 'green', 'magenta', 'yellow', 'cyan', or 'red'.
+ * @param {boolean} [settings.render.showDots=false] - Add a row with dots that represent data points.
+ *
+ * @returns {Array<string>} An array of strings, one string per row.
  */
 export default (settings: ISettings): Array<string> => {
 	return chart(superimpose({
 		title: '',
 		render: {
-			width: 40,
+			width: 60,
 			fractionDigits: 0,
 			showInlineLabels: true,
 			showDots: false,

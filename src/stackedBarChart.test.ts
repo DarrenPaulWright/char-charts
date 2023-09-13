@@ -4,6 +4,7 @@ import type { ISettings } from './types';
 
 const defaultSettings: ISettings = {
 	render: {
+		width: 40,
 		colors: 'none'
 	},
 	data: []

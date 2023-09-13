@@ -13,42 +13,50 @@
 
 <br><a name="boxChart"></a>
 
-## boxChart([settings]) ⇒ <code>Array</code>
+## boxChart(settings) ⇒ <code>Array.&lt;string&gt;</code>
 > Builds a box and whisker chart.
 > 
 > ```text
->                Test chart
->   ╭──────┬───────┬──────┬───────┬──────╮
-> A │      ·       ╵  ┣━━━━━━━▒▒▒▒▒▒▒▒▓━┫│
-> B │    ╭─ M: 13.00      ╵M: 90.00 ─╯  ▒▓
-> C ┣━▒▒▒▓▓▓━┫     ╵      ╵   M: 97.00 ─╯│
-> D ▒ ── M: 0.15   ╵      ╵       ╵      │
-> E ┃ ── M: 2.00   ╵      ╵       ╵      │
->   ╰──────┴───────┴──────┴───────┴──────╯
->   0     20      40     60      80    100
->                     Hz
+> String   ╭─────────┬─────────┬─────────┬─────────┬─────────╮
+>          │         ·         ╵    •    ╵         ╵    ●• · │
+>   concat │         ·         ╵    ┣━━━━━━━━━░░░░░░░░░░▓▓━┫ │
+>          │         ╵         ╵         ╵   μ½: 90.00 ─╯ ····
+>   length │         ╵         ╵         ╵         ╵      ┣░▓┫
+> Array    │      ╭─ μ½: 13.00 ╵         ╵       μ½: 98.00 ─╯│
+>          │·    ·   ╵ ·       ╵         ╵         ╵         │
+>     push │┣━░░░░▓▓▓━━┫       ╵         ╵         ╵         │
+>          •         ╵         ╵         ╵         ╵         │
+>   concat ░ ── μ½: 0.15       ╵         ╵         ╵         │
+>          │·        ╵         ╵         ╵         ╵         │
+>    shift │┃ ── μ½: 2.00      ╵         ╵         ╵         │
+>          ╰─────────┴─────────┴─────────┴─────────┴─────────╯
+>          0        20        40        60        80       100
+>                                 Ops/s
 > ```
 
-**Returns**: <code>Array</code> - An array of strings, one string per row.  
+**Returns**: <code>Array.&lt;string&gt;</code> - An array of strings, one string per row.  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [settings] | <code>object</code> |  | Settings object. |
-| [settings.width] | <code>number.int</code> | <code>40</code> | Total width in characters, including y axis labels. |
-| [settings.fractionDigits] | <code>number.int</code> | <code>0</code> | Number of fraction digits to display on inline labels. |
-| [settings.showInlineLabels] | <code>number.int</code> | <code>false</code> | Show a median label for each box. While labels try to fit in unused spaces, extra rows my be added if necessary. |
-| [settings.ascii] | <code>boolean</code> | <code>false</code> | Use only ascii characters. |
-| [settings.showDots] | <code>boolean</code> | <code>false</code> | Add a row with dots that represent data points. |
-| [settings._xAxis] | <code>object</code> |  | All x axis settings are optional. The scale auto adjust to fit the data except where a value is provided here. |
-| [settings._xAxis.scale] | <code>object</code> | <code>linear</code> | Options are 'linear' or 'log'. |
-| [settings._xAxis.label] | <code>object</code> |  | If provided, an extra row is returned with this label centered under the x axis labels. |
-| [settings._xAxis.start] | <code>number</code> |  | The value on the left side of the chart. |
-| [settings._xAxis.end] | <code>number</code> |  | The value on the right side of the chart. |
-| [settings._xAxis.tickValue] | <code>number</code> |  | The value between each tick. |
-| [settings.data] | <code>Array.&lt;object&gt;</code> |  | The data to display. |
+| settings | <code>object</code> |  | Settings object. |
+| [settings.title] | <code>string</code> |  | Title of the chart. |
+| settings.data | <code>Array.&lt;object&gt;</code> |  | The data to display. |
 | [settings.data[].data] | <code>Array.&lt;number&gt;</code> |  | Use this or 'value'. If this is used, also provide the 'calc' setting. |
 | [settings.data[].label] | <code>string</code> |  | A display label. |
-| [settings.data[].group] | <code>Array.&lt;string&gt;</code> |  | A group that this datum belongs in. |
+| [settings.data[].group] | <code>Array.&lt;string&gt;</code> |  | A group or groups that this datum belongs in. |
+| [settings.xAxis] | <code>object</code> |  | All x-axis settings are optional. The scale auto adjust to fit the data except where a value is provided here. |
+| [settings.xAxis.scale] | <code>&#x27;linear&#x27;</code>, <code>&#x27;log&#x27;</code> | <code>linear</code> | Options are 'linear' or 'log'. |
+| [settings.xAxis.label] | <code>string</code> |  | If provided, an extra row is returned with this label centered under the x-axis labels. |
+| [settings.xAxis.start] | <code>number</code> |  | The value on the left side of the chart. |
+| [settings.xAxis.end] | <code>number</code> |  | The value on the right side of the chart. |
+| [settings.xAxis.tickValue] | <code>number</code> |  | The value between each tick. |
+| [settings.render] | <code>object</code> |  | Settings that effect the rendered look and feel. |
+| [settings.render.width] | <code>number</code> | <code>60</code> | Total width in characters, including y-axis labels. |
+| [settings.render.fractionDigits] | <code>number</code> | <code>0</code> | Number of fraction digits to display on inline labels. |
+| [settings.render.showInlineLabels] | <code>boolean</code> | <code>false</code> | Show a median label for each box. While labels try to fit in unused spaces, extra rows may be added if necessary. |
+| [settings.render.style] | <code>string</code> | <code>&quot;&#x27;rounded&#x27;&quot;</code> | The style of characters used to generate the chart. Options are 'rounded', 'squared', 'doubled', or 'ascii'. |
+| [settings.render.colors] | <code>string</code> | <code>&quot;&#x27;bright&#x27;&quot;</code> | Color pallete to use. Options are 'none', 'bright', 'dim', 'cool', 'passFail', 'blue', 'green', 'magenta', 'yellow', 'cyan', or 'red'. |
+| [settings.render.showDots] | <code>boolean</code> | <code>false</code> | Add a row with dots that represent data points. |
 
 
 [npm]: https://img.shields.io/npm/v/char-charts.svg

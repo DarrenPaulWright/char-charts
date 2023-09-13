@@ -12,6 +12,7 @@ const xAxisSettings = {
 describe('single row', () => {
 	const defaultSettings: ISettings = {
 		render: {
+			width: 40,
 			colors: 'none',
 			showInlineLabels: false
 		},
@@ -898,6 +899,7 @@ describe('labels', () => {
 describe('full', () => {
 	const defaultSettings: ISettings = {
 		render: {
+			width: 40,
 			colors: 'none'
 		},
 		data: []

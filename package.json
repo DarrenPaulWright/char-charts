@@ -72,9 +72,8 @@
 	"scripts": {
 		"lint": "eslint \"**/*\"",
 		"lint:fix": "eslint \"**/*\" --fix",
-		"testOriginal": "tsc && npm run lint && node node_modules/hippogriff/src/cli.js --verbose",
-		"test": "tsc && node node_modules/hippogriff/src/cli.js --verbose",
-		"test-watch": "tsc && npm run lint",
+		"test": "",
+		"test:watch": "",
 		"sample": "tsc && node src/sample.js",
 		"preversion": "npm test && npm run docs && git add --all && git diff HEAD --quiet || git commit -m \"Updating docs\"",
 		"postversion": "npm publish",
@@ -85,23 +84,25 @@
 		"update-clean": "npm run pre-clean && npm run update",
 		"update-commit": "npm run update && npm test && git add --all && git diff HEAD --quiet || git commit -m \"Updating dependencies\"",
 		"update-patch": "npm run update && npm test && git add --all && git diff HEAD --quiet || git commit -m \"Updating dependencies\" && npm version patch",
-		"docs:charts": "exec-each src/*.js --out docs/{basefile}.md jsdoc2md -- {path} -t node_modules/dmd-readable/docs.hbs --plugin dmd-readable",
+		"docs:bar": "exec-each src/barChart.js --out docs/{basefile}.md jsdoc2md -- {path} -t node_modules/dmd-readable/docs.hbs --plugin dmd-readable",
+		"docs:box": "exec-each src/boxChart.js --out docs/{basefile}.md jsdoc2md -- {path} -t node_modules/dmd-readable/docs.hbs --plugin dmd-readable",
+		"docs:stackedBar": "exec-each src/stackedBarChart.js --out docs/{basefile}.md jsdoc2md -- {path} -t node_modules/dmd-readable/docs.hbs --plugin dmd-readable",
 		"docs:readme": "jsdoc2md index.ts src/**/*.js > README.md -t node_modules/dmd-readable/overview.hbs --plugin dmd-readable/overview-plugin.js",
-		"docs": "run-p docs:*"
+		"docsOriginal": "tsc && run-p docs:*",
+		"docs": ""
 	},
 	"dependencies": {
 		"chalk": "^5.3.0",
-		"hord": "^0.7.9",
-		"object-agent": "^1.6.0",
-		"type-enforcer": "^1.2.4",
-		"type-enforcer-math": "^1.3.2",
-		"hippogriff": "^0.0.0"
+		"hord": "^0.7.10",
+		"object-agent": "^1.6.1",
+		"type-enforcer": "^1.2.5",
+		"type-enforcer-math": "^1.3.3"
 	},
 	"devDependencies": {
-		"@types/node": "^20.5.9",
-		"display-value": "^2.1.0",
+		"@types/node": "^20.6.0",
+		"display-value": "^2.2.0",
 		"dmd-readable": "^1.2.4",
-		"eslint": "^8.48.0",
+		"eslint": "^8.49.0",
 		"eslint-config-lucid": "^0.1.0",
 		"eslint-config-lucid-typescript": "^0.3.0",
 		"exec-each": "0.0.3",

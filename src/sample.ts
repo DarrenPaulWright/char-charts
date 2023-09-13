@@ -155,34 +155,34 @@ runChartVariants(stackedBarChart, {
 runChartVariants(boxChart, {
 	title: 'Box Chart',
 	render: {
-		width: 120,
+		width: 60,
 		fractionDigits: 2,
 		showInlineLabels: true,
 		showDots: true
 	},
 	data: [{
 		data: [20, 50, 50, 90, 90, 90, 90, 92, 92, 92, 97],
-		label: 'first',
-		group: ['Top']
+		label: 'concat',
+		group: ['String']
 	}, {
 		data: [95, 97, 99, 100],
-		label: 'second',
-		group: ['Top']
+		label: 'length',
+		group: ['String']
 	}, {
 		data: [2, 13, 24],
-		label: 'third',
-		group: ['Bottom']
+		label: 'push',
+		group: ['Array']
 	}, {
 		data: [0.1, 0.2],
-		label: 'four',
-		group: ['Bottom']
+		label: 'concat',
+		group: ['Array']
 	}, {
 		data: [2],
-		label: 'five',
-		group: ['Bottom']
+		label: 'shift',
+		group: ['Array']
 	}],
 	xAxis: {
-		label: 'Hz'
+		label: 'Ops/s'
 	}
 });
 

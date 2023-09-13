@@ -14,23 +14,19 @@
 <br><a name="barChart"></a>
 
 ## barChart(settings) ⇒ <code>Array</code>
-> Builds a bar chart.
+> Builds a stacked bar chart.
 > 
 > ```text
 >                         Test chart
-> Fruit      ┌───────┬───────┬───────┬───────┬───────┬───────┐
->    Oranges ▐       ╵       ╵       ╵       ╵       │       │
->     Apples ▐███▌   ╵       ╵       ╵       ╵       │       │
->      Pears ▐███████╵       ╵       ╵       ╵       │       │
->   Apricots ▐████████████████████▌  ╵       ╵       │       │
->    Peaches ▐███████████████████████████████████████████████▌
-> Nuts       │       ╵       ╵       ╵       ╵       │       │
->     Almond ▐▌      ╵       ╵       ╵       ╵       │       │
->     Peanut ▐       ╵       ╵       ╵       ╵       │       │
->      Pecan │       ╵       ╵       ╵       ╵       │       │
->            └───────┴───────┴───────┴───────┴───────┼───────┘
->            0      20      40      60      80      100    120
->                              Satisfaction
+> Fruit     ╭────────┬─────────┬─────────┬─────────┬─────────╮
+>   Oranges ▐███▒▒▒▒▒▒▒▒░░░░░░░░░░░░████████       │         │
+>    Apples ▐█████▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░██████████   │
+>     Pears ▐███████▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░██████████         │
+> Nuts      │        ╵         │         ╵         │         │
+>    Almond ▐███▒▒▒▒▒▒▒▒░░░░░░░░░░░░████████       │         │
+>    Peanut ▐█████▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░██████████   │
+>           ╰────────┴─────────┼─────────┴─────────┼─────────╯
+>           0        5        10        15        20        25
 > ```
 
 **Returns**: <code>Array</code> - An array of strings, one string per row.  
@@ -40,8 +36,6 @@
 | settings | <code>object</code> |  | Settings object. |
 | [settings.title] | <code>string</code> |  | Title of the chart. |
 | [settings.width] | <code>number</code> | <code>60</code> | Total width in characters, including y-axis labels. |
-| [settings.fractionDigits] | <code>number</code> | <code>0</code> | Number of fraction digits to display on inline labels. |
-| [settings.showInlineLabels] | <code>number</code> | <code>true</code> | Show a value label for each bar. |
 | [settings.ascii] | <code>boolean</code> | <code>false</code> | Use only ascii characters. |
 | [settings.calc] | <code>string</code> |  | Options are 'min', 'max', 'mean', and 'median'. Only use if data objects have a 'data' property instead of 'value'. |
 | [settings.xAxis] | <code>object</code> |  | All x-axis settings are optional. The scale auto adjust to fit the data except where a value is provided here. |

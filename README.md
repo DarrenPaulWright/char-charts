@@ -16,12 +16,6 @@
 ```
 npm install char-charts
 ```
-* _If using Babel, requires Babel 7.2+_
-
-<br><a name="About"></a>
-
-## About
-Seems to work well with the font Consolas. I haven&#x27;t tried many others yet.
 
 
 <br>
@@ -29,32 +23,55 @@ Seems to work well with the font Consolas. I haven&#x27;t tried many others yet.
 ## Functions
 
 <dl>
-<dt><a href="docs/barChart.md">barChart([settings])</a> ⇒ <code>Array</code></dt>
+<dt><a href="docs/barChart.md">barChart(settings)</a> ⇒ <code>Array</code></dt>
 <dd><p>Builds a bar chart.</p>
-<pre><code class="language-text">               Test chart
-  ╭──────┬───────┬──────┬───────┬──────╮
-A ▐████████████████████████████ ╵77.63 │
-B ▐█▌97.00▐███████████████████████████▌│
-C ▐███▌  13.00   ╵      ╵       ╵      │
-D ┃  0.15╵       ╵      ╵       ╵      │
-E ▐▌  2.00       ╵      ╵       ╵      │
-  ╰──────┴───────┴──────┴───────┴──────╯
-  0     20      40     60      80    100
-                    Hz
+<pre><code class="language-text">                        Test chart
+Fruit      ┌───────┬───────┬───────┬───────┬───────┬───────┐
+   Oranges ▐       ╵       ╵       ╵       ╵       │       │
+    Apples ▐███▌   ╵       ╵       ╵       ╵       │       │
+     Pears ▐███████╵       ╵       ╵       ╵       │       │
+  Apricots ▐████████████████████▌  ╵       ╵       │       │
+   Peaches ▐███████████████████████████████████████████████▌
+Nuts       │       ╵       ╵       ╵       ╵       │       │
+    Almond ▐▌      ╵       ╵       ╵       ╵       │       │
+    Peanut ▐       ╵       ╵       ╵       ╵       │       │
+     Pecan │       ╵       ╵       ╵       ╵       │       │
+           └───────┴───────┴───────┴───────┴───────┼───────┘
+           0      20      40      60      80      100    120
+                             Satisfaction
 </code></pre>
 </dd>
-<dt><a href="docs/boxChart.md">boxChart([settings])</a> ⇒ <code>Array</code></dt>
+<dt><a href="docs/boxChart.md">boxChart(settings)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
 <dd><p>Builds a box and whisker chart.</p>
-<pre><code class="language-text">               Test chart
-  ╭──────┬───────┬──────┬───────┬──────╮
-A │      ·       ╵  ┣━━━━━━━▒▒▒▒▒▒▒▒▓━┫│
-B │    ╭─ M: 13.00      ╵M: 90.00 ─╯  ▒▓
-C ┣━▒▒▒▓▓▓━┫     ╵      ╵   M: 97.00 ─╯│
-D ▒ ── M: 0.15   ╵      ╵       ╵      │
-E ┃ ── M: 2.00   ╵      ╵       ╵      │
-  ╰──────┴───────┴──────┴───────┴──────╯
-  0     20      40     60      80    100
-                    Hz
+<pre><code class="language-text">String   ╭─────────┬─────────┬─────────┬─────────┬─────────╮
+         │         ·         ╵    •    ╵         ╵    ●• · │
+  concat │         ·         ╵    ┣━━━━━━━━━░░░░░░░░░░▓▓━┫ │
+         │         ╵         ╵         ╵   μ½: 90.00 ─╯ ····
+  length │         ╵         ╵         ╵         ╵      ┣░▓┫
+Array    │      ╭─ μ½: 13.00 ╵         ╵       μ½: 98.00 ─╯│
+         │·    ·   ╵ ·       ╵         ╵         ╵         │
+    push │┣━░░░░▓▓▓━━┫       ╵         ╵         ╵         │
+         •         ╵         ╵         ╵         ╵         │
+  concat ░ ── μ½: 0.15       ╵         ╵         ╵         │
+         │·        ╵         ╵         ╵         ╵         │
+   shift │┃ ── μ½: 2.00      ╵         ╵         ╵         │
+         ╰─────────┴─────────┴─────────┴─────────┴─────────╯
+         0        20        40        60        80       100
+                                Ops/s
+</code></pre>
+</dd>
+<dt><a href="docs/barChart.md">barChart(settings)</a> ⇒ <code>Array</code></dt>
+<dd><p>Builds a stacked bar chart.</p>
+<pre><code class="language-text">                        Test chart
+Fruit     ╭────────┬─────────┬─────────┬─────────┬─────────╮
+  Oranges ▐███▒▒▒▒▒▒▒▒░░░░░░░░░░░░████████       │         │
+   Apples ▐█████▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░██████████   │
+    Pears ▐███████▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░██████████         │
+Nuts      │        ╵         │         ╵         │         │
+   Almond ▐███▒▒▒▒▒▒▒▒░░░░░░░░░░░░████████       │         │
+   Peanut ▐█████▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░██████████   │
+          ╰────────┴─────────┼─────────┴─────────┼─────────╯
+          0        5        10        15        20        25
 </code></pre>
 </dd>
 </dl>

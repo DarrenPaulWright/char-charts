@@ -107,46 +107,55 @@ class BarRow extends Row {
  * Builds a bar chart.
  *
  * ```text
- *                Test chart
- *   ╭──────┬───────┬──────┬───────┬──────╮
- * A ▐████████████████████████████ ╵77.63 │
- * B ▐█▌97.00▐███████████████████████████▌│
- * C ▐███▌  13.00   ╵      ╵       ╵      │
- * D ┃  0.15╵       ╵      ╵       ╵      │
- * E ▐▌  2.00       ╵      ╵       ╵      │
- *   ╰──────┴───────┴──────┴───────┴──────╯
- *   0     20      40     60      80    100
- *                     Hz
+ *                         Test chart
+ * Fruit      ┌───────┬───────┬───────┬───────┬───────┬───────┐
+ *    Oranges ▐       ╵       ╵       ╵       ╵       │       │
+ *     Apples ▐███▌   ╵       ╵       ╵       ╵       │       │
+ *      Pears ▐███████╵       ╵       ╵       ╵       │       │
+ *   Apricots ▐████████████████████▌  ╵       ╵       │       │
+ *    Peaches ▐███████████████████████████████████████████████▌
+ * Nuts       │       ╵       ╵       ╵       ╵       │       │
+ *     Almond ▐▌      ╵       ╵       ╵       ╵       │       │
+ *     Peanut ▐       ╵       ╵       ╵       ╵       │       │
+ *      Pecan │       ╵       ╵       ╵       ╵       │       │
+ *            └───────┴───────┴───────┴───────┴───────┼───────┘
+ *            0      20      40      60      80      100    120
+ *                              Satisfaction
  * ```
  *
  * @function barChart
  *
- * @param {object} [settings] - Settings object.
+ * @param {object} settings - Settings object.
  * @param {string} [settings.title] - Title of the chart.
- * @param {number.int} [settings.width=40] - Total width in characters, including y-axis labels.
- * @param {number.int} [settings.fractionDigits=0] - Number of fraction digits to display on inline labels.
- * @param {number.int} [settings.showInlineLabels=true] - Show a value label for each bar.
- * @param {boolean} [settings.ascii=false] - Use only ascii characters.
- * @param {string} [settings.calc] - Options are 'min', 'max', 'mean', and 'median'. Only use if data objects have a 'data' property instead of 'value'.
+ *
+ * @param {Array<object>} settings.data - The data to display.
+ * @param {number[]} [settings.data[].value] - Use this or 'data'. If this is used, also provide the 'calc' setting.
+ * @param {number[]} [settings.data[].data] - Use this or 'value'. If this is used, also provide the 'calc' setting.
+ * @param {string} [settings.data[].label] - A display label.
+ * @param {string[]} [settings.data[].group] - A group or groups that this datum belongs in.
+ *
  * @param {object} [settings.xAxis] - All x-axis settings are optional. The scale auto adjust to fit the data except where a value is provided here.
- * @param {object} [settings.xAxis.scale=linear] - Options are 'linear' or 'log'.
- * @param {object} [settings.xAxis.label] - If provided, an extra row is returned with this label centered under the x-axis labels.
+ * @param {'linear' | 'log'} [settings.xAxis.scale=linear] - Options are 'linear' or 'log'.
+ * @param {string} [settings.xAxis.label] - If provided, an extra row is returned with this label centered under the x-axis labels.
  * @param {number} [settings.xAxis.start] - The value on the left side of the chart.
  * @param {number} [settings.xAxis.end] - The value on the right side of the chart.
  * @param {number} [settings.xAxis.tickValue] - The value between each tick.
- * @param {Array.<object>} [settings.data] - The data for the chart.
- * @param {number[]} [settings.data[].data] - Use this or 'value'. If this is used, also provide the 'calc' setting.
- * @param {number} [settings.data[].value] - The numeric value.
- * @param {string} [settings.data[].label] - A display label.
- * @param {string[]} [settings.data[].group] - A group that this datum belongs in.
  *
- * @returns {Array} An array of strings, one string per row.
+ * @param {object} [settings.render] - Settings that effect the rendered look and feel.
+ * @param {number} [settings.render.width=60] - Total width in characters, including y-axis labels.
+ * @param {number} [settings.render.fractionDigits=0] - Number of fraction digits to display on inline labels.
+ * @param {boolean} [settings.render.showInlineLabels=false] - Show a median label for each box. While labels try to fit in unused spaces, extra rows may be added if necessary.
+ * @param {string} [settings.render.style='rounded'] - The style of characters used to generate the chart. Options are 'rounded', 'squared', 'doubled', or 'ascii'.
+ * @param {string} [settings.render.colors='bright'] - Color pallete to use. Options are 'none', 'bright', 'dim', 'cool', 'passFail', 'blue', 'green', 'magenta', 'yellow', 'cyan', or 'red'.
+ * @param {boolean} [settings.render.showDots=false] - Add a row with dots that represent data points.
+ *
+ * @returns {Array<string>} An array of strings, one string per row.
  */
 export default (settings: ISettings): Array<string> => {
 	return chart(superimpose({
 		title: '',
 		render: {
-			width: 40,
+			width: 60,
 			fractionDigits: 0,
 			showInlineLabels: true,
 			showDots: false,
