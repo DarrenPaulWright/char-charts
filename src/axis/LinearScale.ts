@@ -1,6 +1,6 @@
 import { fill } from 'object-agent';
 import { isInteger } from 'type-enforcer';
-import { integerDigits, round } from 'type-enforcer-math';
+import { fractionDigits, integerDigits, round } from 'type-enforcer-math';
 import type { INumericDomain } from '../types';
 import Scale from './Scale.js';
 
@@ -14,12 +14,11 @@ export default class LinearScale extends Scale {
 	}
 
 	private optimizeRange(
-		pos: number,
+		position: number,
 		origTickValue: number,
 		origStart: number,
 		origEnd: number
 	): void {
-		const position = pos + 1;
 		const domain = this.domain as INumericDomain;
 		const previous = {
 			tickValue: this.tickValue,
@@ -37,8 +36,11 @@ export default class LinearScale extends Scale {
 		}
 
 		if (this.shouldGetEnd) {
-			this.end = origEnd -
-				(Math.floor((origEnd - domain[1]) / this.tickValue) * this.tickValue);
+			this.end = round(
+				origEnd -
+				(Math.floor((origEnd - domain[1]) / this.tickValue) * this.tickValue),
+				fractionDigits(this.tickValue)
+			);
 		}
 
 		this.setScale();
@@ -50,7 +52,7 @@ export default class LinearScale extends Scale {
 			this.setScale();
 		}
 		else {
-			this.optimizeRange(position, origTickValue, origStart, origEnd);
+			this.optimizeRange(position + 1, origTickValue, origStart, origEnd);
 		}
 	}
 
@@ -72,7 +74,7 @@ export default class LinearScale extends Scale {
 		this.setScale();
 
 		if (this.shouldGetTickValue) {
-			this.optimizeRange(0, this.tickValue, this.start, this.end);
+			this.optimizeRange(1, this.tickValue, this.start, this.end);
 		}
 	}
 
@@ -81,7 +83,7 @@ export default class LinearScale extends Scale {
 		const ticks = fill(total, (index: number) => {
 			return index === total - 1 ?
 				this.end :
-				(index * this.tickValue) + this.start;
+				round((index * this.tickValue) + this.start, fractionDigits(this.tickValue));
 		});
 
 		this.majorTickValue = Math.pow(10, integerDigits(this.end) - 1);
@@ -95,8 +97,8 @@ export default class LinearScale extends Scale {
 			value === this.end;
 	}
 
-	getCharOffset(value: number, fractionDigits = 0): number {
-		return round(((value - this.start) * this.scaleValue) + 0.51, fractionDigits) ||
-			round(0.5, fractionDigits);
+	getCharOffset(value: number, desiredFractionDigits = 0): number {
+		return round(((value - this.start) * this.scaleValue) + 0.51, desiredFractionDigits) ||
+			round(0.5, desiredFractionDigits);
 	}
 }

@@ -66,6 +66,33 @@ const data = [{
 		ticks: [99, 99.5, 100, 100.5, 101],
 		majorTicks: [100]
 	}
+}, {
+	in: { min: 0.1, max: 0.8, size: 50 },
+	out: {
+		tickValue: 0.2,
+		start: 0,
+		end: 1,
+		ticks: [0, 0.2, 0.4, 0.6, 0.8, 1],
+		majorTicks: [0, 1]
+	}
+}, {
+	in: { min: 0.01, max: 0.09, size: 50 },
+	out: {
+		tickValue: 0.02,
+		start: 0,
+		end: 0.1,
+		ticks: [0, 0.02, 0.04, 0.06, 0.08, 0.1],
+		majorTicks: [0, 0.1]
+	}
+}, {
+	in: { min: 0.001, max: 0.009, size: 50 },
+	out: {
+		tickValue: 0.002,
+		start: 0,
+		end: 0.01,
+		ticks: [0, 0.002, 0.004, 0.006, 0.008, 0.01],
+		majorTicks: [0, 0.01]
+	}
 }];
 
 const extraValues = {
