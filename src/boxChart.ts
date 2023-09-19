@@ -33,7 +33,6 @@ class BoxRow extends Row {
 		);
 	}
 
-	// PreProcess
 	// eslint-disable-next-line @typescript-eslint/class-methods-use-this
 	private hasDot(
 		rowData: IBandDomain,
@@ -45,7 +44,6 @@ class BoxRow extends Row {
 			rowData.dotsOffsets!.some((dot: number) => (dot >= low) && (dot <= high));
 	}
 
-	// PreProcess
 	// eslint-disable-next-line @typescript-eslint/class-methods-use-this
 	private hasLabel(
 		rowData: IBandDomain,
@@ -60,7 +58,6 @@ class BoxRow extends Row {
 		}) !== -1;
 	}
 
-	// PreProcess
 	// eslint-disable-next-line max-params
 	private placeLabelIfFitsOnRow(
 		rowData: IBandDomain,
@@ -97,7 +94,6 @@ class BoxRow extends Row {
 		}
 	}
 
-	// PreProcess
 	// eslint-disable-next-line max-params
 	private placeLabelMulti(
 		rowData: IBandDomain,
@@ -129,7 +125,6 @@ class BoxRow extends Row {
 		);
 	}
 
-	// PreProcess
 	private buildBoxOffsets(rowData: IBandDomain): void {
 		if (rowData && !rowData.offsets) {
 			// If ('median' in rowData) {
@@ -178,14 +173,12 @@ class BoxRow extends Row {
 		}
 	}
 
-	// PreProcess
 	private buildLabel(value: number): string {
 		return value ?
 			MEDIAN_PREFIX + printValue(value, this.settings.fractionDigits) :
 			'';
 	}
 
-	// PreProcess
 	private placeLabels(): void {
 		const rowData = this.rowData;
 		const nextRow = rowData.siblings[1];
@@ -390,7 +383,7 @@ class BoxRow extends Row {
 		this.reset();
 
 		if (rowData.data !== undefined) {
-			this.padEndWithLabels(rowData.offsets!.min - 1, SPACE);
+			this.padEndWithLabels(rowData.offsets!.min - 1, SPACE, [], this.settings.showDots);
 
 			if (rowData.data.length === 1) {
 				this.append(this.CHARS.WHISKER_SINGLE, rowData.color);
@@ -431,7 +424,7 @@ class BoxRow extends Row {
 			}
 		}
 
-		this.padEndWithLabels(this.settings.xAxis.size, SPACE)
+		this.padEndWithLabels(this.settings.xAxis.size, SPACE, [], this.settings.showDots)
 			.prependLabel(false, this.isGroup ? undefined : rowData.color);
 
 		output.push(this.toString());
