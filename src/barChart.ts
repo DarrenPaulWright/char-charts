@@ -72,7 +72,7 @@ class BarRow extends Row {
 
 		this.label = this.isGroup ?
 			'' :
-			printValue(rowData.value as number, this.settings.fractionDigits);
+			printValue(rowData.value as number, this.settings);
 
 		this.barWidth = Math.round(this.getCharOffset(rowData.value as number, 1) * 2) / 2;
 
@@ -157,6 +157,7 @@ export default (settings: ISettings): Array<string> => {
 		render: {
 			width: 60,
 			fractionDigits: 0,
+			significantDigits: 0,
 			showInlineLabels: true,
 			showDots: false,
 			style: 'rounded',
@@ -165,7 +166,8 @@ export default (settings: ISettings): Array<string> => {
 		calc: null,
 		data: [],
 		xAxis: {
-			start: 0
+			start: 0,
+			suffix: ''
 		}
 	}, settings) as DeepRequired<ISettings>, BarRow);
 };

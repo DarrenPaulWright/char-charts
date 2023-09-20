@@ -109,6 +109,7 @@ export default (settings: ISettings): Array<string> => {
 		render: {
 			width: 60,
 			fractionDigits: 0,
+			significantDigits: 0,
 			showInlineLabels: false,
 			showDots: false,
 			style: 'rounded',

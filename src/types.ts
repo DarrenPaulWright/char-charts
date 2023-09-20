@@ -71,6 +71,7 @@ export interface IAxisSettings {
 	start?: number;
 	end?: number;
 	tickValue?: number;
+	suffix?: string;
 }
 
 export interface ISettings {
@@ -78,6 +79,7 @@ export interface ISettings {
 	render?: {
 		width?: number;
 		fractionDigits?: number;
+		significantDigits?: number;
 		showInlineLabels?: boolean;
 		showDots?: boolean;
 		style?: 'rounded' | 'squared' | 'doubled' | 'ascii';
@@ -92,6 +94,7 @@ export interface ISettingsInternal {
 	title: string;
 	width: number;
 	fractionDigits: number;
+	significantDigits: number;
 	showInlineLabels: boolean;
 	showDots: boolean;
 	useColor: boolean;

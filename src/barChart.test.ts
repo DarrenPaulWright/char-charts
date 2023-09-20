@@ -166,7 +166,7 @@ it('should render ascii', () => {
 	]);
 });
 
-it('should a full chart with multiple data points', () => {
+it('should render a full chart with multiple data points', () => {
 	const data = barChart(superimpose(defaultSettings, {
 		title: 'Test chart',
 		render: {

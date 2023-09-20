@@ -39,6 +39,7 @@ const baseSettings: ISettingsInternal = {
 	title: '',
 	width: 26,
 	fractionDigits: 0,
+	significantDigits: 0,
 	showInlineLabels: false,
 	showDots: false,
 	style: 'rounded',

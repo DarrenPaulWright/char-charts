@@ -13,7 +13,7 @@ import type {
 	ISettingsInternal
 } from './types';
 
-const MEDIAN_PREFIX = 'μ½: ';
+const MEDIAN_PREFIX = 'Mdn: ';
 
 class BoxRow extends Row {
 	private dotScale = 1;
@@ -52,8 +52,8 @@ class BoxRow extends Row {
 		ignoreTypes: Array<string>
 	): boolean {
 		return rowData.placedLabels!.findIndex((item) => {
-			return item.low <= high &&
-				item.high >= low &&
+			return item.low <= high + 1 &&
+				item.high >= low - 1 &&
 				(ignoreTypes === undefined || !ignoreTypes.includes(item.relation));
 		}) !== -1;
 	}
@@ -79,7 +79,7 @@ class BoxRow extends Row {
 					low > targetRowData.offsets.max + 1
 				) &&
 				!this.hasLabel(targetRowData, low, high, ignoreTypes) &&
-				!this.hasDot(targetRowData, low, high)
+				(targetRowData.hasExtraRow || !this.hasDot(targetRowData, low, high))
 			) {
 				rowData.isInlineLabelPlaced = true;
 
@@ -175,7 +175,7 @@ class BoxRow extends Row {
 
 	private buildLabel(value: number): string {
 		return value ?
-			MEDIAN_PREFIX + printValue(value, this.settings.fractionDigits) :
+			MEDIAN_PREFIX + printValue(value, this.settings) :
 			'';
 	}
 
@@ -444,15 +444,15 @@ class BoxRow extends Row {
  * String   ╭─────────┬─────────┬─────────┬─────────┬─────────╮
  *          │         ·         ╵    •    ╵         ╵    ●• · │
  *   concat │         ·         ╵    ┣━━━━━━━━━░░░░░░░░░░▓▓━┫ │
- *          │         ╵         ╵         ╵   μ½: 90.00 ─╯ ····
+ *          │         ╵         ╵         ╵  Mdn: 90.00 ─╯ ····
  *   length │         ╵         ╵         ╵         ╵      ┣░▓┫
- * Array    │      ╭─ μ½: 13.00 ╵         ╵       μ½: 98.00 ─╯│
+ * Array    │      ╭─ Mdn: 13.00╵         ╵      Mdn: 98.00 ─╯│
  *          │·    ·   ╵ ·       ╵         ╵         ╵         │
  *     push │┣━░░░░▓▓▓━━┫       ╵         ╵         ╵         │
  *          •         ╵         ╵         ╵         ╵         │
- *   concat ░ ── μ½: 0.15       ╵         ╵         ╵         │
+ *   concat ░ ── Mdn: 0.15      ╵         ╵         ╵         │
  *          │·        ╵         ╵         ╵         ╵         │
- *    shift │┃ ── μ½: 2.00      ╵         ╵         ╵         │
+ *    shift │┃ ── Mdn: 2.00     ╵         ╵         ╵         │
  *          ╰─────────┴─────────┴─────────┴─────────┴─────────╯
  *          0        20        40        60        80       100
  *                                 Ops/s
@@ -491,6 +491,7 @@ export default (settings: ISettings): Array<string> => {
 		render: {
 			width: 60,
 			fractionDigits: 0,
+			significantDigits: 0,
 			showInlineLabels: true,
 			showDots: false,
 			style: 'rounded',

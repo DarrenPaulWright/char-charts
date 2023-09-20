@@ -11,11 +11,16 @@ import BandScale from './BandScale.js';
 import LinearScale from './LinearScale.js';
 import LogScale from './LogScale.js';
 
+type Scales = LogScale | BandScale | LinearScale;
+type ScaleTypes = typeof LogScale |
+	typeof BandScale |
+	typeof LinearScale;
+
 const TICK_OFFSETS_COMPARER = compare('offset');
 
 const getScale = (
 	scale: IAxisSettings['scale']
-): typeof LogScale | typeof BandScale | typeof LinearScale => {
+): ScaleTypes => {
 	switch (scale) {
 		case 'log': {
 			return LogScale;
@@ -36,11 +41,13 @@ export default class Axis {
 	private majorTickOffsets: Array<number> = [];
 
 	label = '';
-	scale: LogScale | BandScale | LinearScale;
+	scale: Scales;
 	ticks = new List().comparer(TICK_OFFSETS_COMPARER) as List;
+	suffix = '';
 
 	constructor(settings: IAxisSettings, data: Array<IChartDataInternal>) {
 		this.label = settings.label ?? '';
+		this.suffix = settings.suffix || '';
 
 		this.scale = new (getScale(settings.scale))(data);
 		this.scale.shouldGetTickValue = settings.tickValue === undefined;
@@ -61,7 +68,7 @@ export default class Axis {
 		const ticks = this.scale.ticks().map((value) => {
 			return {
 				offset: this.scale.getCharOffset(value),
-				label: abbrNumber(value),
+				label: abbrNumber(value, { suffix: this.suffix }),
 				isMajor: this.scale.isMajorTick(value)
 			};
 		});

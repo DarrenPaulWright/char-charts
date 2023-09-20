@@ -79,34 +79,35 @@ runChartVariants(barChart, {
 	title: 'Bar Chart',
 	render: {
 		width: 60,
-		showInlineLabels: true
+		showInlineLabels: true,
+		significantDigits: 3
 	},
 	data: [{
-		value: 1,
+		value: 1000000,
 		label: 'Oranges',
 		group: ['Fruit']
 	}, {
-		value: 10,
+		value: 10000000,
 		label: 'Apples',
 		group: ['Fruit']
 	}, {
-		value: 19,
+		value: 19000000,
 		label: 'Pears',
 		group: ['Fruit']
 	}, {
-		value: 52,
+		value: 52000000,
 		label: 'Apricots',
 		group: ['Fruit']
 	}, {
-		value: 120,
+		value: 120000000,
 		label: 'Peaches',
 		group: ['Fruit']
 	}, {
-		value: 3,
+		value: 3000000,
 		label: 'Almond',
 		group: ['Nuts']
 	}, {
-		value: 1,
+		value: 1000000,
 		label: 'Peanut',
 		group: ['Nuts']
 	}, {
@@ -155,21 +156,22 @@ runChartVariants(stackedBarChart, {
 runChartVariants(boxChart, {
 	title: 'Box Chart',
 	render: {
-		width: 60,
-		fractionDigits: 2,
+		width: 100,
+		fractionDigits: 0,
+		significantDigits: 3,
 		showInlineLabels: true,
 		showDots: true
 	},
 	data: [{
-		data: [20, 50, 50, 90, 90, 90, 90, 92, 92, 92, 97],
+		data: [20000, 50000, 50000, 90000, 90000, 90000, 90000, 92000, 92000, 92000, 97000],
 		label: 'concat',
 		group: ['String']
 	}, {
-		data: [95, 97, 99, 100],
+		data: [95000, 97000, 99000, 100000],
 		label: 'length',
 		group: ['String']
 	}, {
-		data: [2, 13, 24],
+		data: [2000, 13000, 24000],
 		label: 'push',
 		group: ['Array']
 	}, {
