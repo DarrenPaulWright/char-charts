@@ -16,39 +16,31 @@ class BarRow extends Row {
 
 		if (!rowData.isGroup) {
 			let sumValue = 0;
+			const totalStacks = (rowData.value as Array<number>)
+				.reduce((result, value) => value ? result + 1 : result, 0);
 
 			(rowData.value as Array<number>)
 				.forEach((value, index) => {
 					if (value) {
-						const isInitial = sumValue === 0;
+						const remainingStacks = totalStacks - (index + 1);
 						sumValue += value;
-						const barWidth = this.getCharOffset(sumValue);
-						const color = this.settings.colors[index % this.settings.colors.length];
-						const isFinal = barWidth === this.settings.xAxis.size &&
-							(this.settings.useColor && this.settings.colors.length > 1);
+						const barWidth = Math.min(
+							this.settings.xAxis.size - remainingStacks,
+							Math.max(
+								this.getCharOffset(sumValue),
+								this.length + 1
+							)
+						);
 
-						if (isInitial) {
-							this.append(
-								(sumValue === this.settings.xAxis.scale.start) ?
-									this.getVerticalChar(1) :
-									(barWidth >= 1 ?
-										this.CHARS.BAR_HALF_RIGHT :
-										this.CHARS.BAR_SINGLE),
-								color
-							);
-						}
+						const color = this.settings.colors[index % this.settings.colors.length];
 
 						this.padEnd(
-							isFinal ? barWidth - 1 : barWidth,
+							barWidth,
 							(this.settings.useColor && this.settings.colors.length > 1) ?
 								this.CHARS.BAR_FILL[0] :
 								this.CHARS.BAR_FILL[index % this.CHARS.BAR_FILL.length],
 							color
 						);
-
-						if (isFinal) {
-							this.append(this.CHARS.BAR_HALF_LEFT, color);
-						}
 					}
 				});
 		}
@@ -66,17 +58,17 @@ class BarRow extends Row {
  * ```text
  *                         Test chart
  * Fruit     ╭────────┬─────────┬─────────┬─────────┬─────────╮
- *   Oranges ▐███▒▒▒▒▒▒▒▒░░░░░░░░░░░░████████       │         │
- *    Apples ▐█████▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░██████████   │
- *     Pears ▐███████▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░██████████         │
+ *   Oranges ████▒▒▒▒▒▒▒▒░░░░░░░░░░░░████████       │         │
+ *    Apples ██████▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░██████████   │
+ *     Pears ████████▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░██████████         │
  * Nuts      │        ╵         │         ╵         │         │
- *    Almond ▐███▒▒▒▒▒▒▒▒░░░░░░░░░░░░████████       │         │
- *    Peanut ▐█████▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░██████████   │
+ *    Almond ████▒▒▒▒▒▒▒▒░░░░░░░░░░░░████████       │         │
+ *    Peanut ██████▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░██████████   │
  *           ╰────────┴─────────┼─────────┴─────────┼─────────╯
  *           0        5        10        15        20        25
  * ```
  *
- * @function barChart
+ * @function stackedBarChart
  *
  * @param {object} settings - Settings object.
  * @param {string} [settings.title] - Title of the chart.

@@ -30,7 +30,7 @@ it('should render something if one data point is provided', () => {
 
 	assert.equal(data, [
 		'      ╭───────┬───────┬───────┬────────╮',
-		'first ▐████████████████████████████████│',
+		'first █████████████████████████████████│',
 		'      ╰───────┴───────┴───────┴────────╯',
 		'      0      25      50      75      100'
 	]);
@@ -46,7 +46,87 @@ it('should render multiple stacks', () => {
 
 	assert.equal(data, [
 		'      ╭───────┬───────┬───────┬────────╮',
-		'first ▐████████████████▒▒▒▒▒▒▒▒░░░░░░░░│',
+		'first █████████████████▒▒▒▒▒▒▒▒░░░░░░░░│',
+		'      ╰───────┴───────┴───────┴────────╯',
+		'      0      25      50      75      100'
+	]);
+});
+
+it('should not render a stack of 0 in the beginning', () => {
+	const data = stackedBarChart({
+		...defaultSettings,
+		data: [
+			{ value: [0, 50, 47], label: 'first' }
+		]
+	});
+
+	assert.equal(data, [
+		'      ╭───────┬───────┬───────┬────────╮',
+		'first ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░│',
+		'      ╰───────┴───────┴───────┴────────╯',
+		'      0      25      50      75      100'
+	]);
+});
+
+it('should render a small stack in the beginning', () => {
+	const data = stackedBarChart({
+		...defaultSettings,
+		data: [
+			{ value: [1, 49, 47], label: 'first' }
+		]
+	});
+
+	assert.equal(data, [
+		'      ╭───────┬───────┬───────┬────────╮',
+		'first █▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░│',
+		'      ╰───────┴───────┴───────┴────────╯',
+		'      0      25      50      75      100'
+	]);
+});
+
+it('should render a stack that doesn\'t fit in the middle', () => {
+	const data = stackedBarChart({
+		...defaultSettings,
+		data: [
+			{ value: [50, 1, 46], label: 'first' }
+		]
+	});
+
+	assert.equal(data, [
+		'      ╭───────┬───────┬───────┬────────╮',
+		'first █████████████████▒░░░░░░░░░░░░░░░│',
+		'      ╰───────┴───────┴───────┴────────╯',
+		'      0      25      50      75      100'
+	]);
+});
+
+it('should render a stack that doesn\'t fit in the end', () => {
+	const data = stackedBarChart({
+		...defaultSettings,
+		data: [
+			{ value: [50, 49, 1], label: 'first' }
+		]
+	});
+
+	assert.equal(data, [
+		'      ╭───────┬───────┬───────┬────────╮',
+		'first █████████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░',
+		'      ╰───────┴───────┴───────┴────────╯',
+		'      0      25      50      75      100'
+	]);
+});
+
+it('should render multiple stacks that don\'t fit in the end', () => {
+	const data = stackedBarChart({
+		...defaultSettings,
+		data: [
+			{ value: [50, 48, 1, 1], label: 'first' }
+		]
+	});
+
+	assert.equal(data, [
+		'      ╭───────┬───────┬───────┬────────╮',
+		'first █████████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░█',
 		'      ╰───────┴───────┴───────┴────────╯',
 		'      0      25      50      75      100'
 	]);
@@ -84,12 +164,12 @@ it('should render groups', () => {
 
 	assert.equal(data, [
 		'Fruit     ╭────────┬─────────┬─────────╮',
-		'  Oranges ▐█▒▒▒▒░░░░░░████   │         │',
-		'   Apples ▐██▒▒▒▒▒▒░░░░░░░░░█████      │',
-		'    Pears ▐███▒▒▒▒░░░░░░░█████         │',
+		'  Oranges ██▒▒▒▒░░░░░░████   │         │',
+		'   Apples ███▒▒▒▒▒▒░░░░░░░░░█████      │',
+		'    Pears ████▒▒▒▒░░░░░░░█████         │',
 		'Nuts      │        │         │         │',
-		'   Almond ▐█▒▒▒▒░░░░░░████   │         │',
-		'   Peanut ▐██▒▒▒▒▒▒░░░░░░░░░█████      │',
+		'   Almond ██▒▒▒▒░░░░░░████   │         │',
+		'   Peanut ███▒▒▒▒▒▒░░░░░░░░░█████      │',
 		'    Pecan │        │         │         │',
 		'          ╰────────┼─────────┼─────────╯',
 		'          0       10        20        30'
