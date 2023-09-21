@@ -50,6 +50,7 @@ export default class Axis {
 		this.suffix = settings.suffix || '';
 
 		this.scale = new (getScale(settings.scale))(data);
+		this.scale.minTickOffset += settings.suffix?.length || 0;
 		this.scale.shouldGetTickValue = settings.tickValue === undefined;
 		this.scale.shouldGetStart = settings.start === undefined;
 		this.scale.shouldGetEnd = settings.end === undefined;
@@ -68,7 +69,7 @@ export default class Axis {
 		const ticks = this.scale.ticks().map((value) => {
 			return {
 				offset: this.scale.getCharOffset(value),
-				label: abbrNumber(value, { suffix: this.suffix }),
+				label: abbrNumber(value, { precision: 3, suffix: this.suffix }),
 				isMajor: this.scale.isMajorTick(value)
 			};
 		});

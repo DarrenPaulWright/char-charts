@@ -60,7 +60,7 @@ export default class LinearScale extends Scale {
 		const domain = this.domain as INumericDomain;
 
 		if (this.shouldGetTickValue) {
-			this.tickValue = Math.pow(10, integerDigits(domain[1] - domain[0]));
+			this.tickValue = Math.pow(10, integerDigits(Math.max(this.end, domain[1]) - domain[0]));
 		}
 
 		if (this.shouldGetStart) {
@@ -79,7 +79,10 @@ export default class LinearScale extends Scale {
 	}
 
 	ticks(): Array<number> {
-		const total = Math.ceil((this.end - this.start) / this.tickValue) + 1;
+		const finalTickOffset = ((this.end + 0.000001) % this.tickValue);
+		const totalOffset = this.getCharOffset(finalTickOffset) >= this.minTickOffset ? 2 : 1;
+
+		const total = Math.floor((this.end - this.start) / this.tickValue) + totalOffset;
 		const ticks = fill(total, (index: number) => {
 			return index === total - 1 ?
 				this.end :

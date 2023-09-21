@@ -197,11 +197,11 @@ console.log(stackedBarChart({
 		colors: 'passFail'
 	},
 	data: [{
-		value: [87, 4, 6],
+		value: [19500, 4, 6],
 		label: ''
 	}],
 	xAxis: {
 		start: 0,
-		end: 97
+		end: 19510
 	}
 }).join('\n'));

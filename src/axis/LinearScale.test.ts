@@ -202,6 +202,30 @@ describe('ticks', () => {
 			assert.equal(scale.ticks(), datum.out.ticks);
 		});
 	});
+
+	it('should not collide labels if end is close to tickValue', () => {
+		const scale = new LinearScale([]);
+
+		scale.start = 0;
+		scale.end = 105;
+		scale.shouldGetStart = false;
+		scale.shouldGetEnd = false;
+		scale.size = 34;
+
+		assert.equal([0, 25, 50, 75, 105], scale.ticks());
+	});
+
+	it('should not collide labels if end is close to next tickValue', () => {
+		const scale = new LinearScale([]);
+
+		scale.start = 0;
+		scale.end = 120;
+		scale.shouldGetStart = false;
+		scale.shouldGetEnd = false;
+		scale.size = 40;
+
+		assert.equal([0, 25, 50, 75, 100, 120], scale.ticks());
+	});
 });
 
 describe('getCharOffset', () => {
