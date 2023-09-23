@@ -130,9 +130,7 @@ export default abstract class Row {
 		else if (this.isGroup) {
 			this.prepend(
 				(this.rowData.groupIndent ?
-					this.CHARS.GROUP_HEADER_FILL
-						.repeat((this.rowData.groupIndent * INDENT_WIDTH) - 1)
-						.concat(SPACE) :
+					SPACE.repeat(this.rowData.groupIndent * INDENT_WIDTH) :
 					'')
 					.concat(this.rowData.label)
 					.padEnd(this.settings.yAxis.scale.maxLabelWidth, SPACE),

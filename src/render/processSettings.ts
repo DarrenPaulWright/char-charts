@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { List } from 'hord';
+import { compare, List } from 'hord';
 import { deepEqual } from 'object-agent';
 import Axis from '../axis/Axis.js';
 import type { DeepRequired, IChartDataInternal, ISettings, ISettingsInternal } from '../types';
@@ -100,6 +100,19 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 	const useColor = settings.render.colors !== 'none';
 	const colors = colorPalettes[settings.render.colors];
 	const bgColors = colors.map((color) => color.inverse);
+	const groupDepth = settings.data.reduce((result, datum) => {
+		return Math.max(result, datum.group?.length || 0);
+	}, 0);
+
+	if (groupDepth !== 0) {
+		const comparers = [];
+
+		for (let index = 0; index < groupDepth; index++) {
+			comparers.push(`group.${ index }`);
+		}
+
+		settings.data.sort(compare(comparers));
+	}
 
 	const data: Array<IChartDataInternal> = settings.data.map((value, index) => {
 		const output: IChartDataInternal = {

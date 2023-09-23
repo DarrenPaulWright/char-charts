@@ -1,4 +1,4 @@
-export const INDENT_WIDTH = 4;
+export const INDENT_WIDTH = 3;
 
 export const SPACE = ' ';
 
@@ -21,8 +21,6 @@ export const ROUNDED_STYLE = {
 	CHART_HORIZONTAL: '─',
 	CHART_VERTICAL_MAJOR: '│',
 	CHART_VERTICAL_MINOR: '╵',
-
-	GROUP_HEADER_FILL: '─',
 
 	BAR_FILL: '█▒░',
 	BAR_HALF_LEFT: '▌',
@@ -139,8 +137,6 @@ export const ASCII_STYLE: typeof ROUNDED_STYLE = {
 	CHART_HORIZONTAL: '-',
 	CHART_VERTICAL_MAJOR: '|',
 	CHART_VERTICAL_MINOR: '\'',
-
-	GROUP_HEADER_FILL: '-',
 
 	BAR_FILL: '%#@',
 	BAR_HALF_LEFT: '%',

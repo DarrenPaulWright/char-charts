@@ -55,8 +55,7 @@ const baseSettings: ISettingsInternal = {
 	CHARS: {
 		...ROUNDED_STYLE,
 		CHART_VERTICAL_MINOR: '.',
-		CHART_VERTICAL_MAJOR: '|',
-		GROUP_HEADER_FILL: '-'
+		CHART_VERTICAL_MAJOR: '|'
 	},
 	data
 };
@@ -131,7 +130,7 @@ describe('prependLabel', () => {
 
 		row.prepRender(data[0] as IBandDomain);
 		row.prependLabel(false);
-		assert.is(row.toString(), '     one |        |         |');
+		assert.is(row.toString(), '    one |        |         |');
 	});
 
 	it('should add spaces if the same label is set twice', () => {
@@ -142,7 +141,7 @@ describe('prependLabel', () => {
 
 		row.prepRender(data[0] as IBandDomain);
 		row.prependLabel(false);
-		assert.is(row.toString(), '     one |        |         |');
+		assert.is(row.toString(), '    one |        |         |');
 
 		row.reset();
 
@@ -151,7 +150,7 @@ describe('prependLabel', () => {
 
 		row.prepRender(data[0] as IBandDomain);
 		row.prependLabel(false);
-		assert.is(row.toString(), '         |        |         |');
+		assert.is(row.toString(), '        |        |         |');
 	});
 
 	it('should add a group label to the beginning', () => {
@@ -162,7 +161,7 @@ describe('prependLabel', () => {
 
 		row.prepRender((baseSettings.yAxis.domain() as Array<IBandDomain>)[0]);
 		row.prependLabel(false);
-		assert.is(row.toString(), 'group    |        |         |');
+		assert.is(row.toString(), 'group   |        |         |');
 	});
 
 	it('should add a nested group label to the beginning', () => {
@@ -173,6 +172,6 @@ describe('prependLabel', () => {
 
 		row.prepRender((baseSettings.yAxis.domain() as Array<IBandDomain>)[1]);
 		row.prependLabel(false);
-		assert.is(row.toString(), '--- in   |        |         |');
+		assert.is(row.toString(), '   in   |        |         |');
 	});
 });

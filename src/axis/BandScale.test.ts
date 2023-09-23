@@ -206,7 +206,7 @@ describe('init', () => {
 
 		assert.is(domain[7], data[2]);
 
-		assert.is(scale.maxLabelWidth, 14);
+		assert.is(scale.maxLabelWidth, 13);
 
 		assert.is(scale.isGrouped(), true);
 	});

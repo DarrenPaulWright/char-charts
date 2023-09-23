@@ -170,21 +170,21 @@ runChartVariants(boxChart, {
 		label: 'concat',
 		group: ['String']
 	}, {
+		data: [2000, 13000, 24000],
+		label: 'push',
+		group: ['Array', 'Custom']
+	}, {
+		data: [0.1, 0.2],
+		label: 'concat',
+		group: ['Array', 'Native']
+	}, {
 		data: [95000, 97000, 99000, 100000],
 		label: 'length',
 		group: ['String']
 	}, {
-		data: [2000, 13000, 24000],
-		label: 'push',
-		group: ['Array']
-	}, {
-		data: [0.1, 0.2],
-		label: 'concat',
-		group: ['Array']
-	}, {
 		data: [2],
 		label: 'shift',
-		group: ['Array']
+		group: ['Array', 'Custom']
 	}],
 	xAxis: {
 		label: 'Ops/s'
