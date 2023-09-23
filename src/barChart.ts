@@ -162,8 +162,9 @@ class BarRow extends Row {
  * @param {number} [settings.render.fractionDigits=0] - Number of fraction digits to display on inline labels.
  * @param {boolean} [settings.render.showInlineLabels=false] - Show a median label for each box. While labels try to fit in unused spaces, extra rows may be added if necessary.
  * @param {string} [settings.render.style='rounded'] - The style of characters used to generate the chart. Options are 'rounded', 'squared', 'doubled', or 'ascii'.
- * @param {string} [settings.render.colors='bright'] - Color pallete to use. Options are 'none', 'bright', 'dim', 'cool', 'passFail', 'blue', 'green', 'magenta', 'yellow', 'cyan', or 'red'.
- * @param {boolean} [settings.render.showDots=false] - Add a row with dots that represent data points.
+ * @param {string} [settings.render.colors='bright'] - Color palette to use. Options are 'none', 'bright', 'dim', 'cool', 'passFail', 'blue', 'green', 'magenta', 'yellow', 'cyan', or 'red'.
+ * @param {boolean} [settings.render.extraRowSpacing=false] - Add an extra row between each data row.
+ * @param {'asc' | 'desc'} [settings.render.sortLabels] - Sort the data by label.
  *
  * @returns {Array<string>} An array of strings, one string per row.
  */

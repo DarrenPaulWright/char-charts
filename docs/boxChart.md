@@ -20,15 +20,15 @@
 > String   ╭─────────┬─────────┬─────────┬─────────┬─────────╮
 >          │         ·         ╵    •    ╵         ╵    ●• · │
 >   concat │         ·         ╵    ┣━━━━━━━━━░░░░░░░░░░▓▓━┫ │
->          │         ╵         ╵         ╵   μ½: 90.00 ─╯ ····
+>          │         ╵         ╵         ╵  Mdn: 90.00 ─╯ ····
 >   length │         ╵         ╵         ╵         ╵      ┣░▓┫
-> Array    │      ╭─ μ½: 13.00 ╵         ╵       μ½: 98.00 ─╯│
+> Array    │      ╭─ Mdn: 13.00╵         ╵      Mdn: 98.00 ─╯│
 >          │·    ·   ╵ ·       ╵         ╵         ╵         │
 >     push │┣━░░░░▓▓▓━━┫       ╵         ╵         ╵         │
 >          •         ╵         ╵         ╵         ╵         │
->   concat ░ ── μ½: 0.15       ╵         ╵         ╵         │
+>   concat ░ ── Mdn: 0.15      ╵         ╵         ╵         │
 >          │·        ╵         ╵         ╵         ╵         │
->    shift │┃ ── μ½: 2.00      ╵         ╵         ╵         │
+>    shift │┃ ── Mdn: 2.00     ╵         ╵         ╵         │
 >          ╰─────────┴─────────┴─────────┴─────────┴─────────╯
 >          0        20        40        60        80       100
 >                                 Ops/s
@@ -40,8 +40,8 @@
 | --- | --- | --- | --- |
 | settings | <code>object</code> |  | Settings object. |
 | [settings.title] | <code>string</code> |  | Title of the chart. |
-| settings.data | <code>Array.&lt;object&gt;</code> |  | The data to display. |
-| [settings.data[].data] | <code>Array.&lt;number&gt;</code> |  | Use this or 'value'. If this is used, also provide the 'calc' setting. |
+| settings.data | <code>Array.&lt;object&gt;</code> |  |  |
+| [settings.data[].data] | <code>Array.&lt;number&gt;</code> |  | The data points for this row. |
 | [settings.data[].label] | <code>string</code> |  | A display label. |
 | [settings.data[].group] | <code>Array.&lt;string&gt;</code> |  | A group or groups that this datum belongs in. |
 | [settings.xAxis] | <code>object</code> |  | All x-axis settings are optional. The scale auto adjust to fit the data except where a value is provided here. |
@@ -55,8 +55,10 @@
 | [settings.render.fractionDigits] | <code>number</code> | <code>0</code> | Number of fraction digits to display on inline labels. |
 | [settings.render.showInlineLabels] | <code>boolean</code> | <code>false</code> | Show a median label for each box. While labels try to fit in unused spaces, extra rows may be added if necessary. |
 | [settings.render.style] | <code>string</code> | <code>&quot;&#x27;rounded&#x27;&quot;</code> | The style of characters used to generate the chart. Options are 'rounded', 'squared', 'doubled', or 'ascii'. |
-| [settings.render.colors] | <code>string</code> | <code>&quot;&#x27;bright&#x27;&quot;</code> | Color pallete to use. Options are 'none', 'bright', 'dim', 'cool', 'passFail', 'blue', 'green', 'magenta', 'yellow', 'cyan', or 'red'. |
+| [settings.render.colors] | <code>string</code> | <code>&quot;&#x27;bright&#x27;&quot;</code> | Color palette to use. Options are 'none', 'bright', 'dim', 'cool', 'passFail', 'blue', 'green', 'magenta', 'yellow', 'cyan', or 'red'. |
 | [settings.render.showDots] | <code>boolean</code> | <code>false</code> | Add a row with dots that represent data points. |
+| [settings.render.extraRowSpacing] | <code>boolean</code> | <code>false</code> | Add an extra row between each data row. |
+| [settings.render.sortLabels] | <code>&#x27;asc&#x27;</code>, <code>&#x27;desc&#x27;</code> |  | Sort the data by label. |
 
 
 [npm]: https://img.shields.io/npm/v/char-charts.svg

@@ -88,8 +88,7 @@
 		"docs:box": "exec-each src/boxChart.js --out docs/{basefile}.md jsdoc2md -- {path} -t node_modules/dmd-readable/docs.hbs --plugin dmd-readable",
 		"docs:stackedBar": "exec-each src/stackedBarChart.js --out docs/{basefile}.md jsdoc2md -- {path} -t node_modules/dmd-readable/docs.hbs --plugin dmd-readable",
 		"docs:readme": "jsdoc2md index.ts src/**/*.js > README.md -t node_modules/dmd-readable/overview.hbs --plugin dmd-readable/overview-plugin.js",
-		"docsOriginal": "tsc && run-p docs:*",
-		"docs": ""
+		"docs": "tsc && run-p docs:*"
 	},
 	"dependencies": {
 		"chalk": "^5.3.0",

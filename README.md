@@ -23,7 +23,7 @@ npm install char-charts
 ## Functions
 
 <dl>
-<dt><a href="docs/barChart.md">barChart(settings)</a> ⇒ <code>Array</code></dt>
+<dt><a href="docs/barChart.md">barChart(settings)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
 <dd><p>Builds a bar chart.</p>
 <pre><code class="language-text">                        Test chart
 Fruit      ┌───────┬───────┬───────┬───────┬───────┬───────┐
@@ -46,30 +46,30 @@ Nuts       │       ╵       ╵       ╵       ╵       │       │
 <pre><code class="language-text">String   ╭─────────┬─────────┬─────────┬─────────┬─────────╮
          │         ·         ╵    •    ╵         ╵    ●• · │
   concat │         ·         ╵    ┣━━━━━━━━━░░░░░░░░░░▓▓━┫ │
-         │         ╵         ╵         ╵   μ½: 90.00 ─╯ ····
+         │         ╵         ╵         ╵  Mdn: 90.00 ─╯ ····
   length │         ╵         ╵         ╵         ╵      ┣░▓┫
-Array    │      ╭─ μ½: 13.00 ╵         ╵       μ½: 98.00 ─╯│
+Array    │      ╭─ Mdn: 13.00╵         ╵      Mdn: 98.00 ─╯│
          │·    ·   ╵ ·       ╵         ╵         ╵         │
     push │┣━░░░░▓▓▓━━┫       ╵         ╵         ╵         │
          •         ╵         ╵         ╵         ╵         │
-  concat ░ ── μ½: 0.15       ╵         ╵         ╵         │
+  concat ░ ── Mdn: 0.15      ╵         ╵         ╵         │
          │·        ╵         ╵         ╵         ╵         │
-   shift │┃ ── μ½: 2.00      ╵         ╵         ╵         │
+   shift │┃ ── Mdn: 2.00     ╵         ╵         ╵         │
          ╰─────────┴─────────┴─────────┴─────────┴─────────╯
          0        20        40        60        80       100
                                 Ops/s
 </code></pre>
 </dd>
-<dt><a href="docs/barChart.md">barChart(settings)</a> ⇒ <code>Array</code></dt>
+<dt><a href="docs/stackedBarChart.md">stackedBarChart(settings)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
 <dd><p>Builds a stacked bar chart.</p>
 <pre><code class="language-text">                        Test chart
 Fruit     ╭────────┬─────────┬─────────┬─────────┬─────────╮
-  Oranges ▐███▒▒▒▒▒▒▒▒░░░░░░░░░░░░████████       │         │
-   Apples ▐█████▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░██████████   │
-    Pears ▐███████▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░██████████         │
+  Oranges ████▒▒▒▒▒▒▒▒░░░░░░░░░░░░████████       │         │
+   Apples ██████▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░██████████   │
+    Pears ████████▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░██████████         │
 Nuts      │        ╵         │         ╵         │         │
-   Almond ▐███▒▒▒▒▒▒▒▒░░░░░░░░░░░░████████       │         │
-   Peanut ▐█████▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░██████████   │
+   Almond ████▒▒▒▒▒▒▒▒░░░░░░░░░░░░████████       │         │
+   Peanut ██████▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░██████████   │
           ╰────────┴─────────┼─────────┴─────────┼─────────╯
           0        5        10        15        20        25
 </code></pre>

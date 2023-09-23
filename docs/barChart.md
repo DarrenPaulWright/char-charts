@@ -13,7 +13,7 @@
 
 <br><a name="barChart"></a>
 
-## barChart(settings) ⇒ <code>Array</code>
+## barChart(settings) ⇒ <code>Array.&lt;string&gt;</code>
 > Builds a bar chart.
 > 
 > ```text
@@ -33,28 +33,31 @@
 >                              Satisfaction
 > ```
 
-**Returns**: <code>Array</code> - An array of strings, one string per row.  
+**Returns**: <code>Array.&lt;string&gt;</code> - An array of strings, one string per row.  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | settings | <code>object</code> |  | Settings object. |
 | [settings.title] | <code>string</code> |  | Title of the chart. |
-| [settings.width] | <code>number</code> | <code>60</code> | Total width in characters, including y-axis labels. |
-| [settings.fractionDigits] | <code>number</code> | <code>0</code> | Number of fraction digits to display on inline labels. |
-| [settings.showInlineLabels] | <code>number</code> | <code>true</code> | Show a value label for each bar. |
-| [settings.ascii] | <code>boolean</code> | <code>false</code> | Use only ascii characters. |
-| [settings.calc] | <code>string</code> |  | Options are 'min', 'max', 'mean', and 'median'. Only use if data objects have a 'data' property instead of 'value'. |
+| settings.data | <code>Array.&lt;object&gt;</code> |  | The data to display. |
+| [settings.data[].value] | <code>Array.&lt;number&gt;</code> |  | Use this or 'data'. If this is used, also provide the 'calc' setting. |
+| [settings.data[].data] | <code>Array.&lt;number&gt;</code> |  | Use this or 'value'. If this is used, also provide the 'calc' setting. |
+| [settings.data[].label] | <code>string</code> |  | A display label. |
+| [settings.data[].group] | <code>Array.&lt;string&gt;</code> |  | A group or groups that this datum belongs in. |
 | [settings.xAxis] | <code>object</code> |  | All x-axis settings are optional. The scale auto adjust to fit the data except where a value is provided here. |
-| [settings.xAxis.scale] | <code>object</code> | <code>linear</code> | Options are 'linear' or 'log'. |
-| [settings.xAxis.label] | <code>object</code> |  | If provided, an extra row is returned with this label centered under the x-axis labels. |
+| [settings.xAxis.scale] | <code>&#x27;linear&#x27;</code>, <code>&#x27;log&#x27;</code> | <code>linear</code> | Options are 'linear' or 'log'. |
+| [settings.xAxis.label] | <code>string</code> |  | If provided, an extra row is returned with this label centered under the x-axis labels. |
 | [settings.xAxis.start] | <code>number</code> |  | The value on the left side of the chart. |
 | [settings.xAxis.end] | <code>number</code> |  | The value on the right side of the chart. |
 | [settings.xAxis.tickValue] | <code>number</code> |  | The value between each tick. |
-| settings.data | <code>Array.&lt;object&gt;</code> |  | The data for the chart. |
-| [settings.data[].data] | <code>Array.&lt;number&gt;</code> |  | Use this or 'value'. If this is used, also provide the 'calc' setting. |
-| [settings.data[].value] | <code>number</code> |  | The numeric value. |
-| [settings.data[].label] | <code>string</code> |  | A display label. |
-| [settings.data[].group] | <code>Array.&lt;string&gt;</code> |  | A group that this datum belongs in. |
+| [settings.render] | <code>object</code> |  | Settings that effect the rendered look and feel. |
+| [settings.render.width] | <code>number</code> | <code>60</code> | Total width in characters, including y-axis labels. |
+| [settings.render.fractionDigits] | <code>number</code> | <code>0</code> | Number of fraction digits to display on inline labels. |
+| [settings.render.showInlineLabels] | <code>boolean</code> | <code>false</code> | Show a median label for each box. While labels try to fit in unused spaces, extra rows may be added if necessary. |
+| [settings.render.style] | <code>string</code> | <code>&quot;&#x27;rounded&#x27;&quot;</code> | The style of characters used to generate the chart. Options are 'rounded', 'squared', 'doubled', or 'ascii'. |
+| [settings.render.colors] | <code>string</code> | <code>&quot;&#x27;bright&#x27;&quot;</code> | Color palette to use. Options are 'none', 'bright', 'dim', 'cool', 'passFail', 'blue', 'green', 'magenta', 'yellow', 'cyan', or 'red'. |
+| [settings.render.extraRowSpacing] | <code>boolean</code> | <code>false</code> | Add an extra row between each data row. |
+| [settings.render.sortLabels] | <code>&#x27;asc&#x27;</code>, <code>&#x27;desc&#x27;</code> |  | Sort the data by label. |
 
 
 [npm]: https://img.shields.io/npm/v/char-charts.svg
