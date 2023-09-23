@@ -272,11 +272,11 @@ describe('labels', () => {
 			});
 
 			assert.equal(data, [
-				'one       ╭─────────┬─────────┬─────────┬─────────╮',
-				'─── two   │         ╵        ╭─ Mdn: 46 ╵         │',
-				'    first │         ╵     ┣━░▓▓━┫       ╵         │',
-				'          ╰─────────┴─────────┴─────────┴─────────╯',
-				'          0        25        50        75       100'
+				'one      ╭─────────┬─────────┬─────────┬──────────╮',
+				'   two   │         ╵        ╭─ Mdn: 46 ╵          │',
+				'   first │         ╵     ┣━░▓▓━━┫      ╵          │',
+				'         ╰─────────┴─────────┴─────────┴──────────╯',
+				'         0        25        50        75        100'
 			]);
 		});
 
@@ -291,11 +291,11 @@ describe('labels', () => {
 			});
 
 			assert.equal(data, [
-				'one       ╭─────────┬─────────┬─────────┬─────────╮',
-				'─── two   │         ╵         ╵     Mdn: 86 ─╮    │',
-				'    first │         ╵         ╵         ╵ ┣━░▓▓━┫ │',
-				'          ╰─────────┴─────────┴─────────┴─────────╯',
-				'          0        25        50        75       100'
+				'one      ╭─────────┬─────────┬─────────┬──────────╮',
+				'   two   │         ╵         ╵      Mdn: 86 ─╮    │',
+				'   first │         ╵         ╵         ╵  ┣━░▓▓━┫ │',
+				'         ╰─────────┴─────────┴─────────┴──────────╯',
+				'         0        25        50        75        100'
 			]);
 		});
 
@@ -1000,7 +1000,7 @@ describe('full', () => {
 		]);
 	});
 
-	it('should render groups with extra rows', () => {
+	it('should render sorted groups with extra rows', () => {
 		const data = boxChart(superimpose(defaultSettings, {
 			title: 'Test chart',
 			render: {
@@ -1008,13 +1008,14 @@ describe('full', () => {
 				fractionDigits: 2,
 				showInlineLabels: true,
 				showDots: true,
-				extraRowSpacing: true
+				extraRowSpacing: true,
+				sortLabels: 'asc'
 			},
 			data: [
 				{ data: [50, 90, 92, 97], label: 'first', group: ['one'] },
-				{ data: [95, 97, 100], label: 'second', group: ['one'] },
 				{ data: [2, 13, 24], label: 'third', group: ['two'] },
 				{ data: [0.1, 0.2], label: 'four', group: ['two'] },
+				{ data: [95, 97, 100], label: 'second', group: ['one'] },
 				{ data: [2], label: 'five', group: ['two'] }
 			],
 			xAxis: {
@@ -1032,14 +1033,14 @@ describe('full', () => {
 			'         │       ╵        │        ╵       │        ╵       •·',
 			'  second │       ╵        │        ╵       │        ╵       ░┫',
 			'two      │       ╵        │        ╵       │     Mdn: 97.00 ─╯',
-			'         │       ╵        │    ·   ╵       │ ·    · ╵        │',
-			'   third │       ╵        │    ┣━━━━━━━━━░░░░░▓▓▓━┫ ╵        │',
-			'         │       ╵        │        ╵       │  ╰─ Mdn: 13.00  │',
-			'         ·    ·  ╵        │        ╵       │        ╵        │',
-			'    four ░░░▓▓▓  ╵        │        ╵       │        ╵        │',
-			'         │  ╰─ Mdn: 0.15  │    ╭─ Mdn: 2.00│        ╵        │',
 			'         │       ╵        │    ·   ╵       │        ╵        │',
 			'    five │       ╵        │    ┃   ╵       │        ╵        │',
+			'         │       ╵        │    ╰─ Mdn: 2.00│        ╵        │',
+			'         ·    ·  ╵        │        ╵       │        ╵        │',
+			'    four ░░░▓▓▓  ╵        │        ╵       │        ╵        │',
+			'         │  ╰─ Mdn: 0.15  │        ╵       │  ╭─ Mdn: 13.00  │',
+			'         │       ╵        │    ·   ╵       │ ·    · ╵        │',
+			'   third │       ╵        │    ┣━━━━━━━━━░░░░░▓▓▓━┫ ╵        │',
 			'         ╰───────┴────────┼────────┴───────┼────────┴────────╯',
 			'         100m  320m       1       3.2     10       32      100',
 			'                                  Hz                          '

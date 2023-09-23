@@ -170,7 +170,8 @@ it('should render a full chart with multiple data points', () => {
 	const data = barChart(superimpose(defaultSettings, {
 		title: 'Test chart',
 		render: {
-			fractionDigits: 2
+			fractionDigits: 2,
+			sortLabels: 'desc'
 		},
 		data: [
 			{ value: 97, label: 'first' },
@@ -187,11 +188,11 @@ it('should render a full chart with multiple data points', () => {
 	assert.equal(data, [
 		'               Test chart               ',
 		'       ╭───────┬───────┬───────┬───────╮',
-		' first ▐█████████████████████▌97.00▐██▌│',
-		'second ▐█████████████████████▌100.00▐██▌',
 		' third ▐▌  3.00╵       ╵       ╵       │',
+		'second ▐█████████████████████▌100.00▐██▌',
 		'  four ┃  0.12 ╵       ╵       ╵       │',
 		'  five │  0.00 ╵       ╵       ╵       │',
+		' first ▐█████████████████████▌97.00▐██▌│',
 		'       ╰───────┴───────┴───────┴───────╯',
 		'       0      25      50      75     100',
 		'                      Hz                '

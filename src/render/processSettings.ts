@@ -104,14 +104,18 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 		return Math.max(result, datum.group?.length || 0);
 	}, 0);
 
-	if (groupDepth !== 0) {
+	if (groupDepth !== 0 || settings.render.sortLabels) {
 		const comparers = [];
 
 		for (let index = 0; index < groupDepth; index++) {
 			comparers.push(`group.${ index }`);
 		}
 
-		settings.data.sort(compare(comparers));
+		if (settings.render.sortLabels) {
+			comparers.push('label');
+		}
+
+		settings.data.sort(compare(comparers, settings.render.sortLabels === 'desc'));
 	}
 
 	const data: Array<IChartDataInternal> = settings.data.map((value, index) => {

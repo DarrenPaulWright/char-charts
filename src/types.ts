@@ -85,6 +85,7 @@ export interface ISettings {
 		style?: 'rounded' | 'squared' | 'doubled' | 'ascii';
 		colors?: 'none' | 'bright' | 'dim' | 'cool' | 'passFail' | 'blue' | 'green' | 'magenta' | 'yellow' | 'cyan' | 'red';
 		extraRowSpacing?: boolean;
+		sortLabels?: 'asc' | 'desc' | undefined;
 	};
 	calc?: 'min' | 'max' | 'mean' | 'median' | 'quartiles' | null;
 	xAxis?: IAxisSettings;
