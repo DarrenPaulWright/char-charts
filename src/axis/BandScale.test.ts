@@ -20,7 +20,8 @@ describe('init', () => {
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
-			bgColor: chalk.green
+			bgColor: chalk.green,
+			hasExtraRow: false
 		}, {
 			value: 12,
 			label: 'second',
@@ -28,7 +29,8 @@ describe('init', () => {
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
-			bgColor: chalk.green
+			bgColor: chalk.green,
+			hasExtraRow: false
 		}, {
 			value: 7,
 			label: 'third',
@@ -36,7 +38,8 @@ describe('init', () => {
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
-			bgColor: chalk.green
+			bgColor: chalk.green,
+			hasExtraRow: false
 		}];
 
 		const scale = new BandScale(data);
@@ -73,7 +76,8 @@ describe('init', () => {
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
-			bgColor: chalk.green
+			bgColor: chalk.green,
+			hasExtraRow: false
 		}, {
 			value: 12,
 			label: 'second',
@@ -81,7 +85,8 @@ describe('init', () => {
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
-			bgColor: chalk.green
+			bgColor: chalk.green,
+			hasExtraRow: false
 		}, {
 			value: 7,
 			label: 'third',
@@ -89,7 +94,8 @@ describe('init', () => {
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
-			bgColor: chalk.green
+			bgColor: chalk.green,
+			hasExtraRow: false
 		}];
 
 		const scale = new BandScale(data);
@@ -135,7 +141,8 @@ describe('init', () => {
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
-			bgColor: chalk.green
+			bgColor: chalk.green,
+			hasExtraRow: false
 		}, {
 			value: 12,
 			label: 'second',
@@ -143,7 +150,8 @@ describe('init', () => {
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
-			bgColor: chalk.green
+			bgColor: chalk.green,
+			hasExtraRow: false
 		}, {
 			value: 7,
 			label: 'third',
@@ -151,7 +159,8 @@ describe('init', () => {
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
-			bgColor: chalk.green
+			bgColor: chalk.green,
+			hasExtraRow: false
 		}];
 
 		const scale = new BandScale(data);

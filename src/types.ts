@@ -44,10 +44,10 @@ export interface IChartDataInternal {
 	color: typeof chalk;
 	bgColor: typeof chalk;
 
-	siblings?: Array<IBandDomain>;
+	siblings: Array<IBandDomain>;
 	placedLabels?: Array<IPlacedLabel>;
 	isInlineLabelPlaced?: boolean;
-	hasExtraRow?: boolean;
+	hasExtraRow: boolean;
 
 	min?: number;
 	Q1?: number;
@@ -84,6 +84,7 @@ export interface ISettings {
 		showDots?: boolean;
 		style?: 'rounded' | 'squared' | 'doubled' | 'ascii';
 		colors?: 'none' | 'bright' | 'dim' | 'cool' | 'passFail' | 'blue' | 'green' | 'magenta' | 'yellow' | 'cyan' | 'red';
+		extraRowSpacing?: boolean;
 	};
 	calc?: 'min' | 'max' | 'mean' | 'median' | 'quartiles' | null;
 	xAxis?: IAxisSettings;
@@ -99,6 +100,7 @@ export interface ISettingsInternal {
 	showDots: boolean;
 	useColor: boolean;
 	colors: Array<typeof chalk>;
+	extraRowSpacing: boolean;
 	style: DeepRequired<ISettings>['render']['style'];
 	CHARS: typeof ROUNDED_STYLE;
 	calc: 'min' | 'max' | 'mean' | 'median' | 'quartiles' | null;

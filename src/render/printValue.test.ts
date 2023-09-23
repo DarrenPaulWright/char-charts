@@ -13,6 +13,7 @@ const defaultSettings: ISettingsInternal = {
 	showDots: false,
 	useColor: false,
 	colors: [],
+	extraRowSpacing: false,
 	style: 'rounded',
 	CHARS: ROUNDED_STYLE,
 	calc: 'min',

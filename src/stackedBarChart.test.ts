@@ -1,4 +1,5 @@
 import { assert, it } from 'hippogriff';
+import { superimpose } from 'object-agent';
 import { stackedBarChart } from '../index.js';
 import type { ISettings } from './types';
 
@@ -170,6 +171,56 @@ it('should render groups', () => {
 		'Nuts      │        │         │         │',
 		'   Almond ██▒▒▒▒░░░░░░████   │         │',
 		'   Peanut ███▒▒▒▒▒▒░░░░░░░░░█████      │',
+		'    Pecan │        │         │         │',
+		'          ╰────────┼─────────┼─────────╯',
+		'          0       10        20        30'
+	]);
+});
+
+it('should render groups', () => {
+	const data = stackedBarChart(superimpose(defaultSettings, {
+		render: {
+			extraRowSpacing: true
+		},
+		data: [{
+			value: [2, 4, 6, 4],
+			label: 'Oranges',
+			group: ['Fruit']
+		}, {
+			value: [3, 6, 9, 5],
+			label: 'Apples',
+			group: ['Fruit']
+		}, {
+			value: [4, 4, 7, 5],
+			label: 'Pears',
+			group: ['Fruit']
+		}, {
+			value: [2, 4, 6, 4],
+			label: 'Almond',
+			group: ['Nuts']
+		}, {
+			value: [3, 6, 9, 5],
+			label: 'Peanut',
+			group: ['Nuts']
+		}, {
+			value: [0, 0, 0],
+			label: 'Pecan',
+			group: ['Nuts']
+		}]
+	}) as ISettings);
+
+	assert.equal(data, [
+		'Fruit     ╭────────┬─────────┬─────────╮',
+		'  Oranges ██▒▒▒▒░░░░░░████   │         │',
+		'          │        │         │         │',
+		'   Apples ███▒▒▒▒▒▒░░░░░░░░░█████      │',
+		'          │        │         │         │',
+		'    Pears ████▒▒▒▒░░░░░░░█████         │',
+		'Nuts      │        │         │         │',
+		'   Almond ██▒▒▒▒░░░░░░████   │         │',
+		'          │        │         │         │',
+		'   Peanut ███▒▒▒▒▒▒░░░░░░░░░█████      │',
+		'          │        │         │         │',
 		'    Pecan │        │         │         │',
 		'          ╰────────┼─────────┼─────────╯',
 		'          0       10        20        30'

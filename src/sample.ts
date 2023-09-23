@@ -80,7 +80,8 @@ runChartVariants(barChart, {
 	render: {
 		width: 60,
 		showInlineLabels: true,
-		significantDigits: 3
+		significantDigits: 3,
+		extraRowSpacing: true
 	},
 	data: [{
 		value: 1000000,
@@ -124,7 +125,8 @@ runChartVariants(stackedBarChart, {
 	title: 'Stacked Bar Chart',
 	render: {
 		width: 60,
-		showInlineLabels: false
+		showInlineLabels: false,
+		extraRowSpacing: true
 	},
 	data: [{
 		value: [2, 4, 6, 4],
@@ -160,7 +162,8 @@ runChartVariants(boxChart, {
 		fractionDigits: 0,
 		significantDigits: 3,
 		showInlineLabels: true,
-		showDots: true
+		showDots: true,
+		extraRowSpacing: true
 	},
 	data: [{
 		data: [20000, 50000, 50000, 90000, 90000, 90000, 90000, 92000, 92000, 92000, 97000],

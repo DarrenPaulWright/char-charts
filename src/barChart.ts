@@ -68,6 +68,8 @@ class BarRow extends Row {
 	}
 
 	render(rowData: IBandDomain): Array<string> {
+		const output: Array<string> = [];
+
 		this.prepRender(rowData);
 
 		this.label = this.isGroup ?
@@ -99,7 +101,21 @@ class BarRow extends Row {
 		this.padEnd(this.settings.xAxis.size, SPACE)
 			.prependLabel(false, this.isGroup ? undefined : rowData.color);
 
-		return [this.toString()];
+		output.push(this.toString());
+
+		if (this.rowData.hasExtraRow) {
+			this.reset();
+
+			output.push(this.padEnd(
+					this.settings.xAxis.size,
+					SPACE,
+					this.BOX_COLOR
+				)
+				.prependLabel(true)
+				.toString());
+		}
+
+		return output;
 	}
 }
 
@@ -161,7 +177,8 @@ export default (settings: ISettings): Array<string> => {
 			showInlineLabels: true,
 			showDots: false,
 			style: 'rounded',
-			colors: 'bright'
+			colors: 'bright',
+			extraRowSpacing: false
 		},
 		calc: null,
 		data: [],

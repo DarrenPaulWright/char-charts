@@ -9,7 +9,9 @@ describe('.domain', () => {
 		group: [],
 		isGroup: false,
 		color: chalk.red,
-		bgColor: chalk.green
+		bgColor: chalk.green,
+		siblings: [],
+		hasExtraRow: false
 	};
 
 	class TestScale extends Scale {

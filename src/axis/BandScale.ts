@@ -40,7 +40,8 @@ export default class BandScale extends Scale {
 							groupIndent: index,
 							color: chalk.white,
 							bgColor: chalk.bgWhite,
-							siblings: []
+							siblings: [],
+							hasExtraRow: false
 						});
 
 						isNew = true;

@@ -34,11 +34,7 @@ class BoxRow extends Row {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/class-methods-use-this
-	private hasDot(
-		rowData: IBandDomain,
-		low: number,
-		high: number
-	): boolean {
+	private hasDot(rowData: IBandDomain, low: number, high: number): boolean {
 		return Boolean(rowData?.dotsOffsets) &&
 			rowData.dotsOffsets!.length !== 0 &&
 			rowData.dotsOffsets!.some((dot: number) => (dot >= low) && (dot <= high));
@@ -51,10 +47,10 @@ class BoxRow extends Row {
 		high: number,
 		ignoreTypes: Array<string>
 	): boolean {
-		return rowData.placedLabels!.findIndex((item) => {
-			return item.low <= high + 1 &&
-				item.high >= low - 1 &&
-				(ignoreTypes === undefined || !ignoreTypes.includes(item.relation));
+		return rowData.placedLabels!.findIndex((label) => {
+			return label.low <= high + 1 &&
+				label.high >= low - 1 &&
+				!ignoreTypes.includes(label.relation);
 		}) !== -1;
 	}
 
@@ -65,32 +61,33 @@ class BoxRow extends Row {
 		label: string,
 		low: number,
 		relation: IPlacedLabel['relation'],
-		isDots = false,
+		skipDots: boolean,
 		ignoreTypes: Array<string> = []
 	): void {
-		if (low > 0 && !rowData.isInlineLabelPlaced && targetRowData.offsets !== undefined) {
-			const high = low + label.length - 1;
+		const high = low + label.length - 1;
 
-			if (
-				(low > 0 && high <= this.settings.xAxis.size) &&
-				(
-					isDots ||
-					high < targetRowData.offsets.min ||
-					low > targetRowData.offsets.max + 1
-				) &&
-				!this.hasLabel(targetRowData, low, high, ignoreTypes) &&
-				(targetRowData.hasExtraRow || !this.hasDot(targetRowData, low, high))
-			) {
-				rowData.isInlineLabelPlaced = true;
+		if (
+			low > 0 &&
+			high <= this.settings.xAxis.size &&
+			!rowData.isInlineLabelPlaced &&
+			targetRowData.offsets !== undefined &&
+			(
+				skipDots ||
+				high < targetRowData.offsets.min ||
+				low > targetRowData.offsets.max + 1
+			) &&
+			!this.hasLabel(targetRowData, low, high, ignoreTypes) &&
+			(targetRowData.hasExtraRow || !this.hasDot(targetRowData, low, high))
+		) {
+			rowData.isInlineLabelPlaced = true;
 
-				targetRowData.placedLabels!.push({
-					label,
-					low,
-					high,
-					relation,
-					color: rowData.color
-				});
-			}
+			targetRowData.placedLabels!.push({
+				label,
+				low,
+				high,
+				relation,
+				color: rowData.color
+			});
 		}
 	}
 
@@ -112,7 +109,7 @@ class BoxRow extends Row {
 			rightLabel,
 			offset,
 			relations,
-			this.settings.showDots
+			this.settings.showDots || relations === 'extraRow'
 		);
 
 		this.placeLabelIfFitsOnRow(
@@ -121,13 +118,12 @@ class BoxRow extends Row {
 			leftLabel,
 			offset - leftLabel.length + 1,
 			relations,
-			this.settings.showDots
+			this.settings.showDots || relations === 'extraRow'
 		);
 	}
 
 	private buildBoxOffsets(rowData: IBandDomain): void {
 		if (rowData && !rowData.offsets) {
-			// If ('median' in rowData) {
 			rowData.offsets = {
 				min: this.getCharOffset(rowData.min!),
 				Q1: this.getCharOffset(rowData.Q1!),
@@ -154,14 +150,6 @@ class BoxRow extends Row {
 				}
 			}
 
-			// }
-			// Else {
-			// 	RowData.offsets = {
-			// 		Min: this.settings.xAxis.size,
-			// 		Max: 1
-			// 	};
-			// }
-
 			rowData.placedLabels = [];
 			rowData.outliers = new List(rowData.outliers || []);
 			rowData.dotsOffsets = new List(
@@ -169,7 +157,8 @@ class BoxRow extends Row {
 					rowData.data.map((value: number) => this.getCharOffset(value)) :
 					[]
 			);
-			rowData.hasExtraRow = false;
+
+			// rowData.hasExtraRow = false;
 		}
 	}
 
@@ -187,6 +176,17 @@ class BoxRow extends Row {
 			if (!rowData.isInlineLabelPlaced && rowData.median && !rowData.isGroup) {
 				const medianLabel = this.buildLabel(rowData.median);
 				const thisMedianOffset = rowData.offsets!.median + 1;
+
+				if (rowData.hasExtraRow) {
+					this.placeLabelMulti(
+						rowData,
+						rowData,
+						medianLabel,
+						[this.CHARS.ARROW_LEFT_UP, this.CHARS.ARROW_RIGHT_UP],
+						thisMedianOffset,
+						'extraRow'
+					);
+				}
 
 				if (this.settings.showDots) {
 					this.placeLabelMulti(
@@ -264,10 +264,10 @@ class BoxRow extends Row {
 				}
 			}
 
-			// If (!this.settings.showDots && nextRow !== undefined && !nextRow.isInlineLabelPlaced) {
 			if (
 				nextRow !== undefined &&
 				!nextRow.isInlineLabelPlaced &&
+				!nextRow.hasExtraRow &&
 				(!this.isGroup || rowData.siblings[0]) &&
 				!nextRow.isGroup
 			) {
@@ -317,7 +317,7 @@ class BoxRow extends Row {
 	private padEndWithLabels(
 		endIndex: number,
 		char: string,
-		relations: Array<IPlacedLabel['relation']> = [],
+		relations: Array<IPlacedLabel['relation']>,
 		skipDots = false
 	): this {
 		if (char === SPACE) {
@@ -326,7 +326,7 @@ class BoxRow extends Row {
 					.filter((label) => {
 						return label.low >= this.length &&
 							label.high <= endIndex &&
-							(relations.length === 0 || relations.includes(label.relation)) &&
+							(relations.includes(label.relation)) &&
 							(!this.rowData.hasExtraRow || skipDots || label.relation === 'prevRow');
 					})
 					.sort(compare('low'));
@@ -382,8 +382,19 @@ class BoxRow extends Row {
 
 		this.reset();
 
+		const relations: Array<IPlacedLabel['relation']> = ['prevRow', 'sameRow', 'sameRowDots'];
+
+		if (!this.rowData.hasExtraRow || this.isGroup) {
+			relations.push('nextRow', 'extraRow');
+		}
+
 		if (rowData.data !== undefined) {
-			this.padEndWithLabels(rowData.offsets!.min - 1, SPACE, [], this.settings.showDots);
+			this.padEndWithLabels(
+				rowData.offsets!.min - 1,
+				SPACE,
+				relations,
+				this.settings.showDots
+			);
 
 			if (rowData.data.length === 1) {
 				this.append(this.CHARS.WHISKER_SINGLE, rowData.color);
@@ -401,35 +412,39 @@ class BoxRow extends Row {
 					this.append(this.CHARS.WHISKER_START, rowData.color)
 						.padEndWithLabels(
 							rowData.offsets!.Q1 - 1,
-							this.CHARS.WHISKER_LINE
+							this.CHARS.WHISKER_LINE,
+							relations
 						);
 				}
 
 				this.padEndWithLabels(
 						rowData.offsets!.median,
-						this.CHARS.Q1_FILL
+						this.CHARS.Q1_FILL,
+						relations
 					)
 					.padEndWithLabels(
 						rowData.offsets!.Q3,
-						this.CHARS.Q3_FILL
+						this.CHARS.Q3_FILL,
+						relations
 					);
 
 				if (rowData.offsets!.Q3 !== rowData.offsets!.max) {
 					this.padEndWithLabels(
 							rowData.offsets!.max - 1,
-							this.CHARS.WHISKER_LINE
+							this.CHARS.WHISKER_LINE,
+							relations
 						)
 						.append(this.CHARS.WHISKER_END, rowData.color);
 				}
 			}
 		}
 
-		this.padEndWithLabels(this.settings.xAxis.size, SPACE, [], this.settings.showDots)
+		this.padEndWithLabels(this.settings.xAxis.size, SPACE, relations, this.settings.showDots)
 			.prependLabel(false, this.isGroup ? undefined : rowData.color);
 
 		output.push(this.toString());
 
-		if (rowData.placedLabels!.length !== 0) {
+		if (rowData.placedLabels!.length !== 0 || this.rowData.hasExtraRow) {
 			output.push(this.buildExtraRow(true));
 		}
 
@@ -495,7 +510,8 @@ export default (settings: ISettings): Array<string> => {
 			showInlineLabels: true,
 			showDots: false,
 			style: 'rounded',
-			colors: 'bright'
+			colors: 'bright',
+			extraRowSpacing: false
 		},
 		data: [{
 			label: 'undefined',

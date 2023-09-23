@@ -51,7 +51,9 @@ const extraValues = {
 	group: [],
 	isGroup: false,
 	color: chalk.red,
-	bgColor: chalk.green
+	bgColor: chalk.green,
+	siblings: [],
+	hasExtraRow: false
 };
 
 describe('range', () => {

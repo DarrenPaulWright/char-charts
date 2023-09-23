@@ -18,17 +18,20 @@ const data: Array<IChartDataInternal> = [{
 	...extraValues,
 	value: 95,
 	label: 'one',
-	group: ['group', 'in']
+	group: ['group', 'in'],
+	hasExtraRow: false
 }, {
 	...extraValues,
 	value: 105,
 	label: 'two',
-	group: ['group', 'in']
+	group: ['group', 'in'],
+	hasExtraRow: false
 }, {
 	...extraValues,
 	value: 105,
 	label: 'three',
-	group: ['group', 'in']
+	group: ['group', 'in'],
+	hasExtraRow: false
 }];
 
 const xAxis = new Axis({}, data);
@@ -45,6 +48,7 @@ const baseSettings: ISettingsInternal = {
 	style: 'rounded',
 	useColor: false,
 	colors: [],
+	extraRowSpacing: false,
 	calc: null,
 	xAxis,
 	yAxis,

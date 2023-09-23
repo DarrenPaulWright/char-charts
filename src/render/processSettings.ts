@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import { List } from 'hord';
+import { deepEqual } from 'object-agent';
 import Axis from '../axis/Axis.js';
 import type { DeepRequired, IChartDataInternal, ISettings, ISettingsInternal } from '../types';
 import { ASCII_STYLE, DOUBLED_STYLE, ROUNDED_STYLE, SQUARED_STYLE } from './chars.js';
@@ -36,7 +37,7 @@ const calcValue = (
 	}
 };
 
-const colorPalletes = {
+const colorPalettes = {
 	none: [
 		chalk.white
 	],
@@ -97,7 +98,7 @@ const styleMap: { [name: string]: typeof ROUNDED_STYLE } = {
 
 export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 	const useColor = settings.render.colors !== 'none';
-	const colors = colorPalletes[settings.render.colors];
+	const colors = colorPalettes[settings.render.colors];
 	const bgColors = colors.map((color) => color.inverse);
 
 	const data: Array<IChartDataInternal> = settings.data.map((value, index) => {
@@ -107,7 +108,10 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 			isGroup: false,
 			color: colors[index % colors.length],
 			bgColor: bgColors[index % bgColors.length],
-			siblings: []
+			siblings: [],
+			hasExtraRow: settings.render.extraRowSpacing &&
+				index !== settings.data.length - 1 &&
+				deepEqual(value.group, settings.data[index + 1]?.group)
 		};
 
 		if ('value' in value) {

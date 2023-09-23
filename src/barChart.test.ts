@@ -232,3 +232,42 @@ it('should render groups and custom width', () => {
 		'                                 Hz                         '
 	]);
 });
+
+it('should render groups and extra rows', () => {
+	const data = barChart(superimpose(defaultSettings, {
+		title: 'Test chart',
+		render: {
+			width: 60,
+			fractionDigits: 2,
+			extraRowSpacing: true
+		},
+		data: [
+			{ value: 97, label: 'first', group: ['one'] },
+			{ value: 100, label: 'second', group: ['one'] },
+			{ value: 3, label: 'third', group: ['two'] },
+			{ value: 0.123, label: 'four', group: ['two'] },
+			{ value: 0, label: 'five', group: ['two'] }
+		],
+		xAxis: {
+			scale: 'log',
+			label: 'Hz'
+		}
+	}) as ISettings);
+
+	assert.equal(data, [
+		'                         Test chart                         ',
+		'one      ╭───────────┬────────────┬───────────┬────────────╮',
+		'   first ▐███████████████████████████████████████▌97.00▐███│',
+		'         │           ╵            │           ╵            │',
+		'  second ▐███████████████████████████████████████▌100.00▐██▌',
+		'two      │           ╵            │           ╵            │',
+		'   third ▐███████████▌  3.00      │           ╵            │',
+		'         │           ╵            │           ╵            │',
+		'    four ┃  0.12     ╵            │           ╵            │',
+		'         │           ╵            │           ╵            │',
+		'    five │  0.00     ╵            │           ╵            │',
+		'         ╰───────────┴────────────┼───────────┴────────────╯',
+		'         0          3.2          10          32          100',
+		'                                 Hz                         '
+	]);
+});
