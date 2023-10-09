@@ -85,7 +85,7 @@ class BarRow extends Row {
 					(this.barWidth >= 1 ?
 						this.CHARS.BAR_HALF_RIGHT :
 						this.CHARS.BAR_SINGLE),
-				this.isGroup ? this.BOX_COLOR : rowData.color
+				this.isGroup || rowData.value === 0 ? this.BOX_COLOR : rowData.color
 			);
 
 		if (
