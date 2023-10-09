@@ -23,10 +23,25 @@ describe('single row', () => {
 		const data = boxChart(defaultSettings);
 
 		assert.equal(data, [
-			'          ╭──────┬──────┬──────┬───────╮',
-			'undefined ┃      ╵      ╵      ╵       │',
-			'          ╰──────┴──────┴──────┴───────╯',
-			'          0    250m   500m   750m      1'
+			'╭──────┬───────┬───────┬───────┬───────╮',
+			'╰──────┴───────┴───────┴───────┴───────╯',
+			'0    200m    400m    600m    800m      1'
+		]);
+	});
+
+	it('should render an empty row if data is empty array', () => {
+		const data = boxChart({
+			...defaultSettings,
+			data: [
+				{ data: [], label: 'first' }
+			]
+		});
+
+		assert.equal(data, [
+			'      ╭───────┬───────┬───────┬────────╮',
+			'first │       ╵       ╵       ╵        │',
+			'      ╰───────┴───────┴───────┴────────╯',
+			'      0     250m    500m    750m       1'
 		]);
 	});
 

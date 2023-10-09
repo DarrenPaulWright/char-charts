@@ -31,24 +31,25 @@ export default abstract class Row {
 	): string {
 		const last = this.settings.xAxis.ticks.length - 1;
 
-		return label.concat(
-			this.colorize(
-				(this.settings.xAxis.ticks
-					.reduce((result: string, value: ITick, index: number) => {
-						return index === 0 ?
-							leftChar :
-							result
-								.padEnd(value.offset - 1, this.CHARS.CHART_HORIZONTAL)
-								.concat(index === last ?
-									rightChar :
-									(value.isMajor ?
-										tickCharMajor :
-										tickChar));
-					}, '') as string)
-					.padStart(this.settings.width - label.length, SPACE),
-				this.BOX_COLOR
-			)
-		);
+		return label
+			.padEnd(this.settings.yAxis.scale.maxLabelWidth, SPACE)
+			.concat(
+				this.colorize(
+					(this.settings.xAxis.ticks
+						.reduce((result: string, value: ITick, index: number) => {
+							return index === 0 ?
+								leftChar :
+								result
+									.padEnd(value.offset - 1, this.CHARS.CHART_HORIZONTAL)
+									.concat(index === last ?
+										rightChar :
+										(value.isMajor ?
+											tickCharMajor :
+											tickChar));
+						}, '') as string),
+					this.BOX_COLOR
+				)
+			);
 	}
 
 	protected colorize(string: string, color?: typeof chalk): string {

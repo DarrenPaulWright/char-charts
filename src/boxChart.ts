@@ -269,7 +269,8 @@ class BoxRow extends Row {
 				!nextRow.isInlineLabelPlaced &&
 				!nextRow.hasExtraRow &&
 				(!this.isGroup || rowData.siblings[0]) &&
-				!nextRow.isGroup
+				!nextRow.isGroup &&
+				nextRow.median
 			) {
 				this.placeLabelMulti(
 					nextRow,
@@ -388,7 +389,7 @@ class BoxRow extends Row {
 			relations.push('nextRow', 'extraRow');
 		}
 
-		if (rowData.data !== undefined) {
+		if (rowData.data !== undefined && rowData.data.length !== 0) {
 			this.padEndWithLabels(
 				rowData.offsets!.min - 1,
 				SPACE,
@@ -515,10 +516,7 @@ export default (settings: ISettings): Array<string> => {
 			colors: 'bright',
 			extraRowSpacing: false
 		},
-		data: [{
-			label: 'undefined',
-			data: [0]
-		}],
+		data: [],
 		calc: null,
 		xAxis: {}
 	}, settings, {
