@@ -21,6 +21,22 @@ it('should render something if no data is provided', () => {
 	]);
 });
 
+it('should render something if all zeros', () => {
+	const data = stackedBarChart({
+		...defaultSettings,
+		data: [
+			{ value: [0, 0, 0], label: 'first' }
+		]
+	});
+
+	assert.equal(data, [
+		"      ╭───────┬───────┬───────┬────────╮",
+		"first │       ╵       ╵       ╵        │",
+		"      ╰───────┴───────┴───────┴────────╯",
+		"      0     250m    500m    750m       1"
+	]);
+});
+
 it('should render something if one data point is provided', () => {
 	const data = stackedBarChart({
 		...defaultSettings,

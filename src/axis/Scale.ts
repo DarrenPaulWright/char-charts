@@ -67,6 +67,10 @@ export default abstract class Scale {
 				this.domain = [0, 1];
 			}
 		}
+
+		if (this.domain[0] === 0 && this.domain[1] === 0) {
+			this.domain = [0, 1];
+		}
 	}
 
 	abstract setRange(): void;

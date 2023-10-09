@@ -113,6 +113,41 @@ describe('range', () => {
 		assert.is(scale.tickValue, 0.1);
 		assert.is(scale.start, 0);
 		assert.is(scale.end, 1);
+		assert.equal(scale.domain, [0, 1]);
+	});
+
+	it('should set an appropriate domain if value is 0', () => {
+		const scale = new LinearScale([{
+			value: 0,
+			...extraValues
+		}]);
+
+		scale.size = 100;
+
+		assert.is(scale.tickValue, 0.1);
+		assert.is(scale.start, 0);
+		assert.is(scale.end, 1);
+		assert.equal(scale.domain, [0, 1]);
+	});
+
+	it('should set an appropriate domain if values are 0', () => {
+		const scale = new LinearScale([{
+			value: 0,
+			...extraValues
+		}, {
+			value: 0,
+			...extraValues
+		}, {
+			value: 0,
+			...extraValues
+		}]);
+
+		scale.size = 100;
+
+		assert.is(scale.tickValue, 0.1);
+		assert.is(scale.start, 0);
+		assert.is(scale.end, 1);
+		assert.equal(scale.domain, [0, 1]);
 	});
 
 	data.forEach((datum) => {
