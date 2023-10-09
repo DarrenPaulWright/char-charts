@@ -1,4 +1,4 @@
-import type chalk from 'chalk';
+import chalk from 'chalk';
 import { compare, List } from 'hord';
 import { superimpose } from 'object-agent';
 import { SPACE } from './render/chars.js';
@@ -384,12 +384,13 @@ class BoxRow extends Row {
 		this.reset();
 
 		const relations: Array<IPlacedLabel['relation']> = ['prevRow', 'sameRow', 'sameRowDots'];
+		const hasData = rowData.data !== undefined && rowData.data.length !== 0;
 
 		if (!this.rowData.hasExtraRow || this.isGroup) {
 			relations.push('nextRow', 'extraRow');
 		}
 
-		if (rowData.data !== undefined && rowData.data.length !== 0) {
+		if (hasData) {
 			this.padEndWithLabels(
 				rowData.offsets!.min - 1,
 				SPACE,
@@ -397,7 +398,7 @@ class BoxRow extends Row {
 				this.settings.showDots
 			);
 
-			if (rowData.data.length === 1) {
+			if (rowData.data!.length === 1) {
 				this.append(this.CHARS.WHISKER_SINGLE, rowData.color);
 			}
 			else if (rowData.offsets!.max === rowData.offsets!.min) {
@@ -441,7 +442,12 @@ class BoxRow extends Row {
 		}
 
 		this.padEndWithLabels(this.settings.xAxis.size, SPACE, relations, this.settings.showDots)
-			.prependLabel(false, this.isGroup ? undefined : rowData.color);
+			.prependLabel(
+				false,
+				this.isGroup ?
+					undefined :
+					(hasData ? rowData.color : chalk.grey)
+			);
 
 		output.push(this.toString());
 
