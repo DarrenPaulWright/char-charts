@@ -1,9 +1,9 @@
-import chalk from 'chalk';
 import { compare, List } from 'hord';
 import { deepEqual } from 'object-agent';
 import Axis from '../axis/Axis.js';
 import type { DeepRequired, IChartDataInternal, ISettings, ISettingsInternal } from '../types';
 import { ASCII_STYLE, DOUBLED_STYLE, ROUNDED_STYLE, SQUARED_STYLE } from './chars.js';
+import colorPalettes from './colorPalettes.js';
 
 const calcValue = (
 	value: Partial<IChartDataInternal>,
@@ -37,58 +37,6 @@ const calcValue = (
 	}
 };
 
-const colorPalettes = {
-	none: [
-		chalk.white
-	],
-	bright: [
-		chalk.blueBright,
-		chalk.greenBright,
-		chalk.magentaBright,
-		chalk.yellowBright,
-		chalk.cyanBright,
-		chalk.redBright,
-		chalk.white
-	],
-	dim: [
-		chalk.blue,
-		chalk.green,
-		chalk.magenta,
-		chalk.yellow,
-		chalk.cyan,
-		chalk.red,
-		chalk.grey
-	],
-	cool: [
-		chalk.blueBright,
-		chalk.cyanBright,
-		chalk.white
-	],
-	passFail: [
-		chalk.greenBright,
-		chalk.redBright,
-		chalk.grey
-	],
-	blue: [
-		chalk.blueBright
-	],
-	green: [
-		chalk.green
-	],
-	magenta: [
-		chalk.magentaBright
-	],
-	yellow: [
-		chalk.yellow
-	],
-	cyan: [
-		chalk.cyanBright
-	],
-	red: [
-		chalk.redBright
-	]
-};
-
 const styleMap: { [name: string]: typeof ROUNDED_STYLE } = {
 	rounded: ROUNDED_STYLE,
 	squared: SQUARED_STYLE,
@@ -98,7 +46,7 @@ const styleMap: { [name: string]: typeof ROUNDED_STYLE } = {
 
 export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 	const useColor = settings.render.colors !== 'none';
-	const colors = colorPalettes[settings.render.colors];
+	const colors = colorPalettes[settings.render.colors] || colorPalettes.bright;
 	const bgColors = colors.map((color) => color.inverse);
 	const groupDepth = settings.data.reduce((result, datum) => {
 		return Math.max(result, datum.group?.length || 0);
@@ -118,7 +66,7 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 		settings.data.sort(compare(comparers, settings.render.sortLabels === 'desc'));
 	}
 
-	const data: Array<IChartDataInternal> = settings.data.map((value, index) => {
+	const data = settings.data.map((value, index) => {
 		const output: IChartDataInternal = {
 			label: value.label ?? '',
 			group: value.group ?? [],
@@ -140,9 +88,9 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 			// eslint-disable-next-line @typescript-eslint/unbound-method
 			output.data.comparer(List.comparers.number.asc);
 			output.data.values(value.data);
-		}
 
-		calcValue(output, settings.calc);
+			calcValue(output, settings.calc);
+		}
 
 		return output;
 	});

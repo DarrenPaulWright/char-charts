@@ -2,6 +2,7 @@ import type chalk from 'chalk';
 import type { List } from 'hord';
 import type Axis from './axis/Axis.js';
 import type { ROUNDED_STYLE } from './render/chars.js';
+import type colorPalettes from './render/colorPalettes.js';
 
 export type DeepRequired<T> = Required<{ [P in keyof T]: DeepRequired<T[P]> }>;
 
@@ -83,7 +84,7 @@ export interface ISettings {
 		showInlineLabels?: boolean;
 		showDots?: boolean;
 		style?: 'rounded' | 'squared' | 'doubled' | 'ascii';
-		colors?: 'none' | 'bright' | 'dim' | 'cool' | 'passFail' | 'blue' | 'green' | 'magenta' | 'yellow' | 'cyan' | 'red';
+		colors?: keyof typeof colorPalettes;
 		extraRowSpacing?: boolean;
 		sortLabels?: 'asc' | 'desc' | undefined;
 	};
