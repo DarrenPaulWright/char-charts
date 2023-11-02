@@ -15,7 +15,7 @@ describe('init', () => {
 	it('should set the domain and maxLabelWidth', () => {
 		const data = [{
 			value: 0,
-			label: 'first',
+			label: ['first'],
 			group: [],
 			isGroup: false,
 			siblings: [],
@@ -24,7 +24,7 @@ describe('init', () => {
 			hasExtraRow: false
 		}, {
 			value: 12,
-			label: 'second',
+			label: ['second'],
 			group: [],
 			isGroup: false,
 			siblings: [],
@@ -33,7 +33,7 @@ describe('init', () => {
 			hasExtraRow: false
 		}, {
 			value: 7,
-			label: 'third',
+			label: ['third'],
 			group: [],
 			isGroup: false,
 			siblings: [],
@@ -71,7 +71,7 @@ describe('init', () => {
 	it('should add rows for groups', () => {
 		const data = [{
 			value: 0,
-			label: 'first',
+			label: ['first'],
 			group: ['one'],
 			isGroup: false,
 			siblings: [],
@@ -80,7 +80,7 @@ describe('init', () => {
 			hasExtraRow: false
 		}, {
 			value: 12,
-			label: 'second',
+			label: ['second'],
 			group: ['one'],
 			isGroup: false,
 			siblings: [],
@@ -89,7 +89,7 @@ describe('init', () => {
 			hasExtraRow: false
 		}, {
 			value: 7,
-			label: 'third',
+			label: ['third'],
 			group: ['two long'],
 			isGroup: false,
 			siblings: [],
@@ -115,14 +115,14 @@ describe('init', () => {
 			);
 		});
 
-		assert.is(domain[0].label, 'one');
+		assert.equal(domain[0].label, ['one']);
 		assert.is(domain[0].groupIndent, 0);
 		assert.equal(domain[0].siblings, [undefined, domain[1]]);
 
 		assert.is(domain[1], data[0]);
 		assert.is(domain[2], data[1]);
 
-		assert.is(domain[3].label, 'two long');
+		assert.equal(domain[3].label, ['two long']);
 		assert.is(domain[3].groupIndent, 0);
 		assert.equal(domain[3].siblings, [domain[2], domain[4]]);
 
@@ -136,7 +136,7 @@ describe('init', () => {
 	it('should add rows for nested groups', () => {
 		const data = [{
 			value: 0,
-			label: 'first',
+			label: ['first'],
 			group: ['one', 'sub one'],
 			isGroup: false,
 			siblings: [],
@@ -145,7 +145,7 @@ describe('init', () => {
 			hasExtraRow: false
 		}, {
 			value: 12,
-			label: 'second',
+			label: ['second'],
 			group: ['one', 'sub two'],
 			isGroup: false,
 			siblings: [],
@@ -154,7 +154,7 @@ describe('init', () => {
 			hasExtraRow: false
 		}, {
 			value: 7,
-			label: 'third',
+			label: ['third'],
 			group: ['two long', 'sub one'],
 			isGroup: false,
 			siblings: [],
@@ -180,27 +180,27 @@ describe('init', () => {
 			);
 		});
 
-		assert.is(domain[0].label, 'one');
+		assert.equal(domain[0].label, ['one']);
 		assert.is(domain[0].groupIndent, 0);
 		assert.equal(domain[0].siblings, [undefined, domain[1]]);
 
-		assert.is(domain[1].label, 'sub one');
+		assert.equal(domain[1].label, ['sub one']);
 		assert.is(domain[1].groupIndent, 1);
 		assert.equal(domain[1].siblings, [domain[0], domain[2]]);
 
 		assert.is(domain[2], data[0]);
 
-		assert.is(domain[3].label, 'sub two');
+		assert.equal(domain[3].label, ['sub two']);
 		assert.is(domain[3].groupIndent, 1);
 		assert.equal(domain[3].siblings, [domain[2], domain[4]]);
 
 		assert.is(domain[4], data[1]);
 
-		assert.is(domain[5].label, 'two long');
+		assert.equal(domain[5].label, ['two long']);
 		assert.is(domain[5].groupIndent, 0);
 		assert.equal(domain[5].siblings, [domain[4], domain[6]]);
 
-		assert.is(domain[6].label, 'sub one');
+		assert.equal(domain[6].label, ['sub one']);
 		assert.is(domain[6].groupIndent, 1);
 		assert.equal(domain[6].siblings, [domain[5], domain[7]]);
 

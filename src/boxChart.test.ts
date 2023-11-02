@@ -973,6 +973,48 @@ describe('full', () => {
 		]);
 	});
 
+	it('should render a full chart with multiple data points and wrapping text', () => {
+		const data = boxChart(superimpose(defaultSettings, {
+			title: 'Test chart',
+			render: {
+				width: 51,
+				fractionDigits: 2,
+				showInlineLabels: true
+			},
+			data: [
+				{
+					data: [20, 50, 90, 90, 90, 92, 92, 97],
+					label: 'first with a long title that should wrap'
+				},
+				{ data: [95, 97, 99], label: 'second' },
+				{ data: [2, 13, 24], label: 'third' },
+				{ data: [0.1, 0.2], label: 'four with a long title that should wrap' },
+				{ data: [2], label: 'five' }
+			],
+			xAxis: {
+				label: 'Hz'
+			}
+		}) as ISettings);
+
+		assert.equal(data, [
+			'                    Test chart                     ',
+			'                  ╭───────┬───────┬───────┬───────╮',
+			'            first │       ╵       ╵       ╵       │',
+			'with a long title │       ╵       ╵       ╵       │',
+			' that should wrap │     · ╵       ┣━━━━━░░░░░░░▓━┫│',
+			'           second │       ╵       ╵Mdn: 90.00 ─╯░▓│',
+			'            third ┣━░░▓▓━┫╵       ╵  Mdn: 97.00 ─╯│',
+			'             four │   ╰─ Mdn: 13.00       ╵       │',
+			'with a long title │       ╵       ╵       ╵       │',
+			' that should wrap ░       ╵       ╵       ╵       │',
+			'                  ╰─ Mdn: 0.15    ╵       ╵       │',
+			'             five ┃ ── Mdn: 2.00  ╵       ╵       │',
+			'                  ╰───────┴───────┴───────┴───────╯',
+			'                  0      25      50      75     100',
+			'                                 Hz                '
+		]);
+	});
+
 	it('should render groups and custom width', () => {
 		const data = boxChart(superimpose(defaultSettings, {
 			title: 'Test chart',
@@ -1019,7 +1061,7 @@ describe('full', () => {
 		const data = boxChart(superimpose(defaultSettings, {
 			title: 'Test chart',
 			render: {
-				width: 62,
+				width: 72,
 				fractionDigits: 2,
 				showInlineLabels: true,
 				showDots: true,
@@ -1027,11 +1069,15 @@ describe('full', () => {
 				sortLabels: 'asc'
 			},
 			data: [
-				{ data: [50, 90, 92, 97], label: 'first', group: ['one'] },
+				{
+					data: [50, 90, 92, 97],
+					label: 'first with a long title that should wrap',
+					group: ['one']
+				},
 				{ data: [2, 13, 24], label: 'third', group: ['two'] },
 				{ data: [0.1, 0.2], label: 'four', group: ['two'] },
 				{ data: [95, 97, 100], label: 'second', group: ['one'] },
-				{ data: [2], label: 'five', group: ['two'] }
+				{ data: [2], label: 'five with a long title that should wrap', group: ['two'] }
 			],
 			xAxis: {
 				scale: 'log',
@@ -1040,25 +1086,27 @@ describe('full', () => {
 		}) as ISettings);
 
 		assert.equal(data, [
-			'                          Test chart                          ',
-			'one      ╭───────┬────────┬────────┬───────┬────────┬────────╮',
-			'         │       ╵        │        ╵       │        ╵  ·    ●│',
-			'   first │       ╵        │        ╵       │        ╵  ┣━━░░▓│',
-			'         │       ╵        │        ╵       │    Mdn: 91.00 ─╯│',
-			'         │       ╵        │        ╵       │        ╵       •·',
-			'  second │       ╵        │        ╵       │        ╵       ░┫',
-			'two      │       ╵        │        ╵       │     Mdn: 97.00 ─╯',
-			'         │       ╵        │    ·   ╵       │        ╵        │',
-			'    five │       ╵        │    ┃   ╵       │        ╵        │',
-			'         │       ╵        │    ╰─ Mdn: 2.00│        ╵        │',
-			'         ·    ·  ╵        │        ╵       │        ╵        │',
-			'    four ░░░▓▓▓  ╵        │        ╵       │        ╵        │',
-			'         │  ╰─ Mdn: 0.15  │        ╵       │  ╭─ Mdn: 13.00  │',
-			'         │       ╵        │    ·   ╵       │ ·    · ╵        │',
-			'   third │       ╵        │    ┣━━━━━━━━━░░░░░▓▓▓━┫ ╵        │',
-			'         ╰───────┴────────┼────────┴───────┼────────┴────────╯',
-			'         100m  320m       1       3.2     10       32      100',
-			'                                  Hz                          '
+			'                               Test chart                               ',
+			'one                 ╭───────┬───────┬────────┬────────┬───────┬────────╮',
+			'              first │       ╵       │        ╵        │       ╵        │',
+			'  with a long title │       ╵       │        ╵        │       ╵  ·    ●│',
+			'   that should wrap │       ╵       │        ╵        │       ╵  ┣━━░░▓│',
+			'                    │       ╵       │        ╵        │   Mdn: 91.00 ─╯│',
+			'                    │       ╵       │        ╵        │       ╵       •·',
+			'             second │       ╵       │        ╵        │       ╵       ░┫',
+			'two                 │       ╵       │        ╵        │    Mdn: 97.00 ─╯',
+			'               five │       ╵       │        ╵        │       ╵        │',
+			'  with a long title │       ╵       │     ·  ╵        │       ╵        │',
+			'   that should wrap │       ╵       │     ┃  ╵        │       ╵        │',
+			'                    │       ╵       │     ╰─ Mdn: 2.00│       ╵        │',
+			'                    ·    ·  ╵       │        ╵        │       ╵        │',
+			'               four ░░░▓▓▓  ╵       │        ╵        │       ╵        │',
+			'                    │  ╰─ Mdn: 0.15 │        ╵        │ ╭─ Mdn: 13.00  │',
+			'                    │       ╵       │     ·  ╵        │·    · ╵        │',
+			'              third │       ╵       │     ┣━━━━━━━━░░░░░▓▓▓━┫ ╵        │',
+			'                    ╰───────┴───────┼────────┴────────┼───────┴────────╯',
+			'                    100m  320m      1       3.2      10      32      100',
+			'                                             Hz                         '
 		]);
 	});
 });

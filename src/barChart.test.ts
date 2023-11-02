@@ -272,3 +272,48 @@ it('should render groups and extra rows', () => {
 		'                                 Hz                         '
 	]);
 });
+
+it('should wrap long labels', () => {
+	const data = barChart(superimpose(defaultSettings, {
+		title: 'Test chart',
+		render: {
+			width: 60,
+			fractionDigits: 2,
+			extraRowSpacing: true,
+			maxYAxisWidth: 16
+		},
+		data: [
+			{ value: 97, label: 'first long label', group: ['one long'] },
+			{ value: 100, label: 'second long label', group: ['one long'] },
+			{ value: 3, label: 'third long label', group: ['two long'] },
+			{ value: 0.123, label: 'fourth long label', group: ['two long'] },
+			{ value: 0, label: 'fifth long label', group: ['two long 4'] }
+		],
+		xAxis: {
+			scale: 'log',
+			label: 'Hz'
+		}
+	}) as ISettings);
+
+	assert.equal(data, [
+		'                         Test chart                         ',
+		'one long     ╭──────────┬───────────┬──────────┬───────────╮',
+		'       first │          ╵           │          ╵           │',
+		'  long label ▐███████████████████████████████████▌97.00▐███│',
+		'             │          ╵           │          ╵           │',
+		'      second │          ╵           │          ╵           │',
+		'  long label ▐███████████████████████████████████▌100.00▐██▌',
+		'two long     │          ╵           │          ╵           │',
+		'       third │          ╵           │          ╵           │',
+		'  long label ▐██████████▌  3.00     │          ╵           │',
+		'             │          ╵           │          ╵           │',
+		'      fourth │          ╵           │          ╵           │',
+		'  long label ┃  0.12    ╵           │          ╵           │',
+		'two long 4   │          ╵           │          ╵           │',
+		'       fifth │          ╵           │          ╵           │',
+		'  long label │  0.00    ╵           │          ╵           │',
+		'             ╰──────────┴───────────┼──────────┴───────────╯',
+		'             0         3.2         10         32         100',
+		'                                   Hz                       '
+	]);
+});

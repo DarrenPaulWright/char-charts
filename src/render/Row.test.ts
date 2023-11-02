@@ -17,19 +17,19 @@ const extraValues = {
 const data: Array<IChartDataInternal> = [{
 	...extraValues,
 	value: 95,
-	label: 'one',
+	label: ['one'],
 	group: ['group', 'in'],
 	hasExtraRow: false
 }, {
 	...extraValues,
 	value: 105,
-	label: 'two',
+	label: ['two'],
 	group: ['group', 'in'],
 	hasExtraRow: false
 }, {
 	...extraValues,
 	value: 105,
-	label: 'three',
+	label: ['three'],
 	group: ['group', 'in'],
 	hasExtraRow: false
 }];
@@ -41,6 +41,7 @@ const yAxis = new Axis({ scale: 'band' }, data);
 const baseSettings: ISettingsInternal = {
 	title: '',
 	width: 26,
+	maxYAxisWidth: 10,
 	fractionDigits: 0,
 	significantDigits: 0,
 	showInlineLabels: false,
@@ -68,7 +69,7 @@ class TestRow extends Row {
 
 	// eslint-disable-next-line @typescript-eslint/class-methods-use-this
 	render(rowData: IBandDomain): Array<string> {
-		return [rowData.label];
+		return [rowData.label[0]];
 	}
 }
 

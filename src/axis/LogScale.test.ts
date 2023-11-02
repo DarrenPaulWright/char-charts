@@ -47,7 +47,7 @@ const data = [{
 }];
 
 const extraValues = {
-	label: '',
+	label: [''],
 	group: [],
 	isGroup: false,
 	color: chalk.red,

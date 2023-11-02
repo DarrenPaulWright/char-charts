@@ -7,6 +7,7 @@ import printValue from './printValue.js';
 const defaultSettings: ISettingsInternal = {
 	title: '',
 	width: 40,
+	maxYAxisWidth: 20,
 	fractionDigits: 0,
 	significantDigits: 0,
 	showInlineLabels: false,

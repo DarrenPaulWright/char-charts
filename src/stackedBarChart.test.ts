@@ -30,10 +30,10 @@ it('should render something if all zeros', () => {
 	});
 
 	assert.equal(data, [
-		"      ╭───────┬───────┬───────┬────────╮",
-		"first │       ╵       ╵       ╵        │",
-		"      ╰───────┴───────┴───────┴────────╯",
-		"      0     250m    500m    750m       1"
+		'      ╭───────┬───────┬───────┬────────╮',
+		'first │       ╵       ╵       ╵        │',
+		'      ╰───────┴───────┴───────┴────────╯',
+		'      0     250m    500m    750m       1'
 	]);
 });
 
@@ -200,7 +200,7 @@ it('should render groups', () => {
 		},
 		data: [{
 			value: [2, 4, 6, 4],
-			label: 'Oranges',
+			label: 'Oranges with a long title that should wrap',
 			group: ['Fruit']
 		}, {
 			value: [3, 6, 9, 5],
@@ -216,7 +216,7 @@ it('should render groups', () => {
 			group: ['Nuts']
 		}, {
 			value: [3, 6, 9, 5],
-			label: 'Peanut',
+			label: 'Peanut with a long title that should wrap',
 			group: ['Nuts']
 		}, {
 			value: [0, 0, 0],
@@ -226,19 +226,23 @@ it('should render groups', () => {
 	}) as ISettings);
 
 	assert.equal(data, [
-		'Fruit     ╭────────┬─────────┬─────────╮',
-		'  Oranges ██▒▒▒▒░░░░░░████   │         │',
-		'          │        │         │         │',
-		'   Apples ███▒▒▒▒▒▒░░░░░░░░░█████      │',
-		'          │        │         │         │',
-		'    Pears ████▒▒▒▒░░░░░░░█████         │',
-		'Nuts      │        │         │         │',
-		'   Almond ██▒▒▒▒░░░░░░████   │         │',
-		'          │        │         │         │',
-		'   Peanut ███▒▒▒▒▒▒░░░░░░░░░█████      │',
-		'          │        │         │         │',
-		'    Pecan │        │         │         │',
-		'          ╰────────┼─────────┼─────────╯',
-		'          0       10        20        30'
+		'Fruit               ╭────────┬─────────╮',
+		'            Oranges │        │         │',
+		'  with a long title │        │         │',
+		'   that should wrap █▒▒░░░██ │         │',
+		'                    │        │         │',
+		'             Apples ██▒▒▒░░░░██        │',
+		'                    │        │         │',
+		'              Pears ██▒▒░░░░██         │',
+		'Nuts                │        │         │',
+		'             Almond █▒▒░░░██ │         │',
+		'                    │        │         │',
+		'             Peanut │        │         │',
+		'  with a long title │        │         │',
+		'   that should wrap ██▒▒▒░░░░██        │',
+		'                    │        │         │',
+		'              Pecan │        │         │',
+		'                    ╰────────┼─────────╯',
+		'                    0       20        40'
 	]);
 });

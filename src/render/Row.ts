@@ -1,10 +1,11 @@
 import chalk from 'chalk';
+import { deepEqual } from 'object-agent';
 import type { IBandDomain, ISettingsInternal, ITick } from '../types';
 import { INDENT_WIDTH, type ROUNDED_STYLE, SPACE } from './chars.js';
 
 export default abstract class Row {
 	private _length = 0;
-	private prevLabel = '';
+	private prevLabel: Array<string> = [];
 	private _string = '';
 	protected isGroup = false;
 
@@ -124,8 +125,25 @@ export default abstract class Row {
 		return this;
 	}
 
+	buildPreviousLabelRows(color?: typeof chalk): Array<string> {
+		return this.rowData.label
+			.slice(0, -1)
+			.map((label) => {
+				return this.reset()
+					.padEnd(this.settings.xAxis.size, SPACE)
+					.prepend(
+						label.concat(SPACE)
+							.padStart(this.settings.yAxis.scale.maxLabelWidth, SPACE),
+						color
+					)
+					.toString();
+			});
+	}
+
 	prependLabel(skip: boolean, color?: typeof chalk): this {
-		if (skip || this.rowData.label === this.prevLabel) {
+		const label = this.rowData.label[this.rowData.label.length - 1];
+
+		if (skip || deepEqual(this.rowData.label, this.prevLabel)) {
 			this.prepend(SPACE.repeat(this.settings.yAxis.scale.maxLabelWidth));
 		}
 		else if (this.isGroup) {
@@ -133,14 +151,14 @@ export default abstract class Row {
 				(this.rowData.groupIndent ?
 					SPACE.repeat(this.rowData.groupIndent * INDENT_WIDTH) :
 					'')
-					.concat(this.rowData.label)
+					.concat(label)
 					.padEnd(this.settings.yAxis.scale.maxLabelWidth, SPACE),
 				color
 			);
 		}
 		else {
 			this.prepend(
-				this.rowData.label.concat(SPACE)
+				label.concat(SPACE)
 					.padStart(this.settings.yAxis.scale.maxLabelWidth, SPACE),
 				color
 			);
@@ -190,7 +208,7 @@ export default abstract class Row {
 			this.CHARS.CHART_TOP_TICK,
 			this.CHARS.CHART_TOP_RIGHT,
 			this.settings.yAxis.scale.isGrouped() ?
-				(this.settings.yAxis.domain() as Array<IBandDomain>)[0].label :
+				(this.settings.yAxis.domain() as Array<IBandDomain>)[0].label[0] :
 				''
 		);
 	}

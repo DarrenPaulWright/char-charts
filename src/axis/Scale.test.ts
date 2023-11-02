@@ -5,7 +5,7 @@ import Scale from './Scale.js';
 
 describe('.domain', () => {
 	const extraValues = {
-		label: '',
+		label: [''],
 		group: [],
 		isGroup: false,
 		color: chalk.red,

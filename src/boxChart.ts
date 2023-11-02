@@ -351,6 +351,8 @@ class BoxRow extends Row {
 	}
 
 	private buildExtraRow(skipDots: boolean): string {
+		const label = skipDots ? '' : this.rowData.label[this.rowData.label.length - 2] || '';
+
 		this.reset();
 
 		return this.padEndWithLabels(
@@ -361,7 +363,11 @@ class BoxRow extends Row {
 					['prevRow', 'sameRowDots'],
 				skipDots
 			)
-			.prependLabel(true, this.isGroup ? undefined : this.rowData.color)
+			.prepend(
+				label.concat(SPACE)
+					.padStart(this.settings.yAxis.scale.maxLabelWidth, SPACE),
+				this.isGroup ? undefined : this.rowData.color
+			)
 			.toString();
 	}
 
@@ -372,10 +378,30 @@ class BoxRow extends Row {
 		this.placeLabels();
 	}
 
+	override buildPreviousLabelRows(color?: typeof chalk): Array<string> {
+		return this.rowData.label
+			.slice(0, (this.settings.showDots && !this.isGroup) ? -2 : -1)
+			.map((label, index) => {
+				return this.reset()
+					.padEndWithLabels(
+						this.settings.xAxis.size,
+						SPACE,
+						index === 0 ? ['prevRow', 'sameRowDots'] : [],
+						true
+					)
+					.prepend(
+						label.concat(SPACE)
+							.padStart(this.settings.yAxis.scale.maxLabelWidth, SPACE),
+						color
+					)
+					.toString();
+			});
+	}
+
 	render(rowData: IBandDomain): Array<string> {
 		this.prepRender(rowData);
 
-		const output = [];
+		const output: Array<string> = this.buildPreviousLabelRows(rowData.color);
 
 		if (this.settings.showDots && !this.isGroup) {
 			output.push(this.buildExtraRow(false));
@@ -402,12 +428,12 @@ class BoxRow extends Row {
 				this.append(this.CHARS.WHISKER_SINGLE, rowData.color);
 			}
 			else if (rowData.offsets!.max === rowData.offsets!.min) {
-				if (rowData.median! - rowData.Q1! > rowData.Q3! - rowData.median!) {
-					this.append(this.CHARS.Q1_FILL, rowData.color);
-				}
-				else {
-					this.append(this.CHARS.Q3_FILL, rowData.color);
-				}
+				this.append(
+					(rowData.median! - rowData.Q1! > rowData.Q3! - rowData.median!) ?
+						this.CHARS.Q1_FILL :
+						this.CHARS.Q3_FILL,
+					rowData.color
+				);
 			}
 			else {
 				if (rowData.offsets!.min !== rowData.offsets!.Q1) {
@@ -514,6 +540,7 @@ export default (settings: ISettings): Array<string> => {
 		title: '',
 		render: {
 			width: 60,
+			maxYAxisWidth: 20,
 			fractionDigits: 0,
 			significantDigits: 0,
 			showInlineLabels: true,

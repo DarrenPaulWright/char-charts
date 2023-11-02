@@ -1,7 +1,9 @@
 import { compare, List } from 'hord';
 import { deepEqual } from 'object-agent';
 import Axis from '../axis/Axis.js';
+import { BASE_LABEL_OFFSET, GROUP_LABEL_OFFSET } from '../constants.js';
 import type { DeepRequired, IChartDataInternal, ISettings, ISettingsInternal } from '../types';
+import wrap from '../utility/wrap.js';
 import { ASCII_STYLE, DOUBLED_STYLE, ROUNDED_STYLE, SQUARED_STYLE } from './chars.js';
 import colorPalettes from './colorPalettes.js';
 
@@ -52,7 +54,9 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 		return Math.max(result, datum.group?.length || 0);
 	}, 0);
 
-	if (groupDepth !== 0 || settings.render.sortLabels) {
+	const isGrouped = groupDepth !== 0;
+
+	if (isGrouped || settings.render.sortLabels) {
 		const comparers = [];
 
 		for (let index = 0; index < groupDepth; index++) {
@@ -66,9 +70,12 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 		settings.data.sort(compare(comparers, settings.render.sortLabels === 'desc'));
 	}
 
+	const maxYAxisWidth = settings.render.maxYAxisWidth -
+		(isGrouped ? GROUP_LABEL_OFFSET : BASE_LABEL_OFFSET);
+
 	const data = settings.data.map((value, index) => {
 		const output: IChartDataInternal = {
-			label: value.label ?? '',
+			label: wrap(value.label ?? '', maxYAxisWidth, true),
 			group: value.group ?? [],
 			isGroup: false,
 			color: colors[index % colors.length],

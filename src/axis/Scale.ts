@@ -1,21 +1,5 @@
 import type { IBandDomain, IChartDataInternal, INumericDomain } from '../types';
 
-const getValue = (value: IChartDataInternal, loc: 'first' | 'last', origin: number): number => {
-	if (Array.isArray(value.value)) {
-		return value.value.reduce<number>((result, item) => result + item, 0);
-	}
-
-	if (value.value !== undefined) {
-		return value.value;
-	}
-
-	if (value.data && value.data[loc]() !== undefined) {
-		return value.data[loc]() as number;
-	}
-
-	return origin;
-};
-
 export default abstract class Scale {
 	private _size = 0;
 
@@ -44,18 +28,34 @@ export default abstract class Scale {
 		this.setRange();
 	}
 
+	private getValue = (data: IChartDataInternal, isMin: boolean, origin: number): number => {
+		if (Array.isArray(data.value)) {
+			return data.value.reduce<number>((result, item) => result + item, 0);
+		}
+
+		if (data.value !== undefined) {
+			return data.value;
+		}
+
+		if (data.data) {
+			return data.data[isMin ? 'first' : 'last']() as number ?? origin;
+		}
+
+		return origin;
+	};
+
 	protected processData(data: Array<IChartDataInternal>): void {
 		if (data.length > 1) {
 			this.domain = data.reduce<INumericDomain>((result, value) => {
-				result[0] = Math.min(result[0], getValue(value, 'first', result[0]));
-				result[1] = Math.max(result[1], getValue(value, 'last', result[1]));
+				result[0] = Math.min(result[0], this.getValue(value, true, result[0]));
+				result[1] = Math.max(result[1], this.getValue(value, false, result[1]));
 
 				return result;
 			}, [Infinity, -Infinity]);
 		}
 		else if (data.length === 1) {
-			const value1 = getValue(data[0], 'first', 0);
-			const value2 = getValue(data[0], 'last', 0);
+			const value1 = this.getValue(data[0], true, 0);
+			const value2 = this.getValue(data[0], false, 0);
 
 			if (value1 !== value2) {
 				this.domain = [value1, value2];

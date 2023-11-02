@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import { deepEqual } from 'object-agent';
+import { BASE_LABEL_OFFSET, GROUP_LABEL_OFFSET } from '../constants.js';
 import { INDENT_WIDTH } from '../render/chars.js';
 import type { IBandDomain, IChartDataInternal } from '../types';
 import Scale from './Scale.js';
@@ -28,12 +29,12 @@ export default class BandScale extends Scale {
 					this._isGrouped = true;
 					this.maxLabelWidth = Math.max(
 						this.maxLabelWidth,
-						(group.length + 3) + (index * INDENT_WIDTH)
+						(group.length + GROUP_LABEL_OFFSET) + (index * INDENT_WIDTH)
 					);
 
 					if (isNew || currentGroup[index] !== group) {
 						addRow(result, {
-							label: group,
+							label: [group],
 							value: 0,
 							group: [],
 							isGroup: true,
@@ -53,17 +54,21 @@ export default class BandScale extends Scale {
 
 			addRow(result, value as IBandDomain);
 
+			const maxLabelWidth = value.label.reduce<number>((max, label) => {
+				return Math.max(max, label.length);
+			}, 0);
+
 			this.maxLabelWidth = Math.max(
 				this.maxLabelWidth,
-				value.label.length + (this._isGrouped ? 3 : 1)
+				maxLabelWidth + (this._isGrouped ? GROUP_LABEL_OFFSET : BASE_LABEL_OFFSET)
 			);
-
-			if (this.maxLabelWidth === 1) {
-				this.maxLabelWidth = 0;
-			}
 
 			return result;
 		}, []);
+
+		if (this.maxLabelWidth === BASE_LABEL_OFFSET) {
+			this.maxLabelWidth = 0;
+		}
 	}
 
 	// eslint-disable-next-line @typescript-eslint/class-methods-use-this

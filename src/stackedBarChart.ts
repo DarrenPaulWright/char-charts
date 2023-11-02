@@ -11,9 +11,10 @@ class BarRow extends Row {
 	}
 
 	render(rowData: IBandDomain): Array<string> {
-		const output: Array<string> = [];
-
 		this.prepRender(rowData);
+
+		const output: Array<string> = this.buildPreviousLabelRows();
+
 		this.reset();
 
 		if (!rowData.isGroup) {
@@ -117,6 +118,7 @@ export default (settings: ISettings): Array<string> => {
 		title: '',
 		render: {
 			width: 60,
+			maxYAxisWidth: 20,
 			fractionDigits: 0,
 			significantDigits: 0,
 			showInlineLabels: false,

@@ -37,7 +37,7 @@ export interface IChartData {
 export interface IChartDataInternal {
 	data?: List;
 	value?: number | Array<number>;
-	label: string;
+	label: Array<string>;
 	group: Array<string>;
 	isGroup: boolean;
 	groupIndent?: number;
@@ -79,6 +79,7 @@ export interface ISettings {
 	title?: string;
 	render?: {
 		width?: number;
+		maxYAxisWidth?: number;
 		fractionDigits?: number;
 		significantDigits?: number;
 		showInlineLabels?: boolean;
@@ -96,6 +97,7 @@ export interface ISettings {
 export interface ISettingsInternal {
 	title: string;
 	width: number;
+	maxYAxisWidth: number;
 	fractionDigits: number;
 	significantDigits: number;
 	showInlineLabels: boolean;
