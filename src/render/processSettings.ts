@@ -1,5 +1,4 @@
 import { compare, List } from 'hord';
-import { deepEqual } from 'object-agent';
 import Axis from '../axis/Axis.js';
 import { BASE_LABEL_OFFSET, GROUP_LABEL_OFFSET } from '../constants.js';
 import type { DeepRequired, IChartDataInternal, ISettings, ISettingsInternal } from '../types';
@@ -82,8 +81,7 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 			bgColor: bgColors[index % bgColors.length],
 			siblings: [],
 			hasExtraRow: settings.render.extraRowSpacing &&
-				index !== settings.data.length - 1 &&
-				deepEqual(value.group, settings.data[index + 1]?.group)
+				index !== settings.data.length - 1
 		};
 
 		if ('value' in value) {

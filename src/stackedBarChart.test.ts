@@ -234,6 +234,7 @@ it('should render groups', () => {
 		'             Apples ██▒▒▒░░░░██        │',
 		'                    │        │         │',
 		'              Pears ██▒▒░░░░██         │',
+		'                    │        │         │',
 		'Nuts                │        │         │',
 		'             Almond █▒▒░░░██ │         │',
 		'                    │        │         │',
