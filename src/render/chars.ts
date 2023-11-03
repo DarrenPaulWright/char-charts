@@ -139,9 +139,9 @@ export const ASCII_STYLE: typeof ROUNDED_STYLE = {
 	CHART_VERTICAL_MINOR: '\'',
 
 	BAR_FILL: '%#@',
-	BAR_HALF_LEFT: '%',
-	BAR_HALF_RIGHT: '%',
-	BAR_SINGLE: '%',
+	BAR_HALF_LEFT: ']',
+	BAR_HALF_RIGHT: '[',
+	BAR_SINGLE: '|',
 
 	Q1_FILL: '#',
 	Q3_FILL: '%',
