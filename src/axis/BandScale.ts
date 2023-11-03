@@ -19,7 +19,7 @@ const addRow = (array: Array<IBandDomain>, data: IBandDomain): void => {
 
 export default class BandScale extends Scale {
 	protected processData(data: Array<IChartDataInternal>): void {
-		let currentGroup: Array<string> = [];
+		let currentGroup: Array<Array<string>> = [];
 
 		this.domain = data.reduce<Array<IBandDomain>>((result, value) => {
 			if (!deepEqual(value.group, currentGroup)) {
@@ -27,14 +27,19 @@ export default class BandScale extends Scale {
 
 				value.group.forEach((group, index) => {
 					this._isGrouped = true;
+
+					const maxLabelWidth = group.reduce<number>((max, label) => {
+						return Math.max(max, label.length);
+					}, 0);
+
 					this.maxLabelWidth = Math.max(
 						this.maxLabelWidth,
-						(group.length + GROUP_LABEL_OFFSET) + (index * INDENT_WIDTH)
+						(maxLabelWidth + GROUP_LABEL_OFFSET) + (index * INDENT_WIDTH)
 					);
 
-					if (isNew || currentGroup[index] !== group) {
+					if (isNew || !deepEqual(currentGroup[index], group)) {
 						addRow(result, {
-							label: [group],
+							label: group,
 							value: 0,
 							group: [],
 							isGroup: true,

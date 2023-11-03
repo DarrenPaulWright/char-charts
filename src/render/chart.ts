@@ -14,7 +14,7 @@ export default (
 		output.push(row.title());
 	}
 
-	output.push(row.top());
+	output.push(...row.top());
 
 	(internalSettings.yAxis.domain() as Array<IBandDomain>)
 		.forEach((value) => {
@@ -28,7 +28,7 @@ export default (
 			}
 		});
 
-	output.push(row.bottom(), row.bottomLabels());
+	output.push(...row.bottom(), row.bottomLabels());
 
 	if (internalSettings.xAxis.label) {
 		output.push(row.xAxisLabel());

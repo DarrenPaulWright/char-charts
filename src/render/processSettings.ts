@@ -3,7 +3,7 @@ import Axis from '../axis/Axis.js';
 import { BASE_LABEL_OFFSET, GROUP_LABEL_OFFSET } from '../constants.js';
 import type { DeepRequired, IChartDataInternal, ISettings, ISettingsInternal } from '../types';
 import wrap from '../utility/wrap.js';
-import { ASCII_STYLE, DOUBLED_STYLE, ROUNDED_STYLE, SQUARED_STYLE } from './chars.js';
+import { ASCII_STYLE, DOUBLED_STYLE, INDENT_WIDTH, ROUNDED_STYLE, SQUARED_STYLE } from './chars.js';
 import colorPalettes from './colorPalettes.js';
 
 const calcValue = (
@@ -74,8 +74,14 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 
 	const data = settings.data.map((value, index) => {
 		const output: IChartDataInternal = {
-			label: wrap(value.label ?? '', maxYAxisWidth, true),
-			group: value.group ?? [],
+			label: wrap(
+				value.label ?? '',
+				maxYAxisWidth - (Math.max((value.group?.length || 0) - 1, 0) * INDENT_WIDTH),
+				true
+			),
+			group: (value.group ?? []).map((group, groupIndex) => {
+				return wrap(group, maxYAxisWidth - (groupIndex * INDENT_WIDTH));
+			}),
 			isGroup: false,
 			color: colors[index % colors.length],
 			bgColor: bgColors[index % bgColors.length],

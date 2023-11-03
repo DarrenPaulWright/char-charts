@@ -364,8 +364,7 @@ class BoxRow extends Row {
 				skipDots
 			)
 			.prepend(
-				label.concat(SPACE)
-					.padStart(this.settings.yAxis.scale.maxLabelWidth, SPACE),
+				this.dataYAxisLabel(label),
 				this.isGroup ? undefined : this.rowData.color
 			)
 			.toString();
@@ -390,8 +389,9 @@ class BoxRow extends Row {
 						true
 					)
 					.prepend(
-						label.concat(SPACE)
-							.padStart(this.settings.yAxis.scale.maxLabelWidth, SPACE),
+						this.isGroup ?
+							this.groupYAxisLabel(label) :
+							this.dataYAxisLabel(label),
 						color
 					)
 					.toString();

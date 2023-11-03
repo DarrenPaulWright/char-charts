@@ -28,35 +28,60 @@ export default abstract class Row {
 		tickChar: string,
 		tickCharMajor: string,
 		rightChar: string,
-		label = ''
-	): string {
+		label: Array<string> = ['']
+	): Array<string> {
 		const last = this.settings.xAxis.ticks.length - 1;
 
-		return label
-			.padEnd(this.settings.yAxis.scale.maxLabelWidth, SPACE)
-			.concat(
-				this.colorize(
-					(this.settings.xAxis.ticks
-						.reduce((result: string, value: ITick, index: number) => {
-							return index === 0 ?
-								leftChar :
-								result
-									.padEnd(value.offset - 1, this.CHARS.CHART_HORIZONTAL)
-									.concat(index === last ?
-										rightChar :
-										(value.isMajor ?
-											tickCharMajor :
-											tickChar));
-						}, '') as string),
-					this.BOX_COLOR
+		const output: Array<string> = [
+			this.groupYAxisLabel(label[0])
+				.concat(
+					this.colorize(
+						(this.settings.xAxis.ticks
+							.reduce((result: string, value: ITick, index: number) => {
+								return index === 0 ?
+									leftChar :
+									result
+										.padEnd(value.offset - 1, this.CHARS.CHART_HORIZONTAL)
+										.concat(index === last ?
+											rightChar :
+											(value.isMajor ?
+												tickCharMajor :
+												tickChar));
+							}, '') as string),
+						this.BOX_COLOR
+					)
 				)
-			);
+		];
+
+		label.forEach((subString, index) => {
+			if (index !== 0) {
+				output.push(
+					this.reset()
+						.padEnd(this.settings.xAxis.size, SPACE)
+						.prepend(this.groupYAxisLabel(subString))
+						.toString()
+				);
+			}
+		});
+
+		return output;
 	}
 
 	protected colorize(string: string, color?: typeof chalk): string {
 		return this.settings.useColor ?
 			(color ? color(string) : string) :
 			string;
+	}
+
+	protected groupYAxisLabel(label: string): string {
+		return SPACE.repeat((this.rowData?.groupIndent || 0) * INDENT_WIDTH)
+			.concat(label)
+			.padEnd(this.settings.yAxis.scale.maxLabelWidth, SPACE);
+	}
+
+	protected dataYAxisLabel(label: string): string {
+		return label.concat(SPACE)
+			.padStart(this.settings.yAxis.scale.maxLabelWidth, SPACE);
 	}
 
 	abstract preProcess(rowData: IBandDomain): void;
@@ -126,16 +151,23 @@ export default abstract class Row {
 	}
 
 	buildPreviousLabelRows(color?: typeof chalk): Array<string> {
+		if (this.isGroup) {
+			return this.rowData.label
+				.slice(0, -1)
+				.map((label) => {
+					return this.reset()
+						.padEnd(this.settings.xAxis.size, SPACE)
+						.prepend(this.groupYAxisLabel(label), color)
+						.toString();
+				});
+		}
+
 		return this.rowData.label
 			.slice(0, -1)
 			.map((label) => {
 				return this.reset()
 					.padEnd(this.settings.xAxis.size, SPACE)
-					.prepend(
-						label.concat(SPACE)
-							.padStart(this.settings.yAxis.scale.maxLabelWidth, SPACE),
-						color
-					)
+					.prepend(this.dataYAxisLabel(label), color)
 					.toString();
 			});
 	}
@@ -144,24 +176,13 @@ export default abstract class Row {
 		const label = this.rowData.label[this.rowData.label.length - 1];
 
 		if (skip || deepEqual(this.rowData.label, this.prevLabel)) {
-			this.prepend(SPACE.repeat(this.settings.yAxis.scale.maxLabelWidth));
+			this.prepend(this.dataYAxisLabel(''));
 		}
 		else if (this.isGroup) {
-			this.prepend(
-				(this.rowData.groupIndent ?
-					SPACE.repeat(this.rowData.groupIndent * INDENT_WIDTH) :
-					'')
-					.concat(label)
-					.padEnd(this.settings.yAxis.scale.maxLabelWidth, SPACE),
-				color
-			);
+			this.prepend(this.groupYAxisLabel(label), color);
 		}
 		else {
-			this.prepend(
-				label.concat(SPACE)
-					.padStart(this.settings.yAxis.scale.maxLabelWidth, SPACE),
-				color
-			);
+			this.prepend(this.dataYAxisLabel(label), color);
 		}
 
 		if (!skip) {
@@ -201,19 +222,19 @@ export default abstract class Row {
 			.padEnd(this.settings.width, SPACE);
 	}
 
-	top(): string {
+	top(): Array<string> {
 		return this.cap(
 			this.CHARS.CHART_TOP_LEFT,
 			this.CHARS.CHART_TOP_TICK,
 			this.CHARS.CHART_TOP_TICK,
 			this.CHARS.CHART_TOP_RIGHT,
 			this.settings.yAxis.scale.isGrouped() ?
-				(this.settings.yAxis.domain() as Array<IBandDomain>)[0].label[0] :
-				''
+				(this.settings.yAxis.domain() as Array<IBandDomain>)[0].label :
+				['']
 		);
 	}
 
-	bottom(): string {
+	bottom(): Array<string> {
 		return this.cap(
 			this.CHARS.CHART_BOTTOM_LEFT,
 			this.CHARS.CHART_BOTTOM_TICK,

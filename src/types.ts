@@ -38,7 +38,7 @@ export interface IChartDataInternal {
 	data?: List;
 	value?: number | Array<number>;
 	label: Array<string>;
-	group: Array<string>;
+	group: Array<Array<string>>;
 	isGroup: boolean;
 	groupIndent?: number;
 

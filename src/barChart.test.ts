@@ -284,11 +284,11 @@ it('should wrap long labels', () => {
 			maxYAxisWidth: 16
 		},
 		data: [
-			{ value: 97, label: 'first long label', group: ['one long'] },
-			{ value: 100, label: 'second long label', group: ['one long'] },
-			{ value: 3, label: 'third long label', group: ['two long'] },
-			{ value: 0.123, label: 'fourth long label', group: ['two long'] },
-			{ value: 0, label: 'fifth long label', group: ['two long 4'] }
+			{ value: 97, label: 'first long label', group: ['one long enough to wrap'] },
+			{ value: 100, label: 'second long label', group: ['one long enough to wrap'] },
+			{ value: 3, label: 'third long label', group: ['two long enough to wrap'] },
+			{ value: 0.123, label: 'fourth long label', group: ['two long enough to wrap'] },
+			{ value: 0, label: 'fifth long label', group: ['two'] }
 		],
 		xAxis: {
 			scale: 'log',
@@ -299,22 +299,26 @@ it('should wrap long labels', () => {
 	assert.equal(data, [
 		'                         Test chart                         ',
 		'one long     ╭──────────┬───────────┬──────────┬───────────╮',
+		'enough to    │          ╵           │          ╵           │',
+		'wrap         │          ╵           │          ╵           │',
 		'       first │          ╵           │          ╵           │',
 		'  long label ▐███████████████████████████████████▌97.00▐███│',
 		'             │          ╵           │          ╵           │',
 		'      second │          ╵           │          ╵           │',
 		'  long label ▐███████████████████████████████████▌100.00▐██▌',
 		'             │          ╵           │          ╵           │',
+		'two          │          ╵           │          ╵           │',
+		'       fifth │          ╵           │          ╵           │',
+		'  long label │  0.00    ╵           │          ╵           │',
+		'             │          ╵           │          ╵           │',
 		'two long     │          ╵           │          ╵           │',
+		'enough to    │          ╵           │          ╵           │',
+		'wrap         │          ╵           │          ╵           │',
 		'       third │          ╵           │          ╵           │',
 		'  long label ▐██████████▌  3.00     │          ╵           │',
 		'             │          ╵           │          ╵           │',
 		'      fourth │          ╵           │          ╵           │',
 		'  long label ┃  0.12    ╵           │          ╵           │',
-		'             │          ╵           │          ╵           │',
-		'two long 4   │          ╵           │          ╵           │',
-		'       fifth │          ╵           │          ╵           │',
-		'  long label │  0.00    ╵           │          ╵           │',
 		'             ╰──────────┴───────────┼──────────┴───────────╯',
 		'             0         3.2         10         32         100',
 		'                                   Hz                       '

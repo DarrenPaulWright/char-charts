@@ -72,7 +72,7 @@ describe('init', () => {
 		const data = [{
 			value: 0,
 			label: ['first'],
-			group: ['one'],
+			group: [['one']],
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
@@ -81,7 +81,7 @@ describe('init', () => {
 		}, {
 			value: 12,
 			label: ['second'],
-			group: ['one'],
+			group: [['one']],
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
@@ -90,7 +90,7 @@ describe('init', () => {
 		}, {
 			value: 7,
 			label: ['third'],
-			group: ['two long'],
+			group: [['two long']],
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
@@ -137,7 +137,7 @@ describe('init', () => {
 		const data = [{
 			value: 0,
 			label: ['first'],
-			group: ['one', 'sub one'],
+			group: [['one'], ['sub one']],
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
@@ -146,7 +146,7 @@ describe('init', () => {
 		}, {
 			value: 12,
 			label: ['second'],
-			group: ['one', 'sub two'],
+			group: [['one'], ['sub two']],
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,
@@ -155,7 +155,7 @@ describe('init', () => {
 		}, {
 			value: 7,
 			label: ['third'],
-			group: ['two long', 'sub one'],
+			group: [['two long'], ['sub one']],
 			isGroup: false,
 			siblings: [],
 			color: chalk.red,

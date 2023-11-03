@@ -18,19 +18,19 @@ const data: Array<IChartDataInternal> = [{
 	...extraValues,
 	value: 95,
 	label: ['one'],
-	group: ['group', 'in'],
+	group: [['group'], ['in']],
 	hasExtraRow: false
 }, {
 	...extraValues,
 	value: 105,
 	label: ['two'],
-	group: ['group', 'in'],
+	group: [['group'], ['in']],
 	hasExtraRow: false
 }, {
 	...extraValues,
 	value: 105,
 	label: ['three'],
-	group: ['group', 'in'],
+	group: [['group'], ['in']],
 	hasExtraRow: false
 }];
 

@@ -1072,12 +1072,28 @@ describe('full', () => {
 				{
 					data: [50, 90, 92, 97],
 					label: 'first with a long title that should wrap',
-					group: ['one']
+					group: ['one with wrapping text that is kinda long', 'inner']
 				},
-				{ data: [2, 13, 24], label: 'third', group: ['two'] },
-				{ data: [0.1, 0.2], label: 'four', group: ['two'] },
-				{ data: [95, 97, 100], label: 'second', group: ['one'] },
-				{ data: [2], label: 'five with a long title that should wrap', group: ['two'] }
+				{
+					data: [2, 13, 24],
+					label: 'third',
+					group: ['two with wrapping text that is kinda long']
+				},
+				{
+					data: [0.1, 0.2],
+					label: 'fourth',
+					group: ['two with wrapping text that is kinda long']
+				},
+				{
+					data: [95, 97, 100],
+					label: 'second',
+					group: ['one with wrapping text that is kinda long']
+				},
+				{
+					data: [2],
+					label: 'fifth with a long title that should wrap',
+					group: ['two with wrapping text that is kinda long']
+				}
 			],
 			xAxis: {
 				scale: 'log',
@@ -1087,21 +1103,27 @@ describe('full', () => {
 
 		assert.equal(data, [
 			'                               Test chart                               ',
-			'one                 ╭───────┬───────┬────────┬────────┬───────┬────────╮',
+			'one with wrapping   ╭───────┬───────┬────────┬────────┬───────┬────────╮',
+			'text that is        │       ╵       │        ╵        │       ╵        │',
+			'kinda long          │       ╵       │        ╵        │       ╵        │',
+			'   inner            │       ╵       │        ╵        │       ╵        │',
 			'              first │       ╵       │        ╵        │       ╵        │',
-			'  with a long title │       ╵       │        ╵        │       ╵  ·    ●│',
-			'   that should wrap │       ╵       │        ╵        │       ╵  ┣━━░░▓│',
+			'        with a long │       ╵       │        ╵        │       ╵        │',
+			'         title that │       ╵       │        ╵        │       ╵  ·    ●│',
+			'        should wrap │       ╵       │        ╵        │       ╵  ┣━━░░▓│',
 			'                    │       ╵       │        ╵        │   Mdn: 91.00 ─╯│',
 			'                    │       ╵       │        ╵        │       ╵       •·',
 			'             second │       ╵       │        ╵        │       ╵       ░┫',
 			'                    │       ╵       │        ╵        │    Mdn: 97.00 ─╯',
-			'two                 │       ╵       │        ╵        │       ╵        │',
-			'               five │       ╵       │        ╵        │       ╵        │',
+			'two with wrapping   │       ╵       │        ╵        │       ╵        │',
+			'text that is        │       ╵       │        ╵        │       ╵        │',
+			'kinda long          │       ╵       │        ╵        │       ╵        │',
+			'              fifth │       ╵       │        ╵        │       ╵        │',
 			'  with a long title │       ╵       │     ·  ╵        │       ╵        │',
 			'   that should wrap │       ╵       │     ┃  ╵        │       ╵        │',
 			'                    │       ╵       │     ╰─ Mdn: 2.00│       ╵        │',
 			'                    ·    ·  ╵       │        ╵        │       ╵        │',
-			'               four ░░░▓▓▓  ╵       │        ╵        │       ╵        │',
+			'             fourth ░░░▓▓▓  ╵       │        ╵        │       ╵        │',
 			'                    │  ╰─ Mdn: 0.15 │        ╵        │ ╭─ Mdn: 13.00  │',
 			'                    │       ╵       │     ·  ╵        │·    · ╵        │',
 			'              third │       ╵       │     ┣━━━━━━━━░░░░░▓▓▓━┫ ╵        │',
