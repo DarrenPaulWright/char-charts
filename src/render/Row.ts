@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import { deepEqual } from 'object-agent';
 import type { IBandDomain, ISettingsInternal, ITick } from '../types';
+import wrap from '../utility/wrap.js';
 import { INDENT_WIDTH, type ROUNDED_STYLE, SPACE } from './chars.js';
 
 export default abstract class Row {
@@ -192,10 +193,13 @@ export default abstract class Row {
 		return this;
 	}
 
-	title(): string {
-		return this.settings.title
-			.padStart(this.settings.width + this.settings.title.length >>> 1, SPACE)
-			.padEnd(this.settings.width, SPACE);
+	title(): Array<string> {
+		return wrap(this.settings.title, this.settings.width - 2)
+			.map((label) => {
+				return label
+					.padStart(this.settings.width + label.length >>> 1, SPACE)
+					.padEnd(this.settings.width, SPACE);
+			});
 	}
 
 	bottomLabels(): string {
@@ -212,14 +216,16 @@ export default abstract class Row {
 			.padStart(this.settings.width, SPACE);
 	}
 
-	xAxisLabel(): string {
-		return this.settings.xAxis.label
-			.padStart(
-				this.settings.width -
-				Math.ceil((this.settings.xAxis.size - this.settings.xAxis.label.length) / 2),
-				SPACE
-			)
-			.padEnd(this.settings.width, SPACE);
+	xAxisLabel(): Array<string> {
+		return wrap(this.settings.xAxis.label, this.settings.xAxis.size)
+			.map((label) => {
+				return label.padStart(
+						this.settings.width -
+						Math.ceil((this.settings.xAxis.size - label.length) / 2),
+						SPACE
+					)
+					.padEnd(this.settings.width, SPACE);
+			});
 	}
 
 	top(): Array<string> {

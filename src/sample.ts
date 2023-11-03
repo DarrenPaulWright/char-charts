@@ -112,6 +112,10 @@ runChartVariants(barChart, {
 		label: 'Peanut',
 		group: ['Nuts']
 	}, {
+		value: 1,
+		label: 'Cashew',
+		group: ['Nuts']
+	}, {
 		value: 0,
 		label: 'Pecan',
 		group: ['Nuts']
@@ -187,7 +191,8 @@ runChartVariants(boxChart, {
 		group: ['Array', 'Custom']
 	}],
 	xAxis: {
-		label: 'Ops/s'
+		label: 'Ops/s',
+		scale: 'log'
 	}
 });
 

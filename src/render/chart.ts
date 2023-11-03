@@ -11,7 +11,7 @@ export default (
 	const row = new RowClass(internalSettings);
 
 	if (internalSettings.title) {
-		output.push(row.title());
+		output.push(...row.title());
 	}
 
 	output.push(...row.top());
@@ -31,7 +31,7 @@ export default (
 	output.push(...row.bottom(), row.bottomLabels());
 
 	if (internalSettings.xAxis.label) {
-		output.push(row.xAxisLabel());
+		output.push(...row.xAxisLabel());
 	}
 
 	return output;

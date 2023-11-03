@@ -1059,7 +1059,7 @@ describe('full', () => {
 
 	it('should render sorted groups with extra rows', () => {
 		const data = boxChart(superimpose(defaultSettings, {
-			title: 'Test chart',
+			title: 'Test chart Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
 			render: {
 				width: 72,
 				fractionDigits: 2,
@@ -1097,12 +1097,13 @@ describe('full', () => {
 			],
 			xAxis: {
 				scale: 'log',
-				label: 'Hz'
+				label: 'Hz (Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore)'
 			}
 		}) as ISettings);
 
 		assert.equal(data, [
-			'                               Test chart                               ',
+			'  Test chart Lorem ipsum dolor sit amet, consectetur adipiscing elit,   ',
+			'               sed do eiusmod tempor incididunt ut labore               ',
 			'one with wrapping   ╭───────┬───────┬────────┬────────┬───────┬────────╮',
 			'text that is        │       ╵       │        ╵        │       ╵        │',
 			'kinda long          │       ╵       │        ╵        │       ╵        │',
@@ -1129,7 +1130,9 @@ describe('full', () => {
 			'              third │       ╵       │     ┣━━━━━━━━░░░░░▓▓▓━┫ ╵        │',
 			'                    ╰───────┴───────┼────────┴────────┼───────┴────────╯',
 			'                    100m  320m      1       3.2      10      32      100',
-			'                                             Hz                         '
+			'                        Hz (Lorem ipsum dolor sit amet, consectetur     ',
+			'                    adipiscing elit, sed do eiusmod tempor incididunt ut',
+			'                                          labore)                       '
 		]);
 	});
 });
