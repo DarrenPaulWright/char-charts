@@ -130,23 +130,25 @@ export default abstract class Row {
 	}
 
 	padEnd(endIndex: number, char: string, color?: typeof chalk): this {
-		const rounded = Math.ceil(endIndex);
+		if (endIndex > this.length) {
+			const rounded = Math.ceil(endIndex);
 
-		if (char === SPACE) {
-			for (let index = this.length + 1; index <= rounded; index++) {
-				this.append(
-					this.settings.xAxis.isTickOffset(index) ?
-						this.getVerticalChar(index) :
-						char,
-					this.BOX_COLOR
-				);
+			if (char === SPACE) {
+				for (let index = this.length + 1; index <= rounded; index++) {
+					this.append(
+						this.settings.xAxis.isTickOffset(index) ?
+							this.getVerticalChar(index) :
+							char,
+						this.BOX_COLOR
+					);
+				}
 			}
-		}
-		else {
-			this._string += this.colorize(char.repeat(Math.max(0, rounded - this._length)), color);
-		}
+			else {
+				this._string += this.colorize(char.repeat(Math.max(0, rounded - this._length)), color);
+			}
 
-		this._length = Math.ceil(endIndex);
+			this._length = Math.ceil(endIndex);
+		}
 
 		return this;
 	}

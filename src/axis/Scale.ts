@@ -14,8 +14,10 @@ export default abstract class Scale {
 	shouldGetStart = true;
 	shouldGetEnd = true;
 	maxLabelWidth = 0;
+	showFullRange = true;
 
-	constructor(data: Array<IChartDataInternal>) {
+	constructor(data: Array<IChartDataInternal>, showFullRange = true) {
+		this.showFullRange = showFullRange;
 		this.processData(data);
 	}
 
@@ -38,7 +40,11 @@ export default abstract class Scale {
 		}
 
 		if (data.data) {
-			return data.data[isMin ? 'first' : 'last']() as number ?? origin;
+			if (this.showFullRange) {
+				return data.data[isMin ? 'first' : 'last']() as number ?? origin;
+			}
+
+			return data[isMin ? 'min' : 'max'] ?? origin;
 		}
 
 		return origin;

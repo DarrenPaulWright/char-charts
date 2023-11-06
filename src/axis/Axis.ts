@@ -45,11 +45,15 @@ export default class Axis {
 	ticks = new List().comparer(TICK_OFFSETS_COMPARER) as List;
 	suffix = '';
 
-	constructor(settings: IAxisSettings, data: Array<IChartDataInternal>) {
+	constructor(
+		settings: IAxisSettings,
+		data: Array<IChartDataInternal>,
+		showFullRange = false
+	) {
 		this.label = settings.label ?? '';
 		this.suffix = settings.suffix || '';
 
-		this.scale = new (getScale(settings.scale))(data);
+		this.scale = new (getScale(settings.scale))(data, showFullRange);
 		this.scale.minTickOffset += settings.suffix?.length || 0;
 		this.scale.shouldGetTickValue = settings.tickValue === undefined;
 		this.scale.shouldGetStart = settings.start === undefined;

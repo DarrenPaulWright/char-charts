@@ -175,7 +175,10 @@ class BoxRow extends Row {
 		if (this.settings.showInlineLabels) {
 			if (!rowData.isInlineLabelPlaced && rowData.median && !rowData.isGroup) {
 				const medianLabel = this.buildLabel(rowData.median);
-				const thisMedianOffset = rowData.offsets!.median + 1;
+				const thisMedianOffset = Math.max(
+					this.settings.xAxis.scale.start,
+					rowData.offsets!.median + 1
+				);
 
 				if (rowData.hasExtraRow) {
 					this.placeLabelMulti(
@@ -317,35 +320,29 @@ class BoxRow extends Row {
 
 	private padEndWithLabels(
 		endIndex: number,
-		char: string,
 		relations: Array<IPlacedLabel['relation']>,
 		skipDots = false
 	): this {
-		if (char === SPACE) {
-			if (this.rowData?.placedLabels) {
-				const labels = this.rowData.placedLabels
-					.filter((label) => {
-						return label.low >= this.length &&
-							label.high <= endIndex &&
-							(relations.includes(label.relation)) &&
-							(!this.rowData.hasExtraRow || skipDots || label.relation === 'prevRow');
-					})
-					.sort(compare('low'));
+		if (this.rowData?.placedLabels) {
+			const labels = this.rowData.placedLabels
+				.filter((label) => {
+					return label.low >= this.length &&
+						label.high <= endIndex &&
+						(relations.includes(label.relation)) &&
+						(!this.rowData.hasExtraRow || skipDots || label.relation === 'prevRow');
+				})
+				.sort(compare('low'));
 
-				labels.forEach((label) => {
-					this.padEndWithDots(label.low - 1, skipDots, this.rowData.color)
-						.append(label.label, label.color);
-				});
+			labels.forEach((label) => {
+				this.padEndWithDots(label.low - 1, skipDots, this.rowData.color)
+					.append(label.label, label.color);
+			});
 
-				this.rowData.placedLabels = this.rowData.placedLabels
-					.filter((item) => !labels.includes(item));
-			}
-
-			this.padEndWithDots(endIndex, skipDots, this.rowData.color);
+			this.rowData.placedLabels = this.rowData.placedLabels
+				.filter((item) => !labels.includes(item));
 		}
-		else {
-			this.padEnd(endIndex, char, this.rowData.color);
-		}
+
+		this.padEndWithDots(endIndex, skipDots, this.rowData.color);
 
 		return this;
 	}
@@ -357,7 +354,6 @@ class BoxRow extends Row {
 
 		return this.padEndWithLabels(
 				this.settings.xAxis.size,
-				SPACE,
 				skipDots ?
 					['extraRow', 'nextRow'] :
 					['prevRow', 'sameRowDots'],
@@ -384,7 +380,6 @@ class BoxRow extends Row {
 				return this.reset()
 					.padEndWithLabels(
 						this.settings.xAxis.size,
-						SPACE,
 						index === 0 ? ['prevRow', 'sameRowDots'] : [],
 						true
 					)
@@ -419,7 +414,6 @@ class BoxRow extends Row {
 		if (hasData) {
 			this.padEndWithLabels(
 				rowData.offsets!.min - 1,
-				SPACE,
 				relations,
 				this.settings.showDots
 			);
@@ -438,36 +432,36 @@ class BoxRow extends Row {
 			else {
 				if (rowData.offsets!.min !== rowData.offsets!.Q1) {
 					this.append(this.CHARS.WHISKER_START, rowData.color)
-						.padEndWithLabels(
+						.padEnd(
 							rowData.offsets!.Q1 - 1,
 							this.CHARS.WHISKER_LINE,
-							relations
+							this.rowData.color
 						);
 				}
 
-				this.padEndWithLabels(
+				this.padEnd(
 						rowData.offsets!.median,
 						this.CHARS.Q1_FILL,
-						relations
+						this.rowData.color
 					)
-					.padEndWithLabels(
+					.padEnd(
 						rowData.offsets!.Q3,
 						this.CHARS.Q3_FILL,
-						relations
+						this.rowData.color
 					);
 
 				if (rowData.offsets!.Q3 !== rowData.offsets!.max) {
-					this.padEndWithLabels(
+					this.padEnd(
 							rowData.offsets!.max - 1,
 							this.CHARS.WHISKER_LINE,
-							relations
+							this.rowData.color
 						)
 						.append(this.CHARS.WHISKER_END, rowData.color);
 				}
 			}
 		}
 
-		this.padEndWithLabels(this.settings.xAxis.size, SPACE, relations, this.settings.showDots)
+		this.padEndWithLabels(this.settings.xAxis.size, relations, this.settings.showDots)
 			.prependLabel(
 				false,
 				this.isGroup ?

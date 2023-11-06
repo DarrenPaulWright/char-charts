@@ -2,31 +2,46 @@ import { List } from 'hord';
 import { isInteger } from 'type-enforcer';
 import { integerDigits, round } from 'type-enforcer-math';
 import type { INumericDomain } from '../types';
+import ceil from '../utility/ceil.js';
+import floor from '../utility/floor.js';
 import Scale from './Scale.js';
 
 export default class LogScale extends Scale {
 	private _scaleValue = 0;
 
 	private log(value: number): number {
-		return value <= 0 ? 0 : Math.log(value);
+		return value < 1 ? 1 : Math.log(value);
 	}
 
 	private mean(a: number, b: number): number {
 		return Math.exp((this.log(a) + this.log(b)) / 2);
 	}
 
-	private snap(value: number, offset = 0): number {
-		return Math.pow(10, integerDigits(value) + offset);
+	private snap(value: number): number {
+		return Math.pow(10, integerDigits(value));
 	}
 
-	private isBigEnough(a: number, b: number): boolean {
-		return this.getCharOffset(b) - this.getCharOffset(a) > this.minTickOffset;
+	private snapEnd(value: number, diff: number): { offset: number; precision: number } {
+		const digits = integerDigits(value);
+		const precision = Math.max(1, digits - integerDigits(diff) + 2);
+
+		if (this.showFullRange) {
+			return { offset: 0, precision };
+		}
+
+		const offset = Math.min(value, Math.pow(10, digits - precision - 1));
+
+		return { offset, precision };
+	}
+
+	private isTickBigEnough(a: number, b: number): boolean {
+		return this.getCharOffset(b) - this.getCharOffset(a) >= this.minTickOffset;
 	}
 
 	private divideRange(rangeStart: number, rangeEnd: number, ticks: Array<number>): void {
 		const mid = round(this.mean(rangeStart, rangeEnd), 2, 2);
 
-		if (this.isBigEnough(rangeStart, mid)) {
+		if (this.isTickBigEnough(rangeStart, mid)) {
 			ticks.push(mid);
 
 			this.divideRange(rangeStart, mid, ticks);
@@ -35,19 +50,19 @@ export default class LogScale extends Scale {
 	}
 
 	setRange(): void {
-		let snapped = 0;
 		const domain = this.domain as INumericDomain;
+		const diff = domain[1] - domain[0];
 
 		if (this.shouldGetStart) {
-			snapped = this.snap(domain[0], -2);
+			const { precision } = this.snapEnd(domain[0], diff);
 
-			this.start = Math.floor(domain[0] / snapped) * snapped;
+			this.start = floor(Math.max(0, domain[0]), 0, precision);
 		}
 
 		if (this.shouldGetEnd) {
-			snapped = this.snap(domain[1], -2);
+			const { offset, precision } = this.snapEnd(domain[1], diff);
 
-			this.end = Math.ceil(domain[1] / snapped) * snapped;
+			this.end = ceil(domain[1] + offset, 0, precision);
 
 			if (this.end < this.start) {
 				const end = this.end;
@@ -60,34 +75,32 @@ export default class LogScale extends Scale {
 	}
 
 	ticks(): Array<number> {
-		const start = this.start;
-		const end = this.end;
 		const ticks = [];
-		let pos = start;
-		let tick = this.snap(start);
+		let pos = this.start;
+		let currentTick = this.snap(this.start);
 
-		while (!this.isBigEnough(start, tick)) {
-			tick = this.snap(tick);
+		while (!this.isTickBigEnough(this.start, currentTick)) {
+			currentTick = this.snap(currentTick);
 		}
 
-		if (tick > end) {
-			tick = end;
+		if (currentTick > this.end) {
+			currentTick = this.end;
 		}
 
-		while (pos < end) {
-			if (this.isBigEnough(pos, tick)) {
-				if (this.isBigEnough(pos, end)) {
+		while (pos < this.end) {
+			if (this.isTickBigEnough(pos, currentTick)) {
+				if (this.isTickBigEnough(pos, this.end)) {
 					ticks.push(pos);
-					this.divideRange(pos, Math.min(tick, end), ticks);
+					this.divideRange(pos, Math.min(currentTick, this.end), ticks);
 				}
 
-				pos = tick;
+				pos = currentTick;
 			}
 
-			tick = this.snap(tick);
+			currentTick = this.snap(currentTick);
 		}
 
-		ticks.push(end);
+		ticks.push(this.end);
 		ticks.sort(List.comparers.default);
 
 		return ticks;
