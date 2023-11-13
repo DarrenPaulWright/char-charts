@@ -973,6 +973,50 @@ describe('full', () => {
 		]);
 	});
 
+	it('should render a full chart with multiple data points and extra rows', () => {
+		const data = boxChart(superimpose(defaultSettings, {
+			title: 'Test chart',
+			render: {
+				width: 60,
+				significantDigits: 3,
+				showInlineLabels: true,
+				showDots: false,
+				extraRowSpacing: true
+			},
+			data: [
+				{
+					data: [2000000, 5000000, 9000000, 9000000, 9000000, 9200000, 9200000, 9700000],
+					label: 'first'
+				},
+				{ data: [9500000, 9700000, 9900000], label: 'second' },
+				{ data: [200000, 1300000, 2400000], label: 'third' },
+				{ data: [10000, 20000], label: 'four' },
+				{ data: [200000], label: 'five' }
+			],
+			xAxis: {
+				scale: 'log',
+				label: 'Hz'
+			}
+		}) as ISettings);
+
+		assert.equal(data, [
+			'                         Test chart                         ',
+			'       ╭───────┬────────┬────────┬───────┬────────┬────────╮',
+			' first │       ╵        │        ╵       │    ·   ╵  ┣━━░░▓│',
+			'       │       ╵        │        ╵       │       Mdn: 9M ─╯│',
+			'second │       ╵        │        ╵       │        ╵       ▓│',
+			'       │       ╵        │        ╵       │     Mdn: 9.7M ─╯│',
+			' third │       ╵        │    ┣━━━━━━━━━░░░░░▓▓▓━┫ ╵        │',
+			'       │       ╵        │        ╵       │  ╰─ Mdn: 1.3M   │',
+			'  four ░░░▓▓▓  ╵        │        ╵       │        ╵        │',
+			'       │  ╰─ Mdn: 15k   │    ╭─ Mdn: 200k│        ╵        │',
+			'  five │       ╵        │    ┃   ╵       │        ╵        │',
+			'       ╰───────┴────────┼────────┴───────┼────────┴────────╯',
+			'       10k    32k     100k     320k     1M      3.2M     10M',
+			'                                Hz                          '
+		]);
+	});
+
 	it('should render a full chart with multiple data points and wrapping text', () => {
 		const data = boxChart(superimpose(defaultSettings, {
 			title: 'Test chart',

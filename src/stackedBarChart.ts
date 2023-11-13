@@ -1,17 +1,15 @@
 import { superimpose } from 'object-agent';
 import { SPACE } from './render/chars.js';
-import chart from './render/chart.js';
-import Row from './render/Row.js';
-import type { DeepRequired, IBandDomain, ISettings } from './types';
+import Chart from './render/Chart.js';
+import type { DeepRequired, ISettings } from './types';
 
-class BarRow extends Row {
-	// eslint-disable-next-line @typescript-eslint/class-methods-use-this
-	preProcess(rowData: IBandDomain): void {
-		rowData.value ||= [0];
+class StackedBarChart extends Chart {
+	preProcessRow(): void {
+		this.rowData.value ||= [0];
 	}
 
-	render(rowData: IBandDomain): Array<string> {
-		this.prepRender(rowData);
+	renderRow(): Array<string> {
+		const rowData = this.rowData;
 
 		const output: Array<string> = this.buildPreviousLabelRows();
 
@@ -28,7 +26,7 @@ class BarRow extends Row {
 						const remainingStacks = totalStacks - (index + 1);
 						sumValue += value;
 						const barWidth = Math.min(
-							this.settings.xAxis.size - remainingStacks,
+							this.xAxis.size - remainingStacks,
 							Math.max(
 								this.getCharOffset(sumValue),
 								this.length + 1
@@ -48,7 +46,7 @@ class BarRow extends Row {
 				});
 		}
 
-		this.padEnd(this.settings.xAxis.size, SPACE)
+		this.padEnd(this.xAxis.size, SPACE)
 			.prependLabel(false);
 
 		output.push(this.toString());
@@ -57,7 +55,7 @@ class BarRow extends Row {
 			this.reset();
 
 			output.push(this.padEnd(
-					this.settings.xAxis.size,
+					this.xAxis.size,
 					SPACE,
 					this.BOX_COLOR
 				)
@@ -114,7 +112,7 @@ class BarRow extends Row {
  * @returns {Array<string>} An array of strings, one string per row.
  */
 export default (settings: ISettings): Array<string> => {
-	return chart(superimpose({
+	return new StackedBarChart(superimpose({
 		title: '',
 		render: {
 			width: 60,
@@ -137,5 +135,5 @@ export default (settings: ISettings): Array<string> => {
 			showInlineLabels: false
 		},
 		calc: null
-	}) as DeepRequired<ISettings>, BarRow);
+	}) as DeepRequired<ISettings>).render();
 };

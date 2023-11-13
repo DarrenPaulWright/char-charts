@@ -1,11 +1,10 @@
 import { superimpose } from 'object-agent';
 import { SPACE } from './render/chars.js';
-import chart from './render/chart.js';
+import Chart from './render/Chart.js';
 import printValue from './render/printValue.js';
-import Row from './render/Row.js';
-import type { DeepRequired, IBandDomain, ISettings } from './types';
+import type { DeepRequired, ISettings } from './types';
 
-class BarRow extends Row {
+class BarChart extends Chart {
 	private readonly MIN_BAR_REMAINING = 3;
 	private label = '';
 	private barWidth = 0;
@@ -62,13 +61,12 @@ class BarRow extends Row {
 		this.finishBar();
 	}
 
-	// eslint-disable-next-line @typescript-eslint/class-methods-use-this
-	preProcess(rowData: IBandDomain): void {
-		rowData.value ||= 0;
+	preProcessRow(): void {
+		this.rowData.value ||= 0;
 	}
 
-	render(rowData: IBandDomain): Array<string> {
-		this.prepRender(rowData);
+	renderRow(): Array<string> {
+		const rowData = this.rowData;
 
 		const output: Array<string> = this.buildPreviousLabelRows(rowData.color);
 
@@ -80,7 +78,7 @@ class BarRow extends Row {
 
 		this.reset()
 			.append(
-				rowData.value === this.settings.xAxis.scale.start ?
+				rowData.value === this.xAxis.scale.start ?
 					this.getVerticalChar(1) :
 					(this.barWidth >= 1 ?
 						this.CHARS.BAR_HALF_RIGHT :
@@ -90,7 +88,7 @@ class BarRow extends Row {
 
 		if (
 			!this.settings.showInlineLabels ||
-			this.barWidth + this.label.length + this.MIN_BAR_REMAINING < this.settings.xAxis.size
+			this.barWidth + this.label.length + this.MIN_BAR_REMAINING < this.xAxis.size
 		) {
 			this.renderBarWithoutInsetLabel();
 		}
@@ -98,7 +96,7 @@ class BarRow extends Row {
 			this.renderBarWithInsetLabel();
 		}
 
-		this.padEnd(this.settings.xAxis.size, SPACE)
+		this.padEnd(this.xAxis.size, SPACE)
 			.prependLabel(false, this.isGroup ? undefined : rowData.color);
 
 		output.push(this.toString());
@@ -107,7 +105,7 @@ class BarRow extends Row {
 			this.reset();
 
 			output.push(this.padEnd(
-					this.settings.xAxis.size,
+					this.xAxis.size,
 					SPACE,
 					this.BOX_COLOR
 				)
@@ -169,7 +167,7 @@ class BarRow extends Row {
  * @returns {Array<string>} An array of strings, one string per row.
  */
 export default (settings: ISettings): Array<string> => {
-	return chart(superimpose({
+	return new BarChart(superimpose({
 		title: '',
 		render: {
 			width: 60,
@@ -188,5 +186,5 @@ export default (settings: ISettings): Array<string> => {
 			start: 0,
 			suffix: ''
 		}
-	}, settings) as DeepRequired<ISettings>, BarRow);
+	}, settings) as DeepRequired<ISettings>).render();
 };

@@ -1,10 +1,12 @@
 import chalk from 'chalk';
 import { deepEqual } from 'object-agent';
-import type { IBandDomain, ISettingsInternal, ITick } from '../types';
+import type Axis from '../axis/Axis.js';
+import type { DeepRequired, IBandDomain, ISettings, ISettingsInternal, ITick } from '../types';
 import wrap from '../utility/wrap.js';
 import { INDENT_WIDTH, type ROUNDED_STYLE, SPACE } from './chars.js';
+import processSettings from './processSettings.js';
 
-export default abstract class Row {
+export default abstract class Chart {
 	private _length = 0;
 	private prevLabel: Array<string> = [];
 	private _string = '';
@@ -13,15 +15,17 @@ export default abstract class Row {
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-expect-error
 	protected rowData: IBandDomain;
-
 	protected settings: ISettingsInternal;
 	protected CHARS: typeof ROUNDED_STYLE;
+	protected xAxis: Axis;
+	protected yAxis: Axis;
+	protected readonly BOX_COLOR = chalk.grey;
 
-	protected BOX_COLOR = chalk.grey;
-
-	constructor(settings: ISettingsInternal) {
-		this.settings = settings;
-		this.CHARS = settings.CHARS;
+	constructor(settings: DeepRequired<ISettings>) {
+		this.settings = processSettings(settings);
+		this.CHARS = this.settings.CHARS;
+		this.xAxis = this.settings.xAxis;
+		this.yAxis = this.settings.yAxis;
 	}
 
 	private cap(
@@ -31,13 +35,13 @@ export default abstract class Row {
 		rightChar: string,
 		label: Array<string> = ['']
 	): Array<string> {
-		const last = this.settings.xAxis.ticks.length - 1;
+		const last = this.xAxis.ticks.length - 1;
 
 		const output: Array<string> = [
 			this.groupYAxisLabel(label[0])
 				.concat(
 					this.colorize(
-						(this.settings.xAxis.ticks
+						(this.xAxis.ticks
 							.reduce((result: string, value: ITick, index: number) => {
 								return index === 0 ?
 									leftChar :
@@ -58,7 +62,7 @@ export default abstract class Row {
 			if (index !== 0) {
 				output.push(
 					this.reset()
-						.padEnd(this.settings.xAxis.size, SPACE)
+						.padEnd(this.xAxis.size, SPACE)
 						.prepend(this.groupYAxisLabel(subString))
 						.toString()
 				);
@@ -77,25 +81,54 @@ export default abstract class Row {
 	protected groupYAxisLabel(label: string): string {
 		return SPACE.repeat((this.rowData?.groupIndent || 0) * INDENT_WIDTH)
 			.concat(label)
-			.padEnd(this.settings.yAxis.scale.maxLabelWidth, SPACE);
+			.padEnd(this.yAxis.scale.maxLabelWidth, SPACE);
 	}
 
 	protected dataYAxisLabel(label: string): string {
 		return label.concat(SPACE)
-			.padStart(this.settings.yAxis.scale.maxLabelWidth, SPACE);
+			.padStart(this.yAxis.scale.maxLabelWidth, SPACE);
 	}
 
-	abstract preProcess(rowData: IBandDomain): void;
+	abstract preProcessRow(): void;
 
-	abstract render(rowData: IBandDomain): Array<string>;
+	abstract renderRow(): Array<string>;
 
 	get length(): number {
 		return this._length;
 	}
 
-	prepRender(rowData: IBandDomain): void {
-		this.rowData = rowData;
-		this.isGroup = rowData.isGroup;
+	render(): Array<string> {
+		let output: Array<string> = [];
+
+		if (this.settings.title) {
+			output.push(...this.title());
+		}
+
+		output.push(...this.top());
+
+		(this.yAxis.domain() as Array<IBandDomain>)
+			.forEach((rowData) => {
+				this.rowData = rowData;
+				this.isGroup = rowData.isGroup;
+				this.preProcessRow();
+			});
+
+		(this.yAxis.domain() as Array<IBandDomain>)
+			.forEach((rowData, index) => {
+				if (!this.yAxis.scale.isGrouped() || index !== 0) {
+					this.rowData = rowData;
+					this.isGroup = rowData.isGroup;
+					output = output.concat(...this.renderRow());
+				}
+			});
+
+		output.push(...this.bottom(), this.bottomLabels());
+
+		if (this.xAxis.label) {
+			output.push(...this.xAxisLabel());
+		}
+
+		return output;
 	}
 
 	reset(): this {
@@ -106,7 +139,7 @@ export default abstract class Row {
 	}
 
 	getCharOffset(value: number, fractionDigits?: number): number {
-		return this.settings.xAxis.getCharOffset(value, fractionDigits);
+		return this.xAxis.getCharOffset(value, fractionDigits);
 	}
 
 	prepend(string: string, color?: typeof chalk): this {
@@ -124,7 +157,7 @@ export default abstract class Row {
 	}
 
 	getVerticalChar(offset: number): string {
-		return this.settings.xAxis.isMajorTick(offset) ?
+		return this.xAxis.isMajorTick(offset) ?
 			this.CHARS.CHART_VERTICAL_MAJOR :
 			this.CHARS.CHART_VERTICAL_MINOR;
 	}
@@ -136,7 +169,7 @@ export default abstract class Row {
 			if (char === SPACE) {
 				for (let index = this.length + 1; index <= rounded; index++) {
 					this.append(
-						this.settings.xAxis.isTickOffset(index) ?
+						this.xAxis.isTickOffset(index) ?
 							this.getVerticalChar(index) :
 							char,
 						this.BOX_COLOR
@@ -144,7 +177,10 @@ export default abstract class Row {
 				}
 			}
 			else {
-				this._string += this.colorize(char.repeat(Math.max(0, rounded - this._length)), color);
+				this._string += this.colorize(
+					char.repeat(Math.max(0, rounded - this._length)),
+					color
+				);
 			}
 
 			this._length = Math.ceil(endIndex);
@@ -159,7 +195,7 @@ export default abstract class Row {
 				.slice(0, -1)
 				.map((label) => {
 					return this.reset()
-						.padEnd(this.settings.xAxis.size, SPACE)
+						.padEnd(this.xAxis.size, SPACE)
 						.prepend(this.groupYAxisLabel(label), color)
 						.toString();
 				});
@@ -169,7 +205,7 @@ export default abstract class Row {
 			.slice(0, -1)
 			.map((label) => {
 				return this.reset()
-					.padEnd(this.settings.xAxis.size, SPACE)
+					.padEnd(this.xAxis.size, SPACE)
 					.prepend(this.dataYAxisLabel(label), color)
 					.toString();
 			});
@@ -205,9 +241,9 @@ export default abstract class Row {
 	}
 
 	bottomLabels(): string {
-		const last = this.settings.xAxis.ticks.length - 1;
+		const last = this.xAxis.ticks.length - 1;
 
-		return (this.settings.xAxis.ticks
+		return (this.xAxis.ticks
 			.reduce((result: string, value: ITick, index: number) => {
 				return result
 					.padEnd(value.offset - (index === last ?
@@ -219,11 +255,11 @@ export default abstract class Row {
 	}
 
 	xAxisLabel(): Array<string> {
-		return wrap(this.settings.xAxis.label, this.settings.xAxis.size)
+		return wrap(this.xAxis.label, this.xAxis.size)
 			.map((label) => {
 				return label.padStart(
 						this.settings.width -
-						Math.ceil((this.settings.xAxis.size - label.length) / 2),
+						Math.ceil((this.xAxis.size - label.length) / 2),
 						SPACE
 					)
 					.padEnd(this.settings.width, SPACE);
@@ -236,8 +272,8 @@ export default abstract class Row {
 			this.CHARS.CHART_TOP_TICK,
 			this.CHARS.CHART_TOP_TICK,
 			this.CHARS.CHART_TOP_RIGHT,
-			this.settings.yAxis.scale.isGrouped() ?
-				(this.settings.yAxis.domain() as Array<IBandDomain>)[0].label :
+			this.yAxis.scale.isGrouped() ?
+				(this.yAxis.domain() as Array<IBandDomain>)[0].label :
 				['']
 		);
 	}

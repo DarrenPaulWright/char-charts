@@ -2,33 +2,26 @@ import chalk from 'chalk';
 import { compare, List } from 'hord';
 import { superimpose } from 'object-agent';
 import { SPACE } from './render/chars.js';
-import chart from './render/chart.js';
+import Chart from './render/Chart.js';
 import printValue from './render/printValue.js';
-import Row from './render/Row.js';
-import type {
-	DeepRequired,
-	IBandDomain,
-	IPlacedLabel,
-	ISettings,
-	ISettingsInternal
-} from './types';
+import type { DeepRequired, IBandDomain, IPlacedLabel, ISettings } from './types';
 
 const MEDIAN_PREFIX = 'Mdn: ';
 
-class BoxRow extends Row {
+class BoxChart extends Chart {
 	private dotScale = 1;
 
-	constructor(settings: ISettingsInternal) {
+	constructor(settings: DeepRequired<ISettings>) {
 		super(settings);
 
-		const maxDataLength = settings.data.reduce((max, datum) => {
+		const maxDataLength = this.settings.data.reduce((max, datum) => {
 			return Math.max(max, datum.data?.length || 0);
 		}, 0);
 
 		this.dotScale = Math.max(
 			1,
 			maxDataLength / (
-				Math.sqrt(settings.xAxis.size) * (settings.CHARS.DOTS.length / 3)
+				Math.sqrt(this.xAxis.size) * (this.CHARS.DOTS.length / 3)
 			)
 		);
 	}
@@ -68,7 +61,7 @@ class BoxRow extends Row {
 
 		if (
 			low > 0 &&
-			high <= this.settings.xAxis.size &&
+			high <= this.xAxis.size &&
 			!rowData.isInlineLabelPlaced &&
 			targetRowData.offsets !== undefined &&
 			(
@@ -98,7 +91,7 @@ class BoxRow extends Row {
 		label: string,
 		arrows: [string, string],
 		offset: number,
-		relations: IPlacedLabel['relation']
+		relation: IPlacedLabel['relation']
 	): void {
 		const rightLabel = arrows[0] + label;
 		const leftLabel = label + arrows[1];
@@ -108,8 +101,8 @@ class BoxRow extends Row {
 			targetRowData,
 			rightLabel,
 			offset,
-			relations,
-			this.settings.showDots || relations === 'extraRow'
+			relation,
+			this.settings.showDots || relation === 'extraRow'
 		);
 
 		this.placeLabelIfFitsOnRow(
@@ -117,8 +110,8 @@ class BoxRow extends Row {
 			targetRowData,
 			leftLabel,
 			offset - leftLabel.length + 1,
-			relations,
-			this.settings.showDots || relations === 'extraRow'
+			relation,
+			this.settings.showDots || relation === 'extraRow'
 		);
 	}
 
@@ -176,7 +169,7 @@ class BoxRow extends Row {
 			if (!rowData.isInlineLabelPlaced && rowData.median && !rowData.isGroup) {
 				const medianLabel = this.buildLabel(rowData.median);
 				const thisMedianOffset = Math.max(
-					this.settings.xAxis.scale.start,
+					this.getCharOffset(this.xAxis.scale.start),
 					rowData.offsets!.median + 1
 				);
 
@@ -242,7 +235,7 @@ class BoxRow extends Row {
 				if (!rowData.isInlineLabelPlaced) {
 					const length = medianLabel.length + this.CHARS.ARROW_LEFT_UP.length;
 
-					if (thisMedianOffset + length < this.settings.xAxis.size + 2) {
+					if (thisMedianOffset + length < this.xAxis.size + 2) {
 						rowData.hasExtraRow = true;
 
 						rowData.placedLabels!.push({
@@ -307,7 +300,7 @@ class BoxRow extends Row {
 			}
 			else {
 				this.append(
-					this.settings.xAxis.isTickOffset(index) ?
+					this.xAxis.isTickOffset(index) ?
 						this.getVerticalChar(index) :
 						SPACE,
 					this.BOX_COLOR
@@ -329,7 +322,12 @@ class BoxRow extends Row {
 					return label.low >= this.length &&
 						label.high <= endIndex &&
 						(relations.includes(label.relation)) &&
-						(!this.rowData.hasExtraRow || skipDots || label.relation === 'prevRow');
+						(
+							!this.rowData.hasExtraRow ||
+							skipDots ||
+							label.relation === 'prevRow' ||
+							label.relation === 'sameRow'
+						);
 				})
 				.sort(compare('low'));
 
@@ -353,7 +351,7 @@ class BoxRow extends Row {
 		this.reset();
 
 		return this.padEndWithLabels(
-				this.settings.xAxis.size,
+				this.xAxis.size,
 				skipDots ?
 					['extraRow', 'nextRow'] :
 					['prevRow', 'sameRowDots'],
@@ -366,10 +364,9 @@ class BoxRow extends Row {
 			.toString();
 	}
 
-	preProcess(rowData: IBandDomain): void {
-		this.prepRender(rowData);
-		this.buildBoxOffsets(rowData);
-		this.buildBoxOffsets(rowData.siblings[1]);
+	preProcessRow(): void {
+		this.buildBoxOffsets(this.rowData);
+		this.buildBoxOffsets(this.rowData.siblings[1]);
 		this.placeLabels();
 	}
 
@@ -379,7 +376,7 @@ class BoxRow extends Row {
 			.map((label, index) => {
 				return this.reset()
 					.padEndWithLabels(
-						this.settings.xAxis.size,
+						this.xAxis.size,
 						index === 0 ? ['prevRow', 'sameRowDots'] : [],
 						true
 					)
@@ -393,8 +390,8 @@ class BoxRow extends Row {
 			});
 	}
 
-	render(rowData: IBandDomain): Array<string> {
-		this.prepRender(rowData);
+	renderRow(): Array<string> {
+		const rowData = this.rowData;
 
 		const output: Array<string> = this.buildPreviousLabelRows(rowData.color);
 
@@ -461,7 +458,7 @@ class BoxRow extends Row {
 			}
 		}
 
-		this.padEndWithLabels(this.settings.xAxis.size, relations, this.settings.showDots)
+		this.padEndWithLabels(this.xAxis.size, relations, this.settings.showDots)
 			.prependLabel(
 				false,
 				this.isGroup ?
@@ -530,7 +527,7 @@ class BoxRow extends Row {
  * @returns {Array<string>} An array of strings, one string per row.
  */
 export default (settings: ISettings): Array<string> => {
-	return chart(superimpose({
+	return new BoxChart(superimpose({
 		title: '',
 		render: {
 			width: 60,
@@ -548,5 +545,5 @@ export default (settings: ISettings): Array<string> => {
 		xAxis: {}
 	}, settings, {
 		calc: 'quartiles'
-	}) as DeepRequired<ISettings>, BoxRow);
+	}) as DeepRequired<ISettings>).render();
 };
