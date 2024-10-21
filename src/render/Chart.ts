@@ -72,6 +72,10 @@ export default abstract class Chart {
 		return output;
 	}
 
+	protected isInXAxis(low: number, high: number): boolean {
+		return low > 0 && high <= this.xAxis.size;
+	}
+
 	protected colorize(string: string, color?: typeof chalk): string {
 		return this.settings.useColor ?
 			(color ? color(string) : string) :
@@ -259,7 +263,7 @@ export default abstract class Chart {
 			.map((label) => {
 				return label.padStart(
 						this.settings.width -
-						Math.ceil((this.xAxis.size - label.length) / 2),
+							Math.ceil((this.xAxis.size - label.length) / 2),
 						SPACE
 					)
 					.padEnd(this.settings.width, SPACE);
@@ -288,6 +292,6 @@ export default abstract class Chart {
 	}
 
 	toString(): string {
-		return `${ this._string }`;
+		return this._string;
 	}
 }

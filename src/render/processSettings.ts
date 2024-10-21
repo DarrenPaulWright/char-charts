@@ -87,7 +87,7 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 			bgColor: bgColors[index % bgColors.length],
 			siblings: [],
 			hasExtraRow: settings.render.extraRowSpacing &&
-				index !== settings.data.length - 1
+			index !== settings.data.length - 1
 		};
 
 		if ('value' in value) {
@@ -106,8 +106,8 @@ export default (settings: DeepRequired<ISettings>): ISettingsInternal => {
 		return output;
 	});
 
-	const yAxis = new Axis({ scale: 'band' }, data);
-	const xAxis = new Axis(settings.xAxis, data);
+	const yAxis = new Axis({ scale: 'band' }, data, settings.render.showDots);
+	const xAxis = new Axis(settings.xAxis, data, settings.render.showDots);
 
 	xAxis.size = settings.render.width - yAxis.scale.maxLabelWidth;
 

@@ -7,19 +7,19 @@ import floor from '../utility/floor.js';
 import Scale from './Scale.js';
 
 export default class LogScale extends Scale {
-	private _scaleValue = 0;
-
-	private log(value: number): number {
+	private static log(value: number): number {
 		return value < 1 ? 1 : Math.log(value);
 	}
 
-	private mean(a: number, b: number): number {
-		return Math.exp((this.log(a) + this.log(b)) / 2);
+	private static mean(a: number, b: number): number {
+		return Math.exp((LogScale.log(a) + LogScale.log(b)) / 2);
 	}
 
-	private snap(value: number): number {
+	private static snap(value: number): number {
 		return Math.pow(10, integerDigits(value));
 	}
+
+	private _scaleValue = 0;
 
 	private snapEnd(value: number, diff: number): { offset: number; precision: number } {
 		const digits = integerDigits(value);
@@ -38,14 +38,19 @@ export default class LogScale extends Scale {
 		return this.getCharOffset(b) - this.getCharOffset(a) >= this.minTickOffset;
 	}
 
-	private divideRange(rangeStart: number, rangeEnd: number, ticks: Array<number>): void {
-		const mid = round(this.mean(rangeStart, rangeEnd), 2, 2);
+	private divideRange(
+		rangeStart: number,
+		rangeEnd: number,
+		ticks: Array<number>,
+		count = 0
+	): void {
+		const mid = round(LogScale.mean(rangeStart, rangeEnd), 2, 2);
 
-		if (this.isTickBigEnough(rangeStart, mid)) {
+		if (count < 100 && this.isTickBigEnough(rangeStart, mid)) {
 			ticks.push(mid);
 
-			this.divideRange(rangeStart, mid, ticks);
-			this.divideRange(mid, rangeEnd, ticks);
+			this.divideRange(rangeStart, mid, ticks, count + 1);
+			this.divideRange(mid, rangeEnd, ticks, count + 1);
 		}
 	}
 
@@ -71,16 +76,17 @@ export default class LogScale extends Scale {
 			}
 		}
 
-		this._scaleValue = ((this.size - 1) / (this.log(this.end) - this.log(this.start))) || 1;
+		this._scaleValue = ((this.size - 1) /
+			(LogScale.log(this.end) - LogScale.log(this.start))) || 1;
 	}
 
 	ticks(): Array<number> {
 		const ticks = [];
 		let pos = this.start;
-		let currentTick = this.snap(this.start);
+		let currentTick = LogScale.snap(this.start);
 
 		while (!this.isTickBigEnough(this.start, currentTick)) {
-			currentTick = this.snap(currentTick);
+			currentTick = LogScale.snap(currentTick);
 		}
 
 		if (currentTick > this.end) {
@@ -97,7 +103,7 @@ export default class LogScale extends Scale {
 				pos = currentTick;
 			}
 
-			currentTick = this.snap(currentTick);
+			currentTick = LogScale.snap(currentTick);
 		}
 
 		ticks.push(this.end);
@@ -115,9 +121,9 @@ export default class LogScale extends Scale {
 
 	getCharOffset(value: number, desiredFractionDigits = 0): number {
 		return round(
-			((this.log(value) - this.log(this.start)) * this._scaleValue) + 0.5,
+			((LogScale.log(value) - LogScale.log(this.start)) * this._scaleValue) + 0.5,
 			desiredFractionDigits
 		) ||
-			round(0.5, desiredFractionDigits);
+		round(0.5, desiredFractionDigits);
 	}
 }

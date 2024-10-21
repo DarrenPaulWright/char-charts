@@ -14,7 +14,8 @@ export default [
 		files: ['**/*.ts'],
 		rules: {
 			'security/detect-non-literal-fs-filename': 'off',
-			'node/no-process-exit': 'off'
+			'node/no-process-exit': 'off',
+			'node/no-process-env': 'off'
 		}
 	}
 ];

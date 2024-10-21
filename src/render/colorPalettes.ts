@@ -5,10 +5,10 @@ const colorPalettes = {
 		chalk.white
 	],
 	light: [
-		chalk.greenBright,
+		chalk.cyanBright,
 		chalk.magentaBright,
 		chalk.yellowBright,
-		chalk.cyanBright,
+		chalk.greenBright,
 		chalk.white
 	],
 	bright: [

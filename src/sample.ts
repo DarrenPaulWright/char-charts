@@ -7,7 +7,7 @@ const asciiOnly = false;
 const runChartVariants = (
 	chart: typeof barChart | typeof boxChart | typeof stackedBarChart,
 	settings: ISettings
-) => {
+): void => {
 	console.log('');
 	console.log('');
 

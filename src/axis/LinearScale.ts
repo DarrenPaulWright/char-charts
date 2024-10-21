@@ -28,7 +28,7 @@ export default class LinearScale extends Scale {
 
 		this.tickValue = origTickValue /
 			(this.ADJUSTMENTS[position % this.ADJUSTMENTS.length] *
-				Math.pow(10, Math.floor(position / this.ADJUSTMENTS.length)));
+			Math.pow(10, Math.floor(position / this.ADJUSTMENTS.length)));
 
 		if (this.shouldGetStart) {
 			this.start = origStart +

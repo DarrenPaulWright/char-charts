@@ -193,7 +193,7 @@ it('should render groups', () => {
 	]);
 });
 
-it('should render groups', () => {
+it('should render groups with extra row spacing', () => {
 	const data = stackedBarChart(superimpose(defaultSettings, {
 		render: {
 			extraRowSpacing: true
