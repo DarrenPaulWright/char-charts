@@ -1,6 +1,6 @@
 {
 	"name": "char-charts",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"description": "ES6 character based charting library",
 	"type": "module",
 	"keywords": [
