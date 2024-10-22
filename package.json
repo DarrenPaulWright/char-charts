@@ -28,6 +28,8 @@
 	"main": "index.js",
 	"files": [
 		"/src",
+		"!/src/**/*.test.js",
+		"!/src/**/*.test.ts",
 		"index.ts",
 		"index.js"
 	],
