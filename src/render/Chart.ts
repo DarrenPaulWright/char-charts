@@ -89,6 +89,10 @@ export default abstract class Chart {
 	}
 
 	protected dataYAxisLabel(label: string): string {
+		if (this.yAxis.scale.maxLabelWidth === 0) {
+			return '';
+		}
+
 		return label.concat(SPACE)
 			.padStart(this.yAxis.scale.maxLabelWidth, SPACE);
 	}

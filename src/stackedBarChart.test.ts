@@ -37,6 +37,22 @@ it('should render something if all zeros', () => {
 	]);
 });
 
+it('should render a bar without a title', () => {
+	const data = stackedBarChart({
+		...defaultSettings,
+		data: [
+			{ value: [3, 2, 1], label: '' }
+		]
+	});
+
+	assert.equal(data, [
+		'╭────────────┬────────────┬────────────╮',
+		'████████████████████▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░',
+		'╰────────────┼────────────┼────────────╯',
+		'0            2            4            6'
+	]);
+});
+
 it('should render something if one data point is provided', () => {
 	const data = stackedBarChart({
 		...defaultSettings,
